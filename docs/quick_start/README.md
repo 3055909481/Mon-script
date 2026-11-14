@@ -6,20 +6,20 @@
 
 ## 1. 打开应用项目
 
-使用已有的 ok-script 应用，或从 [ok-script-app 模板](https://github.com/ok-oldking/ok-script-app)创建项目。在编程代理中打开应用目录。业务任务保存在这个项目里，与 ok-script 框架仓库分开。
+使用已有的 Mon-script 应用，或从 [Mon-script-app 模板](https://github.com/ok-oldking/ok-script-app)创建项目。在编程代理中打开应用目录。业务任务保存在这个项目里，与 Mon-script 框架仓库分开。
 
 可以这样告诉代理：
 
-> 准备这个自动化项目的虚拟环境和依赖，保留现有依赖约束和 ok-script 版本。配置我的目标应用，分别提供 MCP 开发入口和用户 GUI 入口。有可用技能时读取 setup-env 和 setup-project。不要使用 Computer Use 工具。
+> 准备这个自动化项目的虚拟环境和依赖，保留现有依赖约束和 Mon-script 版本。配置我的目标应用，分别提供 MCP 开发入口和用户 GUI 入口。有可用技能时读取 setup-env 和 setup-project。不要使用 Computer Use 工具。
 
 新建环境的基本命令：
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install "ok-script[default]"
+.\.venv\Scripts\python.exe -m pip install "Mon-script[default]"
 ```
 
-已有应用先安装自己的依赖。MCP 自 2.0.17 起为必需依赖，随 ok-script 自动安装。按需添加 `qt`、`adb` 或 `ocr`。OpenCV 需要单独安装，且只能选择一个兼容变体，例如 `opencv-python` 或 `opencv-python-headless`；让代理沿用项目现有选择。
+已有应用先安装自己的依赖。MCP 自 2.0.17 起为必需依赖，随 Mon-script 自动安装。按需添加 `qt`、`adb` 或 `ocr`。OpenCV 需要单独安装，且只能选择一个兼容变体，例如 `opencv-python` 或 `opencv-python-headless`；让代理沿用项目现有选择。
 
 项目还需要配置真实目标。让代理检查已安装版本的配置实现及已有示例，设置应用可执行文件、窗口或 ADB 包名，并验证截图和输入。安装包本身不会自动创建已配置的应用。
 
@@ -53,7 +53,7 @@ python -m venv .venv
 
 ## 4. 提出可复用任务需求
 
-> 使用这个项目的 MCP 连接，开发可复用 Python 任务：打开设置、启用“显示详情”、保存，并验证该选项保持开启。先读相关技能并核实已安装 API 的签名。代码保存在正式任务模块里；每次 MCP 尝试前恢复并验证起始状态，记录日志和截图，断言可见结果，并验证重复运行。使用 ok-script 截图和输入，不使用 Computer Use。注册任务，使其无需代理或大模型调用即可运行。
+> 使用这个项目的 MCP 连接，开发可复用 Python 任务：打开设置、启用“显示详情”、保存，并验证该选项保持开启。先读相关技能并核实已安装 API 的签名。代码保存在正式任务模块里；每次 MCP 尝试前恢复并验证起始状态，记录日志和截图，断言可见结果，并验证重复运行。使用 Mon-script 截图和输入，不使用 Computer Use。注册任务，使其无需代理或大模型调用即可运行。
 
 代理在本地编写文件，并将绝对路径提交给 MCP。修改已有任务时，先发现原始源码、原地编辑、重载已注册任务，等待重载成功后再测试。查询 API 和维护任务的完整示例见[提示词指南](../agent-prompts.md)。
 

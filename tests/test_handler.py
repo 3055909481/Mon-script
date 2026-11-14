@@ -1,7 +1,7 @@
 import threading
 from unittest.mock import Mock
 
-from ok.util.handler import ExitEvent, Handler
+from Mon.util.handler import ExitEvent, Handler
 
 
 def test_handler_thread_stops_synchronously_with_exit_event():

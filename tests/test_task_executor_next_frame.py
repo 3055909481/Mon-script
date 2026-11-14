@@ -5,9 +5,9 @@ from unittest.mock import Mock
 
 import numpy as np
 
-from ok.device.capture_methods.base import BaseCaptureMethod
-from ok.task.TaskExecutor import TaskExecutor
-from ok.task.exceptions import CaptureBusyException
+from Mon.device.capture_methods.base import BaseCaptureMethod
+from Mon.task.TaskExecutor import TaskExecutor
+from Mon.task.exceptions import CaptureBusyException
 
 
 class LockedCapture(BaseCaptureMethod):

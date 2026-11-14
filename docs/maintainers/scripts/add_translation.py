@@ -1,4 +1,4 @@
-"""Update ok-script's bundled Qt translations from a maintainer checkout."""
+"""Update Mon-script's bundled Qt translations from a maintainer checkout."""
 
 import xml.etree.ElementTree as ET
 import argparse

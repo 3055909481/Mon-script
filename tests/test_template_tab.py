@@ -13,9 +13,9 @@ os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication
 
-from ok import Config, og
-from ok.ui.qt.tasks.MarkUpWindow import MarkUpWindow
-from ok.ui.qt.tasks.TemplateTab import (PAGE_MARGINS, PAGE_SPACING, ImageCard, TemplateTab,
+from Mon import Config, og
+from Mon.ui.qt.tasks.MarkUpWindow import MarkUpWindow
+from Mon.ui.qt.tasks.TemplateTab import (PAGE_MARGINS, PAGE_SPACING, ImageCard, TemplateTab,
                                       get_categories_by_filename,
                                       get_next_image_name)
 
@@ -61,7 +61,7 @@ class TestTemplateTabCardCollection(unittest.TestCase):
 
     def test_export_dialog_defaults_to_split_and_switches_to_compress(self):
         from PySide6.QtWidgets import QRadioButton as RadioButton
-        from ok.ui.qt.kit.dialogs import Dialog as MessageBoxBase
+        from Mon.ui.qt.kit.dialogs import Dialog as MessageBoxBase
 
         for debug in (False, True):
             for split in (True, False):
@@ -81,11 +81,11 @@ class TestTemplateTabCardCollection(unittest.TestCase):
 
                     executor = SimpleNamespace(feature_set=Mock())
                     with patch.object(MessageBoxBase, 'exec', accept_dialog), \
-                            patch('ok.ui.qt.tasks.TemplateTab.os.path.exists', return_value=True), \
-                            patch('ok.feature.FeatureSet.generate_templates') as generate, \
-                            patch('ok.feature.FeatureSet.compress_copy_coco') as compress, \
-                            patch('ok.ui.qt.util.Alert.alert_info'), \
-                            patch('ok.ui.qt.util.Alert.alert_error') as error, \
+                            patch('Mon.ui.qt.tasks.TemplateTab.os.path.exists', return_value=True), \
+                            patch('Mon.feature.FeatureSet.generate_templates') as generate, \
+                            patch('Mon.feature.FeatureSet.compress_copy_coco') as compress, \
+                            patch('Mon.ui.qt.util.Alert.alert_info'), \
+                            patch('Mon.ui.qt.util.Alert.alert_error') as error, \
                             patch.object(og, 'executor', executor):
                         self.tab.save_compressed()
                         chosen, unused = (generate, compress) if split else (compress, generate)

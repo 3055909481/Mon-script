@@ -1,6 +1,6 @@
 # Commit Changes
 
-Repository-maintainer instructions for ok-script. These are not consumer skills and are not exposed through MCP.
+Repository-maintainer instructions for Mon-script. These are not consumer skills and are not exposed through MCP.
 
 When instructed to commit changes, follow these steps:
 

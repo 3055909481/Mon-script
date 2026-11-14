@@ -9,8 +9,8 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 from PySide6.QtCore import QEvent
 from PySide6.QtWidgets import QApplication
 
-from ok import og
-from ok.util.config import Config, ConfigOption
+from Mon import og
+from Mon.util.config import Config, ConfigOption
 
 
 class FakeGlobalConfig:
@@ -48,7 +48,7 @@ class TestSettingsPage(unittest.TestCase):
         self._folder.cleanup()
 
     def make_page(self):
-        from ok.ui.qt.settings.settings_page import SettingsPage
+        from Mon.ui.qt.settings.settings_page import SettingsPage
         page = SettingsPage()
         page.resize(1200, 600)
         page.show()
@@ -91,7 +91,7 @@ class TestSettingsPage(unittest.TestCase):
         self.assertTrue(editor.switch_button.isChecked())
 
     def test_grouped_section_renders_one_card_per_group(self):
-        from ok.ui.qt.settings.config_section import ConfigSection
+        from Mon.ui.qt.settings.config_section import ConfigSection
         option = ConfigOption(
             "Grouped", {"Mute": True, "Enable": False, "Level": 1, "Hidden": True, "Loose": 2},
             config_type={
@@ -129,8 +129,8 @@ class TestSettingsPage(unittest.TestCase):
         self.assertEqual(9, game.config["Interval"])
 
     def test_basic_options_are_grouped_without_directml(self):
-        from ok.ui.qt.settings.config_section import ConfigSection
-        from ok.util.GlobalConfig import GlobalConfig, register_basic_options
+        from Mon.ui.qt.settings.config_section import ConfigSection
+        from Mon.util.GlobalConfig import GlobalConfig, register_basic_options
         global_config = GlobalConfig([])
         config = register_basic_options(global_config, enable_blur=True)
         self.assertNotIn("Use DirectML", config)
@@ -141,7 +141,7 @@ class TestSettingsPage(unittest.TestCase):
         self.assertNotIn("Other", section.group_widgets)
 
     def test_theme_tabs_change_the_theme_setting(self):
-        from ok.ui.qt.common.config import cfg
+        from Mon.ui.qt.common.config import cfg
         page = self.make_page()
         target = "dark" if cfg.theme_mode != "dark" else "light"
         with patch.object(cfg, "set_theme_mode") as set_theme_mode:
@@ -149,7 +149,7 @@ class TestSettingsPage(unittest.TestCase):
             set_theme_mode.assert_called_once_with(target)
 
     def test_language_list_matches_the_enum(self):
-        from ok.ui.qt.common.config import Language
+        from Mon.ui.qt.common.config import Language
         page = self.make_page()
         self.assertEqual(len(list(Language)), page.language_combo.count())
 

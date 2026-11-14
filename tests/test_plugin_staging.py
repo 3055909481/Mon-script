@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from ok.core import plugin_staging as staging
-from ok.core.plugins import PLUGIN_SOURCE_FILE, read_plugin_source
-from ok.core.script_packager import scan_import_folders
+from Mon.core import plugin_staging as staging
+from Mon.core.plugins import PLUGIN_SOURCE_FILE, read_plugin_source
+from Mon.core.script_packager import scan_import_folders
 
 
 def install_old(tmp_path, monkeypatch):
@@ -229,7 +229,7 @@ def test_real_fresh_process_applies_then_validates_before_committing_backup(tmp_
                              else '        super().__init__()\n'))
     elif mode == 'broken_task':
         manifest['tasks'] = [['entry', 'Task']]
-        files['entry.py'] = ('from ok import BaseTask\nfrom pathlib import Path\nclass Task(BaseTask):\n'
+        files['entry.py'] = ('from Mon import BaseTask\nfrom pathlib import Path\nclass Task(BaseTask):\n'
                              '    def __init__(self, *args, **kwargs): pass\n'
                              '    def after_init(self, **kwargs): raise RuntimeError("broken task")\n'
                              '    def on_destroy(self): Path("task-cleanup.txt").write_text("closed")\n')
@@ -242,9 +242,9 @@ from unittest.mock import Mock
 sys.path.insert(0, sys.argv[1])
 os.chdir(sys.argv[2])
 sys.modules['packaging'] = None
-from ok import og
-from ok.core.plugin_staging import apply_pending_plugin_changes, pending_plugin_changes
-from ok.core.task_manager import TaskManager
+from Mon import og
+from Mon.core.plugin_staging import apply_pending_plugin_changes, pending_plugin_changes
+from Mon.core.task_manager import TaskManager
 mode = sys.argv[3]
 apply_pending_plugin_changes()
 assert pending_plugin_changes()['demo']['phase'] == 'validating'
@@ -260,7 +260,7 @@ manager.load_imported_tasks()
 if mode in ('qt', 'broken_tab'):
     assert pending_plugin_changes()['demo']['phase'] == 'validating'
     from PySide6.QtWidgets import QApplication, QWidget, QStackedWidget
-    from ok.ui.qt.plugins.imported_tabs import ImportedTabs
+    from Mon.ui.qt.plugins.imported_tabs import ImportedTabs
     app = QApplication([])
     window = QWidget()
     window.executor = manager.task_executor

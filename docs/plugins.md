@@ -77,7 +77,7 @@ Python 包、资源及原生二进制，安装过程不运行构建脚本或 pip
 不声明 `tasks` 时沿用扫描根目录 `.py` 文件的方式；纯页面插件应声明 `"tasks": []`。
 `custom_tabs` 默认为空列表，自定义页模块由 Qt 适配层加载。
 
-自定义页继承 `ok.ui.qt.widget.CustomTab.CustomTab`，提供 `name`、`icon` 和页面内容。
+自定义页继承 `Mon.ui.qt.widget.CustomTab.CustomTab`，提供 `name`、`icon` 和页面内容。
 宿主在构造后设置 `executor`，负责导航和销毁。页面可提供 `dispose()` 或
 `stop_worker()` 释放订阅及后台工作。完整代码示例见[英文说明](en/plugins.md)。
 

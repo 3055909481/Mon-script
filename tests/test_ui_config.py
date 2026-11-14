@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from ok.core.ui_config import DEFAULT_WINDOW_SIZE, resolve_gui_icon, resolve_ui_config, resolve_window_size
+from Mon.core.ui_config import DEFAULT_WINDOW_SIZE, resolve_gui_icon, resolve_ui_config, resolve_window_size
 
 
 @pytest.mark.parametrize("config", [{}, {"gui_icon": None}, {"gui_icon": ""}])

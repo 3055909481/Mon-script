@@ -6,11 +6,11 @@ from unittest.mock import Mock, call, patch
 
 import numpy as np
 
-import ok.device.capture_methods.windows_graphics as windows_graphics_module
-from ok.device.capture_methods.browser import BrowserWindowAdapter
-from ok.device.capture_methods.hwnd_window import HwndWindow
-from ok.device.capture_methods.windows_graphics import WindowsGraphicsCaptureMethod
-from ok.task.exceptions import CaptureBusyException
+import Mon.device.capture_methods.windows_graphics as windows_graphics_module
+from Mon.device.capture_methods.browser import BrowserWindowAdapter
+from Mon.device.capture_methods.hwnd_window import HwndWindow
+from Mon.device.capture_methods.windows_graphics import WindowsGraphicsCaptureMethod
+from Mon.task.exceptions import CaptureBusyException
 
 
 class _FakeFrame:
@@ -532,7 +532,7 @@ class TestWindowsGraphicsCaptureGetFrame(unittest.TestCase):
 
 class TestBrowserCaptureBusyWait(unittest.TestCase):
     def test_waiting_capture_is_forwarded_to_browser_wgc(self):
-        from ok.device.capture_methods.browser import BrowserCaptureMethod
+        from Mon.device.capture_methods.browser import BrowserCaptureMethod
         method = object.__new__(BrowserCaptureMethod)
         method.exit_event = threading.Event()
         method.page = Mock()

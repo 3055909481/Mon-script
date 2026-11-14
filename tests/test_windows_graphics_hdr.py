@@ -3,11 +3,11 @@ from unittest.mock import Mock, patch
 
 import numpy as np
 
-from ok import WindowsGraphicsCaptureHDRMethod
-from ok.device.capture_methods import update
-from ok.device.capture_methods.windows_graphics import WindowsGraphicsCaptureMethod
-from ok.device.capture_methods.windows_graphics_hdr import _half_float_tables
-from ok.rotypes.Windows.Graphics.DirectX import DirectXPixelFormat
+from Mon import WindowsGraphicsCaptureHDRMethod
+from Mon.device.capture_methods import update
+from Mon.device.capture_methods.windows_graphics import WindowsGraphicsCaptureMethod
+from Mon.device.capture_methods.windows_graphics_hdr import _half_float_tables
+from Mon.rotypes.Windows.Graphics.DirectX import DirectXPixelFormat
 
 
 def test_hdr_padded_rows_convert_rgba_to_owned_bgra():

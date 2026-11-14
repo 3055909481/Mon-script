@@ -81,7 +81,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         self.assertIsNone(version_change)
 
     def test_legacy_pyappify_reads_launcher_env_update_note(self):
-        notes = ["更新ok-script版本 (ok-oldking)", "重命名agent文件夹 (ok-oldking)"]
+        notes = ["更新Mon-script版本 (ok-oldking)", "重命名agent文件夹 (ok-oldking)"]
 
         with simulated_pyappify_env("v3.3.60", "v3.3.56", notes) as pyappify:
             legacy_pyappify = SimpleNamespace(
@@ -124,7 +124,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
 
         with simulated_pyappify_env("1.0.4", "1.0.3", notes):
             from PySide6.QtWidgets import QApplication
-            from ok.ui.qt.about.AboutTab import AboutTab
+            from Mon.ui.qt.about.AboutTab import AboutTab
 
             app = QApplication.instance() or QApplication([])
             tab = AboutTab({
@@ -155,7 +155,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_about_header_checkout_ref(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.AboutTab import AboutTab
+        from Mon.ui.qt.about.AboutTab import AboutTab
 
         app = QApplication.instance() or QApplication([])
         for attrs, version, expected in [
@@ -178,7 +178,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_about_header_shows_only_configured_links(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.AboutTab import AboutTab
+        from Mon.ui.qt.about.AboutTab import AboutTab
 
         app = QApplication.instance() or QApplication([])
         module = SimpleNamespace(app_version="v1.0.0")
@@ -199,7 +199,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_about_tab_places_update_card_directly_below_version_card(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.AboutTab import AboutTab
+        from Mon.ui.qt.about.AboutTab import AboutTab
 
         app = QApplication.instance() or QApplication([])
         module = SimpleNamespace(
@@ -239,7 +239,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_project_cards_constrain_long_urls(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.AboutTab import ProjectCard
+        from Mon.ui.qt.about.AboutTab import ProjectCard
 
         app = QApplication.instance() or QApplication([])
         url = "https://github.com/example/a-very-long-project-name-that-must-not-expand-the-about-window"
@@ -258,7 +258,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_update_download_button_is_primary_and_precedes_test_version_control(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         card = UpdateCard("v1.0.0", SimpleNamespace(), download_url="https://example.com/download")
@@ -277,7 +277,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtCore import Qt
         from PySide6.QtWidgets import QApplication, QSizePolicy
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         calculate_notes = Mock(side_effect=self._calculate_update_notes)
@@ -322,8 +322,8 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_update_card_shows_changelog_notes_in_the_ui_language(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about import UpdateCard as update_card_module
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about import UpdateCard as update_card_module
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         calls = []
@@ -352,7 +352,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_only_automatic_check_announces_new_version(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         module = SimpleNamespace(
@@ -381,7 +381,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_update_to_version_selects_and_starts_update(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         module = SimpleNamespace(
@@ -401,7 +401,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_missing_current_version_excludes_logs_above_selected_version(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         module = SimpleNamespace(
@@ -436,7 +436,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
 
     def _checkout_card(self, **module_attrs):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         module = SimpleNamespace(**{
             "is_local_checkout": lambda: True,
@@ -536,7 +536,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         import threading
         import time
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         module = SimpleNamespace(
@@ -567,7 +567,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         import time
         from PySide6.QtCore import QAbstractAnimation
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         release_request = threading.Event()
@@ -610,7 +610,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         import threading
         import time
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         exit_event = threading.Event()
@@ -641,7 +641,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         import time
         from PySide6.QtCore import QThread
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         exit_event = threading.Event()
@@ -660,7 +660,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         card = UpdateCard("v1.0.0", SimpleNamespace(update_to_version=prepare_update),
                           exit_event=exit_event)
         card._apply_versions((True, [{"version": "v1.1.0", "relation": "upgrade"}]))
-        with patch("ok.ui.qt.about.UpdateCard.communicate.quit.emit", side_effect=shutdown) as quit_app:
+        with patch("Mon.ui.qt.about.UpdateCard.communicate.quit.emit", side_effect=shutdown) as quit_app:
             card.update_to_selected_version()
             for _ in range(100):
                 app.processEvents()
@@ -679,7 +679,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_update_results_without_a_prepared_restart_keep_app_running(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         card = UpdateCard("v1.0.0", SimpleNamespace())
@@ -690,7 +690,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
             (True, {"updated": True, "restart_required": True, "mocked": True}),
             (True, None),
         ]
-        with patch("ok.ui.qt.about.UpdateCard.communicate.quit.emit") as quit_app:
+        with patch("Mon.ui.qt.about.UpdateCard.communicate.quit.emit") as quit_app:
             for result in results:
                 with self.subTest(result=result):
                     card._apply_update_result(result)
@@ -702,7 +702,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         import time
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         module = SimpleNamespace(
@@ -720,7 +720,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         self.assertEqual("", card.notes_edit.text())
         self.assertTrue(card.notes_edit.isHidden())
         self.assertIn("Failed to check for updates: launcher unavailable", card.status_label.text())
-        from ok.ui.qt.kit import theme
+        from Mon.ui.qt.kit import theme
         self.assertIn(theme.color("danger").name(), card.status_label.styleSheet())
         self.assertTrue(card.version_label.isHidden())
         self.assertTrue(card.version_combo.isHidden())
@@ -730,7 +730,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_long_failed_request_error_wraps_without_widening_status_label(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         card = UpdateCard("v1.0.0", SimpleNamespace())
@@ -748,7 +748,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         import time
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         versions = [{"version": "v1.2.0", "update_note": ["two"]}]
@@ -759,7 +759,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
         )
         card = UpdateCard("v1.1.0", module)
 
-        with patch("ok.ui.qt.about.UpdateCard.logger") as update_logger:
+        with patch("Mon.ui.qt.about.UpdateCard.logger") as update_logger:
             card._run_in_background(
                 module.get_version_list,
                 card._versions_loaded,
@@ -780,7 +780,7 @@ class TestPyappifyStartupUpdate(unittest.TestCase):
     def test_update_card_treats_dev_as_old_version_in_test_mode(self):
         os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
         from PySide6.QtWidgets import QApplication
-        from ok.ui.qt.about.UpdateCard import UpdateCard
+        from Mon.ui.qt.about.UpdateCard import UpdateCard
 
         app = QApplication.instance() or QApplication([])
         module = SimpleNamespace(

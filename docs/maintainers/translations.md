@@ -1,6 +1,6 @@
 # Compile i18n
 
-Repository-maintainer instructions for ok-script's bundled Qt translations. Consumer applications maintain their own translations separately.
+Repository-maintainer instructions for Mon-script's bundled Qt translations. Consumer applications maintain their own translations separately.
 
 When you are instructed to add or update internationalization (i18n) translations for this project, please follow these steps:
 

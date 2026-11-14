@@ -2,8 +2,8 @@ from unittest.mock import patch
 
 from PIL import Image, ImageDraw, ImageFont
 
-from ok.core.screenshot import Screenshot
-from ok.feature.Box import Box
+from Mon.core.screenshot import Screenshot
+from Mon.feature.Box import Box
 
 
 def test_screenshot_keeps_annotations_when_live_boxes_change_during_drawing(tmp_path):

@@ -2,9 +2,9 @@
 
 [简体中文](../interface.md) · [Documentation](index.md) · [Quick start](quick_start.md) · [Agent prompts](agent-prompts.md)
 
-Use the desktop interface to configure and run saved tasks. For development, connect your coding agent through [MCP](quick_start.md) and ask it to write and test reusable Python in the project. The agent uses ok-script capture and interaction, not Computer Use tools. The interface remains useful for inspecting evidence and running the result after the agent disconnects.
+Use the desktop interface to configure and run saved tasks. For development, connect your coding agent through [MCP](quick_start.md) and ask it to write and test reusable Python in the project. The agent uses Mon-script capture and interaction, not Computer Use tools. The interface remains useful for inspecting evidence and running the result after the agent disconnects.
 
-ok-script brings task configuration, device connection, scripting, template management, and recognition debugging into one desktop interface. This page explains the tools shown in the current UI screenshots and how they fit together.
+Mon-script brings task configuration, device connection, scripting, template management, and recognition debugging into one desktop interface. This page explains the tools shown in the current UI screenshots and how they fit together.
 
 ## Configure and run tasks
 

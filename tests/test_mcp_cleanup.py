@@ -7,7 +7,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from ok.core.mcp_runner import McpTaskRunner
+from Mon.core.mcp_runner import McpTaskRunner
 from test_mcp_runner import development, wait_run, write_task
 
 
@@ -140,7 +140,7 @@ def test_cleanup_preserves_active_run_even_with_old_terminal_record(development)
 def test_cleanup_failure_does_not_block_other_artifacts(tmp_path, monkeypatch):
     path = saved_run(tmp_path)
     image = observation(tmp_path, 8)
-    monkeypatch.setattr('ok.core.mcp_runner.shutil.rmtree', Mock(side_effect=PermissionError('locked')))
+    monkeypatch.setattr('Mon.core.mcp_runner.shutil.rmtree', Mock(side_effect=PermissionError('locked')))
     runner_at(tmp_path)
     assert path.exists()
     assert not image.exists()

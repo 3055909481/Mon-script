@@ -6,7 +6,7 @@ windows_schedule 计划任务 XML 生成测试。
 （StartWhenAvailable = true，对应 GitHub issue #98）。
 """
 
-from ok.util.windows_schedule import (
+from Mon.util.windows_schedule import (
     WindowsScheduleManager,
     TriggerType,
 )

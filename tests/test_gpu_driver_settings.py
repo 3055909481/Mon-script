@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from ok.util import gpu_driver_settings as gpu_settings
-from ok.util.gpu_driver_settings import GpuDriverPostProcessing
+from Mon.util import gpu_driver_settings as gpu_settings
+from Mon.util.gpu_driver_settings import GpuDriverPostProcessing
 
 
 class TestGpuDriverSettings(unittest.TestCase):

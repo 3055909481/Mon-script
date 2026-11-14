@@ -1,6 +1,6 @@
 ---
 name: use-venv
-description: Select the consuming application's virtual environment for Python commands, task execution, tests, and package tools when using ok-script or its MCP server.
+description: Select the consuming application's virtual environment for Python commands, task execution, tests, and package tools when using Mon-script or its MCP server.
 ---
 
 # Use the Application's Virtual Environment

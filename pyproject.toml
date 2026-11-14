@@ -8,7 +8,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ok-script"
+name = "Mon-script"
 dynamic = ["version"]
 description = "Vibe Coding Automation Framework"
 readme = "README.md"
@@ -68,12 +68,12 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ok-oldking/ok-script"
-Repository = "https://github.com/ok-oldking/ok-script"
-"Agent setup" = "https://github.com/ok-oldking/ok-script/blob/master/docs/agent-setup.md"
+Homepage = "https://github.com/3055909481/Mon-script"
+Repository = "https://github.com/3055909481/Mon-script"
+"Agent setup" = "https://github.com/3055909481/Mon-script/blob/master/docs/agent-setup.md"
 
 [project.scripts]
-ok = "ok.cli:main"
+mon = "Mon.cli:main"
 
 [dependency-groups]
 default = [
@@ -110,4 +110,4 @@ zip-safe = false
 exclude = ["tests*", "docs*"]
 
 [tool.setuptools.package-data]
-ok = ["assets/*.png"]
+Mon = ["assets/*.png"]

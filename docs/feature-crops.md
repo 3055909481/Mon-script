@@ -49,7 +49,7 @@ and `ok_tasks/assets/coco_annotations.json`. Imports load both formats under
 To generate split templates programmatically:
 
 ```python
-from ok.feature.FeatureSet import generate_templates
+from Mon.feature.FeatureSet import generate_templates
 
 template_folder = generate_templates(
     coco_json='ok_templates/coco_annotations.json',
@@ -103,7 +103,7 @@ Verify against a saved source screenshot using the original feature name:
 
 ```python
 import cv2
-from ok.feature.FeatureSet import FeatureSet
+from Mon.feature.FeatureSet import FeatureSet
 
 features = FeatureSet(False, None, 0.002, 0.002, template_folder=template_folder)
 frame = cv2.imread('ok_templates/settings.png')  # Use your actual source screenshot.

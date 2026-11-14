@@ -4,9 +4,9 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, mock_open, patch
 
-from ok.device.capture_methods.nemu_ipc import NemuIpcCaptureMethod
-from ok.capture.adb.nemu_ipc import NemuIpcImpl
-from ok.util.window import get_player_id_from_cmdline
+from Mon.device.capture_methods.nemu_ipc import NemuIpcCaptureMethod
+from Mon.capture.adb.nemu_ipc import NemuIpcImpl
+from Mon.util.window import get_player_id_from_cmdline
 
 
 class TestNemuIpcCaptureMethod(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestNemuIpcCaptureMethod(unittest.TestCase):
         implementation = SimpleNamespace(screenshot=Mock(return_value='frame'))
         capture.check_mumu_app_keep_alive_400 = Mock()
 
-        with patch('ok.capture.adb.nemu_ipc.NemuIpc', return_value=implementation):
+        with patch('Mon.capture.adb.nemu_ipc.NemuIpc', return_value=implementation):
             self.assertEqual('frame', capture.do_get_frame())
 
         capture.check_mumu_app_keep_alive_400.assert_called_once_with()
@@ -41,8 +41,8 @@ class TestNemuIpcCaptureMethod(unittest.TestCase):
     def test_legacy_mumu_loads_sdk_from_shell(self):
         root = os.path.abspath('MuMu')
         expected = os.path.join(root, 'shell', 'sdk', 'external_renderer_ipc.dll')
-        with patch('ok.capture.adb.nemu_ipc.os.path.exists', side_effect=lambda path: path == expected), \
-                patch('ok.capture.adb.nemu_ipc.ctypes.CDLL') as load:
+        with patch('Mon.capture.adb.nemu_ipc.os.path.exists', side_effect=lambda path: path == expected), \
+                patch('Mon.capture.adb.nemu_ipc.ctypes.CDLL') as load:
             NemuIpcImpl(root, 0)
         load.assert_called_once_with(expected)
 
@@ -50,7 +50,7 @@ class TestNemuIpcCaptureMethod(unittest.TestCase):
         capture = self.make_capture()
         capture.emulator.name = 'MuMuPlayer-15.0-0'
         capture.check_mumu_app_keep_alive_400 = Mock()
-        with patch('ok.capture.adb.nemu_ipc.NemuIpc') as implementation:
+        with patch('Mon.capture.adb.nemu_ipc.NemuIpc') as implementation:
             capture.init_nemu()
         implementation.assert_called_once_with(
             nemu_folder=capture.base_folder(), instance_id=0,
@@ -59,8 +59,8 @@ class TestNemuIpcCaptureMethod(unittest.TestCase):
     def test_mumu_15_loads_sdk_from_selected_runtime(self):
         root = os.path.abspath('MuMu')
         expected = os.path.join(root, 'nx_device', '15.0', 'shell', 'sdk', 'external_renderer_ipc.dll')
-        with patch('ok.capture.adb.nemu_ipc.os.path.exists', side_effect=lambda path: path == expected), \
-                patch('ok.capture.adb.nemu_ipc.ctypes.CDLL') as load:
+        with patch('Mon.capture.adb.nemu_ipc.os.path.exists', side_effect=lambda path: path == expected), \
+                patch('Mon.capture.adb.nemu_ipc.ctypes.CDLL') as load:
             NemuIpcImpl(root, 0, runtime_version='15.0')
         load.assert_called_once_with(expected)
 

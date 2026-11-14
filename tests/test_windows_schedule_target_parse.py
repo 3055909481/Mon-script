@@ -6,7 +6,7 @@ windows_schedule -t 目标解析辅助函数的单元测试。
 ScheduleTaskInfo 的 task_index / task_identifier，避免缓存元数据被冲掉。
 """
 
-from ok.util.windows_schedule import extract_task_target, parse_task_target_fields, resolve_schedule_task_index
+from Mon.util.windows_schedule import extract_task_target, parse_task_target_fields, resolve_schedule_task_index
 
 
 def test_extract_task_target_from_actions():

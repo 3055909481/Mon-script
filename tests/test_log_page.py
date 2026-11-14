@@ -9,7 +9,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 from PySide6.QtCore import QEvent
 from PySide6.QtWidgets import QApplication
 
-from ok.util.config import Config
+from Mon.util.config import Config
 
 
 def log_line(i, level="INFO"):
@@ -18,7 +18,7 @@ def log_line(i, level="INFO"):
 
 class TestLogBuffer(unittest.TestCase):
     def test_continuation_lines_follow_their_record(self):
-        from ok.ui.qt.shell.log_page import LogBuffer, LEVELS
+        from Mon.ui.qt.shell.log_page import LogBuffer, LEVELS
         buffer = LogBuffer(100)
         buffer.append(log_line(1))
         buffer.append(log_line(2, "ERROR"))
@@ -32,7 +32,7 @@ class TestLogBuffer(unittest.TestCase):
         self.assertEqual(3, len(buffer.filtered_text(0, "x.py").split("\n")))
 
     def test_keeps_only_max_lines(self):
-        from ok.ui.qt.shell.log_page import LogBuffer
+        from Mon.ui.qt.shell.log_page import LogBuffer
         buffer = LogBuffer(10)
         for i in range(25):
             buffer.append(log_line(i))
@@ -49,7 +49,7 @@ class TestLogPage(unittest.TestCase):
         self._folder = tempfile.TemporaryDirectory()
         self._config_folder = Config.config_folder
         Config.config_folder = self._folder.name
-        self.log_file = Path(self._folder.name) / "ok-script.log"
+        self.log_file = Path(self._folder.name) / "Mon-script.log"
 
     def tearDown(self):
         Config.config_folder = self._config_folder
@@ -61,7 +61,7 @@ class TestLogPage(unittest.TestCase):
             file.write("".join(line + "\n" for line in lines))
 
     def make_page(self):
-        from ok.ui.qt.shell.log_page import LogPage
+        from Mon.ui.qt.shell.log_page import LogPage
         page = LogPage(self.log_file)
         page.resize(1200, 700)
         page.show()
@@ -119,7 +119,7 @@ class TestLogPage(unittest.TestCase):
         self.assertEqual(2, page.view.blockCount())
 
     def test_large_log_stays_fast(self):
-        from ok.ui.qt.shell.log_page import MAX_LINES
+        from Mon.ui.qt.shell.log_page import MAX_LINES
         levels = ("INFO", "DEBUG", "WARNING", "ERROR")
         self.write([log_line(i, levels[i % 4]) for i in range(MAX_LINES)], "w")
         start = time.perf_counter()

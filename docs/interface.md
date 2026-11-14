@@ -2,9 +2,9 @@
 
 [English](en/interface.md) · [文档中心](index.md) · [快速开始](quick_start/README.md) · [编程代理提示词](agent-prompts.md)
 
-桌面界面用于配置和运行已保存的任务。开发时通过 [MCP](quick_start/README.md) 连接编程代理，让它在项目中编写并验证可复用 Python。代理使用 ok-script 截图和交互，不使用 Computer Use 工具。代理断开后，仍可通过界面查看证据并运行成果。
+桌面界面用于配置和运行已保存的任务。开发时通过 [MCP](quick_start/README.md) 连接编程代理，让它在项目中编写并验证可复用 Python。代理使用 Mon-script 截图和交互，不使用 Computer Use 工具。代理断开后，仍可通过界面查看证据并运行成果。
 
-ok-script 将任务配置、设备连接、脚本开发、模板管理和识别调试集中在同一个桌面界面。本页通过界面截图说明各工具的用途和推荐工作流。
+Mon-script 将任务配置、设备连接、脚本开发、模板管理和识别调试集中在同一个桌面界面。本页通过界面截图说明各工具的用途和推荐工作流。
 
 ## 任务配置与执行
 

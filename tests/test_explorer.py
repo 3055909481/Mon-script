@@ -1,7 +1,7 @@
 from pathlib import Path
 from unittest.mock import patch
 
-from ok.util import explorer
+from Mon.util import explorer
 
 
 def test_open_explorer_folder_explores_exact_onedrive_directory(tmp_path):

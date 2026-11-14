@@ -1,6 +1,6 @@
 import unittest
 
-from ok.core.events import EventBus
+from Mon.core.events import EventBus
 
 
 class TestCoreEvents(unittest.TestCase):

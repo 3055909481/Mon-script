@@ -1,4 +1,6 @@
-# ok-script
+# Mon-script
+
+> **本项目是 [ok-script](https://github.com/ok-oldking/ok-script)（原作者 ok-oldking）的 fork**，用于给 [Monster](https://github.com/3055909481/ok-wuthering-waves) 提供独立的依赖命名空间：分发名改为 `Mon-script`、Python 顶层模块改为 `Mon`，避免与官方 PyPI 包 `ok-script` 冲突。原项目版权与许可条款不变，详见 [LICENSE.txt](LICENSE.txt)。
 
 **简体中文** | [English](README_en.md)
 
@@ -6,9 +8,9 @@
 
 在 Codex、Claude Code 或任何支持 MCP 的编程代理里许个愿，得到一个可部署的自动化程序。
 
-说出你想自动化的事。代理通过 MCP 观察 Windows 应用、游戏或安卓设备，编写 Python 任务，在真实目标上运行并修复失败。ok-script 把完成的任务连同桌面 GUI 打包成可分发的 Windows 安装包。打包后的程序在本地独立完成截图、识别和输入，无需代理保持连接。
+说出你想自动化的事。代理通过 MCP 观察 Windows 应用、游戏或安卓设备，编写 Python 任务，在真实目标上运行并修复失败。Mon-script 把完成的任务连同桌面 GUI 打包成可分发的 Windows 安装包。打包后的程序在本地独立完成截图、识别和输入，无需代理保持连接。
 
-ok-script 支持 Windows 应用和游戏、安卓模拟器及 ADB 设备，提供模板匹配、OCR、目标支持时的后台输入、桌面界面和任务打包。
+Mon-script 支持 Windows 应用和游戏、安卓模拟器及 ADB 设备，提供模板匹配、OCR、目标支持时的后台输入、桌面界面和任务打包。
 
 [MCP 快速开始](docs/quick_start/README.md) · [编程代理提示词](docs/agent-prompts.md) · [MCP 连接说明（英文）](docs/mcp.md)
 
@@ -16,17 +18,17 @@ ok-script 支持 Windows 应用和游戏、安卓模拟器及 ADB 设备，提�
 
 首次安装环境：
 
-> 在当前项目中安装 ok-script 并配置运行环境。先读取 https://raw.githubusercontent.com/ok-oldking/ok-script/master/docs/agent-setup.md ，按照其中的安装技能操作，保留项目现有的依赖约束。
+> 在当前项目中安装 Mon-script 并配置运行环境。先读取 https://raw.githubusercontent.com/ok-oldking/ok-script/master/docs/agent-setup.md ，按照其中的安装技能操作，保留项目现有的依赖约束。
 
 [代理安装指南（英文）](docs/agent-setup.md)提供可添加到应用项目 `AGENTS.md` 的简短指令，让后续安装请求也能找到这些技能，无需先安装包或启动 MCP。
 
 开发自动化任务：
 
-> 连接这个项目的 ok-script MCP 服务，读取开发技能。检查已安装的截图、匹配和输入 API，给出准确签名和源码位置。开发可复用 Python 任务：打开设置、启用“显示详情”、保存并验证结果。每次尝试前恢复并验证起始界面，测试重复运行，代码保存到项目中。使用 ok-script API 和 MCP，不使用 Computer Use 工具。最后给出不依赖代理或大模型调用的准确运行命令。
+> 连接这个项目的 Mon-script MCP 服务，读取开发技能。检查已安装的截图、匹配和输入 API，给出准确签名和源码位置。开发可复用 Python 任务：打开设置、启用“显示详情”、保存并验证结果。每次尝试前恢复并验证起始界面，测试重复运行，代码保存到项目中。使用 Mon-script API 和 MCP，不使用 Computer Use 工具。最后给出不依赖代理或大模型调用的准确运行命令。
 
 修复已有任务：
 
-> 连接这个项目的 ok-script MCP 服务，读取 reload-tasks 技能。用 list_tasks 找到出错任务的源码，修改该文件，按任务 ID 重载并等待重载成功。恢复并验证起始界面，重复运行已注册的实现，并给出运行日志和截图中的证据。
+> 连接这个项目的 Mon-script MCP 服务，读取 reload-tasks 技能。用 list_tasks 找到出错任务的源码，修改该文件，按任务 ID 重载并等待重载成功。恢复并验证起始界面，重复运行已注册的实现，并给出运行日志和截图中的证据。
 
 ## MCP 开发流程
 
@@ -56,11 +58,11 @@ ok-script 支持 Windows 应用和游戏、安卓模拟器及 ADB 设备，提�
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install "ok-script[default]"
+.\.venv\Scripts\python.exe -m pip install "Mon-script[default]"
 .\.venv\Scripts\python.exe -m ok mcp --config src.config:config
 ```
 
-启动命令要求应用配置已经存在，请使用实际配置入口或项目已有的开发启动器。MCP 自 2.0.17 起随 ok-script 自动安装，无需额外扩展。OpenCV 需单独选择并安装一个兼容变体；Qt、ADB 和 OCR 按需安装。
+启动命令要求应用配置已经存在，请使用实际配置入口或项目已有的开发启动器。MCP 自 2.0.17 起随 Mon-script 自动安装，无需额外扩展。OpenCV 需单独选择并安装一个兼容变体；Qt、ADB 和 OCR 按需安装。
 
 让代理的 MCP 客户端通过 Streamable HTTP 连接有效 `logs/mcp/connections/<pid>-<port>.json` 记录中的 URL，并使用该记录的 `Authorization: Bearer <token>` 请求头。不要公开凭据。让代理调用 `list_skills`，通过 `get_skill` 读取相关技能，再用 `screenshot` 验证目标。
 
@@ -89,14 +91,14 @@ python -m venv .venv
 
 [查看界面与开发工具完整说明](docs/interface.md)，包括模板识别调试浮层。
 
-## 使用 ok-script 的项目
+## 使用 Mon-script 的项目
 
 - [鸣潮](https://github.com/ok-oldking/ok-wuthering-waves)
 - [异环](https://github.com/BnanZ0/ok-nte)
 - [二重螺旋](https://github.com/BnanZ0/ok-duet-night-abyss)
 - [明日方舟：终末地](https://github.com/AliceJump/ok-end-field)
 - [少女前线 2](https://github.com/ok-oldking/ok-gf2)
-- [ok-script 应用模板](https://github.com/ok-oldking/ok-script-app)
+- [Mon-script 应用模板](https://github.com/ok-oldking/ok-script-app)
 - [棕色尘埃 2](https://github.com/GodRaymond233/ok-bd2)
 - [星痕共鸣](https://github.com/Sanheiii/ok-star-resonance)
 - [卡厄思梦境](https://github.com/baoxin1100/ok-kes)
@@ -106,7 +108,7 @@ python -m venv .venv
 - [白荆回廊](https://github.com/ok-oldking/ok-baijing)（停止维护）
 - [崩坏：星穹铁道](https://github.com/Shasnow/ok-starrailassistant)（停止维护）
 
-## 开发 ok-script
+## 开发 Mon-script
 
 在本仓库中测试界面改动时，可以用 [main.py](main.py) 中的演示配置直接从源码启动 GUI：
 
@@ -120,11 +122,11 @@ python -m venv .venv
 
 - 开发者 QQ 群：938132715
 - [PyPI](https://pypi.org/project/ok-script/)
-- [GitHub](https://github.com/ok-oldking/ok-script)
+- [GitHub](https://github.com/3055909481/Mon-script)
 
 ## 致谢
 
-ok-script 的开发离不开以下开源项目：
+Mon-script 的开发离不开以下开源项目：
 
 - [PyAppify](https://github.com/ok-oldking/pyappify)：用于应用更新和打包。
 - [OnnxOCR](https://github.com/ok-oldking/OnnxOCR)：提供支持 Intel NPU 的 OCR，
@@ -151,5 +153,5 @@ ok-script 的开发离不开以下开源项目：
 
 - 禁止直接出售本项目，或仅改名、稍作修改后将其作为竞争产品出售或推广。
 - 禁止将本项目用于黑客攻击、未授权访问、恶意软件、欺诈或其他违法活动。
-- 任何使用 ok-script 的项目，都必须在项目网站、GitHub 或软件本身至少一处提及并链接 [ok-script.com](https://ok-script.com/) 或 [ok-script GitHub](https://github.com/ok-oldking/ok-script)。
+- 任何使用或衍生自本软件的项目，都必须在项目网站、GitHub 或软件本身至少一处提及 **ok-script** 并链接 [ok-script.com](https://ok-script.com/) 或 [原项目 GitHub](https://github.com/ok-oldking/ok-script)。这是原 LICENSE.txt 第 4 条的强制要求，改名及衍生版本必须保留此声明。
 - Qt UI 的使用还必须遵守 [PyQt-Fluent-Widgets](https://github.com/zhiyiYo/PyQt-Fluent-Widgets) 的许可证。

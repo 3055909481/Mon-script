@@ -6,7 +6,7 @@ os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 
 from PySide6.QtWidgets import QApplication, QWidget
 
-from ok.ui.qt.shell.lazy_page import LazyPage
+from Mon.ui.qt.shell.lazy_page import LazyPage
 
 
 class TestLazyPage(unittest.TestCase):

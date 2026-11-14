@@ -11,16 +11,16 @@ from PySide6.QtCore import Qt, QPointF
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QApplication
 
-from ok.device.interaction_methods.keys import (
+from Mon.device.interaction_methods.keys import (
     is_mouse_button, get_mouse_button, XBUTTON1, XBUTTON2,
     WM_XBUTTONDOWN, WM_XBUTTONUP, MK_XBUTTON1, MK_XBUTTON2
 )
-from ok.device.interaction_methods.post_message import PostMessageInteraction
-from ok.device.interaction_methods.pydirect import PyDirectInteraction
-from ok.device.interaction_methods.pynput import PynputInteraction
-from ok.ui.qt.tasks.config_editors import LineEditEditor
-from ok.ui.qt.tasks.mouse_buttons import GlobalMouseButtonFilter
-from ok.task.task import VALID_NAMED_KEYS, ExecutorOperation
+from Mon.device.interaction_methods.post_message import PostMessageInteraction
+from Mon.device.interaction_methods.pydirect import PyDirectInteraction
+from Mon.device.interaction_methods.pynput import PynputInteraction
+from Mon.ui.qt.tasks.config_editors import LineEditEditor
+from Mon.ui.qt.tasks.mouse_buttons import GlobalMouseButtonFilter
+from Mon.task.task import VALID_NAMED_KEYS, ExecutorOperation
 
 
 class TestMouseButtons(unittest.TestCase):
@@ -67,7 +67,7 @@ class TestMouseButtons(unittest.TestCase):
         args = interaction.post.call_args[0]
         self.assertEqual(args[0], WM_XBUTTONUP)
 
-    @patch('ok.device.interaction_methods.pydirect.user32.mouse_event')
+    @patch('Mon.device.interaction_methods.pydirect.user32.mouse_event')
     def test_pydirect_interaction_dispatches_mouse_event(self, mock_mouse_event):
         capture = Mock()
         hwnd_window = Mock()
@@ -83,7 +83,7 @@ class TestMouseButtons(unittest.TestCase):
         mock_mouse_event.assert_called_with(0x0100, 0, 0, XBUTTON2, 0)
 
     def test_global_mouse_button_filter_fills_hotkey(self):
-        from ok import og
+        from Mon import og
         orig_app = getattr(og, 'app', None)
         og.app = Mock(tr=lambda text: text)
         self.addCleanup(lambda: setattr(og, 'app', orig_app))
@@ -134,7 +134,7 @@ class TestSideButtonRegressions(unittest.TestCase):
                             ('mouse5', mouse.Button.x2), ('XBUTTON2', mouse.Button.x2)]:
             with self.subTest(key=key), patch('pynput.mouse.Controller') as controller, \
                     patch('pynput.keyboard.Controller') as keyboard_controller, \
-                    patch('ok.device.interaction_methods.pynput.time.sleep') as sleep:
+                    patch('Mon.device.interaction_methods.pynput.time.sleep') as sleep:
                 interaction.send_key(key, down_time=.03)
                 self.assertEqual(controller.return_value.mock_calls,
                                  [call.press(button), call.release(button)])
@@ -152,7 +152,7 @@ class TestSideButtonRegressions(unittest.TestCase):
         interaction.check_clickable = False
         with patch('pynput.keyboard.Controller') as controller, \
                 patch('pynput.mouse.Controller') as mouse_controller, \
-                patch('ok.device.interaction_methods.pynput.time.sleep'):
+                patch('Mon.device.interaction_methods.pynput.time.sleep'):
             interaction.send_key('lctrl')
             interaction.send_key_down('a')
             interaction.send_key_up('a')
@@ -183,13 +183,13 @@ class TestSideButtonRegressions(unittest.TestCase):
                 interaction.post = Mock()
                 interaction.try_activate = Mock()
                 expected = (220, 140) if child else (320, 240)
-                with patch('ok.device.interaction_methods.post_message.win32gui.ClientToScreen',
+                with patch('Mon.device.interaction_methods.post_message.win32gui.ClientToScreen',
                            side_effect=RuntimeError('conversion failed') if conversion_fails else None,
                            return_value=(320, 240)), \
-                        patch('ok.device.interaction_methods.post_message.win32gui.ScreenToClient',
+                        patch('Mon.device.interaction_methods.post_message.win32gui.ScreenToClient',
                               return_value=expected), \
-                        patch('ok.device.interaction_methods.post_message.win32gui.IsWindow', return_value=True), \
-                        patch('ok.device.interaction_methods.post_message.win32gui.GetClassName', return_value='child'):
+                        patch('Mon.device.interaction_methods.post_message.win32gui.IsWindow', return_value=True), \
+                        patch('Mon.device.interaction_methods.post_message.win32gui.GetClassName', return_value='child'):
                     interaction.move(320, 240)
                     interaction.send_key_down('mouse4', activate=False)
                     interaction.send_key_up('mouse4')

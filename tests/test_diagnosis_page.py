@@ -11,7 +11,7 @@ from PySide6.QtCore import QEvent
 from PySide6.QtGui import QColor, QImage
 from PySide6.QtWidgets import QApplication
 
-from ok import og
+from Mon import og
 
 
 def save_png(path, color="red", size=(64, 32)):
@@ -23,7 +23,7 @@ def save_png(path, color="red", size=(64, 32)):
 
 class TestListShots(unittest.TestCase):
     def test_pairs_original_and_boxed_newest_first(self):
-        from ok.ui.qt.debug.diagnosis_page import list_shots
+        from Mon.ui.qt.debug.diagnosis_page import list_shots
         with tempfile.TemporaryDirectory() as folder:
             save_png(os.path.join(folder, "2026-11-03_10-00-00-001_WGC_original.png"))
             save_png(os.path.join(folder, "2026-11-03_10-00-00-001_WGC_boxed.png"))
@@ -37,7 +37,7 @@ class TestListShots(unittest.TestCase):
             self.assertTrue(shots[0].path("boxed").endswith("_original.png"))
 
     def test_missing_folder_is_empty(self):
-        from ok.ui.qt.debug.diagnosis_page import list_shots
+        from Mon.ui.qt.debug.diagnosis_page import list_shots
         self.assertEqual([], list_shots(None))
         self.assertEqual([], list_shots("does/not/exist"))
 
@@ -59,7 +59,7 @@ class TestDiagnosisPage(unittest.TestCase):
         self.folder.cleanup()
 
     def make_page(self, debug=False):
-        from ok.ui.qt.debug.diagnosis_page import DiagnosisPage
+        from Mon.ui.qt.debug.diagnosis_page import DiagnosisPage
         page = DiagnosisPage(debug=debug)
         page.resize(1400, 800)
         page.show()
@@ -122,7 +122,7 @@ class TestDiagnosisPage(unittest.TestCase):
 
     def test_developer_tools_only_in_debug(self):
         self.assertIsNone(self.make_page(debug=False).dev_button)
-        with patch("ok.ui.qt.debug.diagnosis_page.og") as fake_og:
+        with patch("Mon.ui.qt.debug.diagnosis_page.og") as fake_og:
             fake_og.app.app.aboutToQuit.connect = lambda *_: None
             page = self.make_page(debug=True)
         actions = [action.text() for action in page.dev_menu.actions() if action.text()]

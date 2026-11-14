@@ -14,7 +14,7 @@ import numpy as np
 from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from ok.notification.windows_messenger import MessengerAutomation
+from Mon.notification.windows_messenger import MessengerAutomation
 
 
 OUT = Path(__file__).resolve().parents[1] / "logs" / "qq_trace"

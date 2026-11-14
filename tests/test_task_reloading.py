@@ -8,13 +8,13 @@ from unittest.mock import Mock
 
 import pytest
 
-from ok import og
-from ok.core.task_manager import TaskManager
-from ok.util.config import Config
+from Mon import og
+from Mon.core.task_manager import TaskManager
+from Mon.util.config import Config
 from test_executor_jobs import make_test_executor
 
 
-SOURCE = '''from ok import BaseTask, TriggerTask
+SOURCE = '''from Mon import BaseTask, TriggerTask
 class FirstTask(BaseTask):
     value = 'first'
     def on_destroy(self):
@@ -45,7 +45,7 @@ def runtime(tmp_path, monkeypatch):
         assert not executor.thread.is_alive()
     for name, module in tuple(sys.modules.items()):
         source = str(getattr(module, '__file__', ''))
-        if source.startswith(str(tmp_path)) or name.startswith('_ok_plugin_') and not hasattr(module, '__file__'):
+        if source.startswith(str(tmp_path)) or name.startswith('_Mon_plugin_') and not hasattr(module, '__file__'):
             sys.modules.pop(name, None)
 
 
@@ -218,9 +218,9 @@ def test_dependent_task_modules_reload_after_their_base(runtime):
 def test_qt_reload_commits_and_destroys_on_gui_thread(runtime, monkeypatch):
     os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
     from PySide6.QtWidgets import QApplication
-    from ok.core import events
-    from ok.ui.qt.events import QtEventDispatcher
-    from ok.ui.qt.tasks.TaskManger import TaskManager as QtTaskManager
+    from Mon.core import events
+    from Mon.ui.qt.events import QtEventDispatcher
+    from Mon.ui.qt.tasks.TaskManger import TaskManager as QtTaskManager
 
     app = QApplication.instance() or QApplication([])
     event_dispatcher = QtEventDispatcher()
@@ -241,7 +241,7 @@ def test_qt_reload_commits_and_destroys_on_gui_thread(runtime, monkeypatch):
 
 
 def test_actual_running_task_can_request_its_own_reload(runtime, monkeypatch):
-    import ok.task.TaskExecutor as executor_module
+    import Mon.task.TaskExecutor as executor_module
 
     monkeypatch.setattr(executor_module, 'prevent_sleeping', Mock())
     source = SOURCE + '''
@@ -277,11 +277,11 @@ def test_editor_run_waits_for_successful_reload(runtime, monkeypatch, broken):
     os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
     from PySide6.QtWidgets import QApplication
     from shiboken6 import delete
-    from ok.core import events
-    from ok.ui.qt.events import QtEventDispatcher
-    from ok.ui.qt.tasks.EditTaskTab import EditTaskTab
-    from ok.ui.qt.tasks.TaskManger import TaskManager as QtTaskManager
-    from ok.ui.qt.util import Alert
+    from Mon.core import events
+    from Mon.ui.qt.events import QtEventDispatcher
+    from Mon.ui.qt.tasks.EditTaskTab import EditTaskTab
+    from Mon.ui.qt.tasks.TaskManger import TaskManager as QtTaskManager
+    from Mon.ui.qt.util import Alert
 
     app = QApplication.instance() or QApplication([])
     dispatcher = QtEventDispatcher()

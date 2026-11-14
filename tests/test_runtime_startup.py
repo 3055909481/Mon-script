@@ -2,10 +2,10 @@ import threading
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-from ok import OK
-from ok.core.events import communicate
-from ok.device.DeviceManager import DeviceManager
-from ok.util.GlobalConfig import basic_options
+from Mon import OK
+from Mon.core.events import communicate
+from Mon.device.DeviceManager import DeviceManager
+from Mon.util.GlobalConfig import basic_options
 
 
 class FakeGlobalConfig:
@@ -117,7 +117,7 @@ def test_headless_mcp_waits_for_agent_without_starting_regular_tasks():
     runtime.exit_event = threading.Event()
     runtime.task_executor = Mock()
     runtime.wait_task = runtime.exit_event.set
-    with patch('ok.core.mcp_server.LocalMcpServer') as server_class:
+    with patch('Mon.core.mcp_server.LocalMcpServer') as server_class:
         runtime.start()
     server_class.return_value.start.assert_called_once_with()
     runtime.task_executor.start.assert_not_called()

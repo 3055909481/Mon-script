@@ -2,7 +2,7 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-from ok.ui.qt.MainWindow import MainWindow, game_starting_or_started, request_pyappify_shutdown
+from Mon.ui.qt.MainWindow import MainWindow, game_starting_or_started, request_pyappify_shutdown
 
 
 class TestMainWindowStartupTab(unittest.TestCase):
@@ -41,7 +41,7 @@ class TestMainWindowStartupTab(unittest.TestCase):
 
         window.about_tab.check_for_updates.assert_not_called()
 
-    @patch("ok.ui.qt.MainWindow.pyappify.kill_pyappify")
+    @patch("Mon.ui.qt.MainWindow.pyappify.kill_pyappify")
     def test_pyappify_shutdown_does_not_block_gui_thread(self, kill_pyappify):
         thread = request_pyappify_shutdown()
 

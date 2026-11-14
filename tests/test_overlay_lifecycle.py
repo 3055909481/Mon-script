@@ -3,8 +3,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from ok import App, HeadlessApp, og
-from ok.core.events import communicate
+from Mon import App, HeadlessApp, og
+from Mon.core.events import communicate
 
 
 @pytest.mark.parametrize("app_type", [App, HeadlessApp])
@@ -27,7 +27,7 @@ def test_blur_only_getter_creates_overlay_with_boxes_disabled(app_type, monkeypa
     monkeypatch.setattr(og, "executor", SimpleNamespace(basic_options={"Enable Blur": True}), raising=False)
     monkeypatch.setattr(og, "device_manager", SimpleNamespace(hwnd_window=None), raising=False)
     overlay = Mock()
-    monkeypatch.setattr("ok.ui.overlay.Win32GdiOverlay", Mock(return_value=overlay))
+    monkeypatch.setattr("Mon.ui.overlay.Win32GdiOverlay", Mock(return_value=overlay))
     app = object.__new__(app_type)
     app.config = {"blur_area": lambda *_: None}
     app.ok_config = {"use_overlay": False}

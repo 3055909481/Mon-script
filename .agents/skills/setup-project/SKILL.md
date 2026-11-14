@@ -1,11 +1,11 @@
 ---
 name: setup-project
-description: Create or configure an ok-script automation project, collect missing game or app details, and give each project its own subfolder, config, GUI and MCP start scripts, and Windows shortcut.
+description: Create or configure an Mon-script automation project, collect missing game or app details, and give each project its own subfolder, config, GUI and MCP start scripts, and Windows shortcut.
 ---
 
 # Set Up a Local Automation Project
 
-Work in the consuming application's directory at the user's requested location. Inspect an existing project before adding files. Use [setup-env](../setup-env/SKILL.md) when its environment needs preparation, and [docs/mcp.md](../../../docs/mcp.md) for current CLI and server configuration. Configure the application through the installed library's APIs; no ok-script source checkout is required.
+Work in the consuming application's directory at the user's requested location. Inspect an existing project before adding files. Use [setup-env](../setup-env/SKILL.md) when its environment needs preparation, and [docs/mcp.md](../../../docs/mcp.md) for current CLI and server configuration. Configure the application through the installed library's APIs; no Mon-script source checkout is required.
 
 ## Collect the target details
 
@@ -43,7 +43,7 @@ workspace/
 
 Create supporting directories as needed. Reuse a matching existing project folder; if the current directory is already that project's folder, edit it in place rather than nesting another copy. Keep separate projects' config and launch scripts separate, even when they target the same app.
 
-Ensure each application's root has `.agents/skills/ok-script-develop/SKILL.md`,
+Ensure each application's root has `.agents/skills/Mon-script-develop/SKILL.md`,
 following the local skill generation instructions in [setup-env](../setup-env/SKILL.md).
 Do this even when its environment is shared with the parent workspace, so an agent
 opened directly in the application folder can discover development guidance.
@@ -51,7 +51,7 @@ Preserve existing project-specific skill content.
 
 Projects may share the workspace environment just installed when their dependencies are compatible, or use a project-local environment when required. Record the chosen interpreter and use its absolute path in shortcuts and run instructions. Target launchers must work when invoked by absolute path from another working directory: resolve paths from `__file__`, make the project's task modules and config importable, and set the working directory to that project's subfolder before starting the runtime. Resolve mutable paths under that same folder so projects do not share settings, logs, or MCP ownership accidentally.
 
-Prefer the application's installed ok-script dependency. If the user explicitly requests a source link to an existing library installation, link `<project-root>\ok` to that checkout's `ok` directory and add the link's parent to `sys.path` before importing `ok`. Prefer a directory symbolic link; if Windows denies symlink privileges, use a directory junction. Verify existing destinations and resolved paths before replacing anything; never recursively delete through the link. This is dependency access, not permission to modify library code.
+Prefer the application's installed Mon-script dependency. If the user explicitly requests a source link to an existing library installation, link `<project-root>\ok` to that checkout's `ok` directory and add the link's parent to `sys.path` before importing `ok`. Prefer a directory symbolic link; if Windows denies symlink privileges, use a directory junction. Verify existing destinations and resolved paths before replacing anything; never recursively delete through the link. This is dependency access, not permission to modify library code.
 
 When obtaining a requested test application, record its source and checksum, verify the file type, and preserve existing downloads. Reuse an existing process only when its resolved executable path matches the intended target.
 

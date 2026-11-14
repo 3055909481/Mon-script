@@ -14,7 +14,7 @@ import sys
 
 import pytest
 
-import ok.ui.qt.tasks.schedule_index_sync as sync_patch
+import Mon.ui.qt.tasks.schedule_index_sync as sync_patch
 
 # 用于生成唯一类名的假任务（模块路径.类名 即稳定标识，必须互不相同）
 _class_seq = iter(range(100000))
@@ -95,7 +95,7 @@ def test_replace_task_target():
 
 def test_launch_resolution_does_not_wait_for_windows_migration(isolated, monkeypatch):
     from types import SimpleNamespace
-    from ok import og
+    from Mon import og
 
     sync, cache_file, registered = isolated
     task = _make_task("Daily")

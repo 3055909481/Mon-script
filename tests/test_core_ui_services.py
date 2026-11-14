@@ -4,11 +4,11 @@ import zipfile
 import cv2
 import numpy as np
 
-from ok.core.config_schema import build_config_fields
-from ok.core.script_editing import merge_recorded_code
-from ok.core.script_packager import import_script
-from ok.core.template_store import CocoTemplateStore
-from ok.util.windows_schedule import TriggerType, infer_trigger_type, normalize_trigger_type
+from Mon.core.config_schema import build_config_fields
+from Mon.core.script_editing import merge_recorded_code
+from Mon.core.script_packager import import_script
+from Mon.core.template_store import CocoTemplateStore
+from Mon.util.windows_schedule import TriggerType, infer_trigger_type, normalize_trigger_type
 
 
 def test_script_import_rejects_traversal_without_replacing_existing(tmp_path):

@@ -3,7 +3,7 @@
 
 背景
 ----
-ok-script 的 Windows 计划任务通过 `-t N`（1-based 索引）定位 onetime_tasks。
+Mon-script 的 Windows 计划任务通过 `-t N`（1-based 索引）定位 onetime_tasks。
 当 config.py 中 onetime_tasks 顺序被重排后，已创建的计划任务仍指向旧索引。
 
 本工具复用 schedule_index_sync.sync_schedule_task_indexes()，
@@ -26,8 +26,8 @@ ok-script 的 Windows 计划任务通过 `-t N`（1-based 索引）定位 onetim
 import argparse
 import sys
 
-from ok.cli import load_config
-from ok.util.clazz import init_class_by_name
+from Mon.cli import load_config
+from Mon.util.clazz import init_class_by_name
 
 
 class _ExecutorStub:
@@ -87,14 +87,14 @@ def main(argv=None):
 
     config = load_config(args.config)
     # 同步器通过 og.config 解析缓存路径与任务根路径，需在调用前注入实际配置
-    from ok import og
+    from Mon import og
     og.config = config
     tasks = build_onetime_tasks(config)
     if not tasks:
         print("No onetime_tasks loaded, nothing to correct.")
         return 1
 
-    from ok.ui.qt.tasks.schedule_index_sync import sync_schedule_task_indexes
+    from Mon.ui.qt.tasks.schedule_index_sync import sync_schedule_task_indexes
 
     corrected = sync_schedule_task_indexes(onetime_tasks=tasks)
     print(f"Corrected {corrected} schedule task(s).")

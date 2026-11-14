@@ -10,8 +10,8 @@ from PySide6.QtCore import QTimer
 from qt_helpers import wait
 from PySide6.QtWidgets import QApplication
 
-from ok.ui.qt.tasks.ScheduleTaskTab import ScheduleTaskTab
-from ok.util.windows_schedule import WindowsScheduleManager
+from Mon.ui.qt.tasks.ScheduleTaskTab import ScheduleTaskTab
+from Mon.util.windows_schedule import WindowsScheduleManager
 
 
 class TestScheduleStartup(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestScheduleStartup(unittest.TestCase):
         cls.app = QApplication.instance() or QApplication([])
 
     def test_constructor_and_cached_reads_do_not_connect_to_scheduler(self):
-        with patch("ok.util.windows_schedule.WindowsScheduleCache") as cache, \
+        with patch("Mon.util.windows_schedule.WindowsScheduleCache") as cache, \
                 patch.object(WindowsScheduleManager, "_init_com_service") as connect:
             manager = WindowsScheduleManager({"gui_title": "OK-Test"})
             manager.query_all_tasks()
@@ -33,7 +33,7 @@ class TestScheduleStartup(unittest.TestCase):
             CoInitialize=lambda: calls.append(("init", threading.get_ident())),
             CoUninitialize=lambda: calls.append(("uninit", threading.get_ident())),
         )
-        with patch("ok.util.windows_schedule.WindowsScheduleCache"), \
+        with patch("Mon.util.windows_schedule.WindowsScheduleCache"), \
                 patch.dict("sys.modules", {"pythoncom": com}):
             manager = WindowsScheduleManager({"gui_title": "OK-Test"})
 
@@ -76,8 +76,8 @@ class TestScheduleStartup(unittest.TestCase):
             def show_success(self, message):
                 success(message)
 
-        with patch("ok.util.windows_schedule.WindowsScheduleCache") as cache, \
-                patch("ok.ui.qt.tasks.schedule_index_sync.sync_schedule_task_indexes",
+        with patch("Mon.util.windows_schedule.WindowsScheduleCache") as cache, \
+                patch("Mon.ui.qt.tasks.schedule_index_sync.sync_schedule_task_indexes",
                       side_effect=stalled_connect if block_migration else None) as migrate, \
                 patch.object(WindowsScheduleManager, "_init_com_service",
                              side_effect=None if block_migration else stalled_connect), \
@@ -119,13 +119,13 @@ class TestSchedulePage(unittest.TestCase):
         cls.app = QApplication.instance() or QApplication([])
 
     def make_tab(self):
-        from ok import og
-        from ok.util.windows_schedule import ScheduleTaskInfo
+        from Mon import og
+        from Mon.util.windows_schedule import ScheduleTaskInfo
         self._og_app = getattr(og, "app", None)
         og.app = SimpleNamespace(tr=lambda text: text)
         self.addCleanup(setattr, og, "app", self._og_app)
-        patches = [patch("ok.util.windows_schedule.WindowsScheduleCache"),
-                   patch("ok.ui.qt.tasks.schedule_index_sync.sync_schedule_task_indexes"),
+        patches = [patch("Mon.util.windows_schedule.WindowsScheduleCache"),
+                   patch("Mon.ui.qt.tasks.schedule_index_sync.sync_schedule_task_indexes"),
                    patch.object(WindowsScheduleManager, "_init_com_service"),
                    patch.object(WindowsScheduleManager, "query_all_tasks", return_value=[])]
         mocks = [p.start() for p in patches]

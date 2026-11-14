@@ -1,8 +1,8 @@
 from types import SimpleNamespace
 from unittest.mock import Mock
 
-from ok.feature.FeatureSet import FeatureSet
-from ok.task.task import FindFeature, OCR
+from Mon.feature.FeatureSet import FeatureSet
+from Mon.task.task import FindFeature, OCR
 
 
 def test_find_feature_returns_empty_when_frame_is_none():

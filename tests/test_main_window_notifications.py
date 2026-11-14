@@ -2,8 +2,8 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-from ok import og
-from ok.ui.qt.MainWindow import MainWindow
+from Mon import og
+from Mon.ui.qt.MainWindow import MainWindow
 
 
 class _NotificationHarness:
@@ -38,8 +38,8 @@ class TestMainWindowNotifications(unittest.TestCase):
         self.addCleanup(setattr, og, "app", original_app)
 
         with (
-            patch("ok.ui.qt.MainWindow.QCoreApplication.translate", return_value="Translated status"),
-            patch("ok.ui.qt.MainWindow.show_toast") as show_toast,
+            patch("Mon.ui.qt.MainWindow.QCoreApplication.translate", return_value="Translated status"),
+            patch("Mon.ui.qt.MainWindow.show_toast") as show_toast,
         ):
             harness.show_notification("Stopped", "Original task name", tray=True)
 
@@ -55,7 +55,7 @@ class TestMainWindowNotifications(unittest.TestCase):
         og.app = SimpleNamespace(tr=lambda text: text)
         self.addCleanup(setattr, og, "app", original_app)
 
-        with patch("ok.ui.qt.MainWindow.show_toast") as show_toast:
+        with patch("Mon.ui.qt.MainWindow.show_toast") as show_toast:
             harness.show_notification("Failed", error=True)
 
         self.assertEqual("danger", show_toast.call_args.args[3])

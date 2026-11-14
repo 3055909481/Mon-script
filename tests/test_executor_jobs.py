@@ -9,13 +9,13 @@ from unittest.mock import Mock, patch
 import cv2
 import numpy as np
 
-import ok.task.TaskExecutor as task_executor_module
-from ok.core import code_runner
-from ok.core.code_runner import CodeSession, submit_task_call, wait_result
-from ok.task.TaskExecutor import TaskExecutor
-from ok.task.exceptions import ExecutorBusyException, TaskDisabledException
-from ok.task.task import BaseTask
-from ok.util.logger import Logger
+import Mon.task.TaskExecutor as task_executor_module
+from Mon.core import code_runner
+from Mon.core.code_runner import CodeSession, submit_task_call, wait_result
+from Mon.task.TaskExecutor import TaskExecutor
+from Mon.task.exceptions import ExecutorBusyException, TaskDisabledException
+from Mon.task.task import BaseTask
+from Mon.util.logger import Logger
 
 logger = Logger.get_logger(__name__)
 
@@ -333,15 +333,15 @@ class TestExecutorExclusive(ExecutorJobTestCase):
         executor = SimpleNamespace(scene=None, exclusive_owner='agent')
         task = BaseTask(executor, SimpleNamespace(tr=lambda message: message))
 
-        with patch('ok.task.task.alert_error') as alert, \
-                patch('ok.task.task.communicate.task.emit'):
+        with patch('Mon.task.task.alert_error') as alert, \
+                patch('Mon.task.task.communicate.task.emit'):
             task.enable()
 
         self.assertFalse(task.enabled)
         alert.assert_called_once()
 
     def test_start_controller_refused_while_held(self):
-        from ok.core import start_controller as start_controller_module
+        from Mon.core import start_controller as start_controller_module
         controller = start_controller_module.StartController.__new__(start_controller_module.StartController)
         og = SimpleNamespace(executor=SimpleNamespace(exclusive_owner='agent'), app=None)
 
@@ -383,7 +383,7 @@ class TestCodeRunner(ExecutorJobTestCase):
             outside.set()
 
         code = ('print("hello")\n'
-                'from ok.util.logger import Logger\n'
+                'from Mon.util.logger import Logger\n'
                 'Logger.get_logger("t").info("logged")\n'
                 'import threading\n'
                 f'threading.Thread(target=print_elsewhere).start()\n')

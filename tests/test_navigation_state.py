@@ -5,9 +5,9 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtWidgets import QApplication
 
-from ok.ui.qt.MainWindow import MainWindow, fit_window_size
-from ok.ui.qt.kit import NavigationView
-from ok.ui.qt.kit.navigation import COMPACT_WIDTH, EXPANDED_WIDTH
+from Mon.ui.qt.MainWindow import MainWindow, fit_window_size
+from Mon.ui.qt.kit import NavigationView
+from Mon.ui.qt.kit.navigation import COMPACT_WIDTH, EXPANDED_WIDTH
 
 
 class _NavigationStateHarness:
@@ -45,7 +45,7 @@ class TestNavigationState(unittest.TestCase):
 
 class TestFitWindowSize(unittest.TestCase):
     def test_default_size_fits_1600x900_with_taskbar(self):
-        from ok.core.ui_config import DEFAULT_WINDOW_SIZE
+        from Mon.core.ui_config import DEFAULT_WINDOW_SIZE
         size = DEFAULT_WINDOW_SIZE
         self.assertEqual((size["width"], size["height"]), (size["min_width"], size["min_height"]))
         self.assertLessEqual(size["width"], 1600)

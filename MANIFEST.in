@@ -1,4 +1,4 @@
-recursive-include ok *
+recursive-include Mon *
 recursive-include .agents/skills *
 include docs/mcp.md
 include docs/agent-setup.md

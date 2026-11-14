@@ -9,10 +9,10 @@ import numpy as np
 import pytest
 from PIL import Image
 
-from ok import og
-from ok.core.mcp_runner import McpTaskRunner, TERMINAL_STATES
-from ok.core.task_manager import TaskManager
-from ok.util.config import Config
+from Mon import og
+from Mon.core.mcp_runner import McpTaskRunner, TERMINAL_STATES
+from Mon.core.task_manager import TaskManager
+from Mon.util.config import Config
 from test_executor_jobs import make_test_executor
 
 
@@ -48,7 +48,7 @@ def development(tmp_path, monkeypatch):
 
 def write_task(root, body="self._app.state['value'] = 'first'", *, reset=None, verify=None):
     path = root / 'attempt.py'
-    source = f'''from ok import BaseTask
+    source = f'''from Mon import BaseTask
 
 class Task(BaseTask):
     def reset_to_start(self):
@@ -72,7 +72,7 @@ class Task(BaseTask):
 
 def register_task(dev, name='registered_task'):
     path = dev.root / f'{name}.py'
-    path.write_text('''from ok import BaseTask
+    path.write_text('''from Mon import BaseTask
 class RegisteredTask(BaseTask):
     value = 'first'
     def run(self): self._app.state['value'] = self.value
@@ -173,8 +173,8 @@ def test_idle_screenshot_captures_fresh_frame(development):
 
 @pytest.mark.parametrize('source', [
     'this is invalid Python!',
-    'from ok import BaseTask\nclass Task(BaseTask):\n    def run(self): pass',
-    'from ok import TriggerTask\nclass Task(TriggerTask): pass',
+    'from Mon import BaseTask\nclass Task(BaseTask):\n    def run(self): pass',
+    'from Mon import TriggerTask\nclass Task(TriggerTask): pass',
 ])
 def test_invalid_file_fails_without_retaining_executor(development, source):
     dev = development

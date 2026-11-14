@@ -12,11 +12,11 @@ from PySide6.QtGui import QColor, QIcon, QImage
 from qt_helpers import key_click, mouse_click, wait
 from PySide6.QtWidgets import QApplication, QComboBox, QLabel, QWidget
 
-from ok.ui.qt.kit import (Button, ComboBox, Dialog, FlowLayout, ICON_NAMES, Label, NumberBox, Pill, ProgressRing,
+from Mon.ui.qt.kit import (Button, ComboBox, Dialog, FlowLayout, ICON_NAMES, Label, NumberBox, Pill, ProgressRing,
                           SettingGroup, SettingRow, StatusDot, Switch, TabStrip, Theme, Toast, icon, load_icon,
                           set_toast_anchor, show_toast, theme)
-from ok.ui.qt.kit.theme import contrast_ratio, readable_accent
-from ok.ui.qt.kit.icons import tinted_icon
+from Mon.ui.qt.kit.theme import contrast_ratio, readable_accent
+from Mon.ui.qt.kit.icons import tinted_icon
 
 ROOT = Path(__file__).resolve().parents[1]
 KIT_DIR = ROOT / "ok" / "ui" / "qt" / "kit"
@@ -491,7 +491,7 @@ class TestNoStrayWindows(KitTestCase):
     """Building widgets must never show a child as its own top-level window."""
 
     def test_constructors_do_not_flash_windows(self):
-        from ok.ui.qt.kit import NavigationView, OptionCard, SettingGroup
+        from Mon.ui.qt.kit import NavigationView, OptionCard, SettingGroup
         recorder = _WindowShowRecorder()
         QApplication.instance().installEventFilter(recorder)
         self.addCleanup(QApplication.instance().removeEventFilter, recorder)
@@ -585,7 +585,7 @@ class TestFeedback(KitTestCase):
 
 class TestGallery(KitTestCase):
     def test_gallery_builds_in_both_themes(self):
-        from ok.ui.qt.kit.gallery import create_window
+        from Mon.ui.qt.kit.gallery import create_window
         for mode in (Theme.DARK, Theme.LIGHT):
             theme.set_theme(mode)
             window = create_window()

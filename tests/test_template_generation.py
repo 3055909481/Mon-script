@@ -6,7 +6,7 @@ import cv2
 import numpy as np
 import pytest
 
-from ok.feature.FeatureSet import FeatureSet, generate_templates, crop_filename, read_feature_crops, read_from_json
+from Mon.feature.FeatureSet import FeatureSet, generate_templates, crop_filename, read_feature_crops, read_from_json
 
 
 def test_export_and_load_individual_features_without_coco(tmp_path):

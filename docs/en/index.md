@@ -10,7 +10,7 @@ hide:
 
 **Make a wish in Codex, Claude Code, or any coding agent with MCP, and get a deployable automation app.**
 
-Through MCP, the agent observes your Windows application, game, or Android device, writes Python tasks, runs them against the real target, and fixes what fails. ok-script packages the finished tasks with a desktop GUI into a Windows installer you can ship. The packaged app runs on its own; no agent stays connected.
+Through MCP, the agent observes your Windows application, game, or Android device, writes Python tasks, runs them against the real target, and fixes what fails. Mon-script packages the finished tasks with a desktop GUI into a Windows installer you can ship. The packaged app runs on its own; no agent stays connected.
 
 [Start with MCP](quick_start.md){ .md-button .md-button--primary }
 [Copy agent prompts](agent-prompts.md){ .md-button }
@@ -28,7 +28,7 @@ The agent edits files and reads logs with its own tools. MCP gives it the runnin
 
     ---
 
-    `list_skills` and `get_skill` return the development, template, test, and reload workflows bundled with the installed ok-script version. The agent reads exact Python signatures from the installed package.
+    `list_skills` and `get_skill` return the development, template, test, and reload workflows bundled with the installed Mon-script version. The agent reads exact Python signatures from the installed package.
 
 -   :material-monitor-screenshot:{ .lg .middle } __2. Observe__
 
@@ -66,22 +66,22 @@ The agent edits files and reads logs with its own tools. MCP gives it the runnin
 
 === "Build a task"
 
-    > Connect to this project's ok-script MCP server and read its development skill. Inspect the installed capture, matching, and input APIs and show their exact signatures and source locations. Build a reusable Python task that opens Settings, enables "Show details", saves, and verifies the result. Restore and verify the starting screen before every attempt, test repeated runs, and save the task in the project. Use ok-script APIs and MCP, not Computer Use tools. Give me the exact command to run the finished task without an agent or LLM calls.
+    > Connect to this project's Mon-script MCP server and read its development skill. Inspect the installed capture, matching, and input APIs and show their exact signatures and source locations. Build a reusable Python task that opens Settings, enables "Show details", saves, and verifies the result. Restore and verify the starting screen before every attempt, test repeated runs, and save the task in the project. Use Mon-script APIs and MCP, not Computer Use tools. Give me the exact command to run the finished task without an agent or LLM calls.
 
 === "Repair a task"
 
-    > Connect to this project's ok-script MCP server and read its reload-tasks skill. Use list_tasks to find the source of the failing task, fix that file, reload its task ID, and wait for the reload to succeed. Restore and verify the starting screen, run the registered implementation repeatedly, and show me the evidence from the run logs and screenshots.
+    > Connect to this project's Mon-script MCP server and read its reload-tasks skill. Use list_tasks to find the source of the failing task, fix that file, reload its task ID, and wait for the reload to succeed. Restore and verify the starting screen, run the registered implementation repeatedly, and show me the evidence from the run logs and screenshots.
 
 === "Set up the environment"
 
-    > Install ok-script and set up this project's environment. First read https://raw.githubusercontent.com/ok-oldking/ok-script/master/docs/agent-setup.md and follow its setup skills. Preserve this project's existing dependency constraints.
+    > Install Mon-script and set up this project's environment. First read https://raw.githubusercontent.com/ok-oldking/ok-script/master/docs/agent-setup.md and follow its setup skills. Preserve this project's existing dependency constraints.
 
 More examples, including API-only discovery, are in [agent prompts](agent-prompts.md).
 
 ## Connect in three steps
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install "ok-script[default]"
+.\.venv\Scripts\python.exe -m pip install "Mon-script[default]"
 .\.venv\Scripts\python.exe -m ok mcp --config src.config:config
 ```
 

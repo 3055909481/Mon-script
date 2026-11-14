@@ -1,13 +1,13 @@
 ---
-name: ok-script-develop
-description: Develop and debug an application's automation with ok-script, including tasks, configuration, recognition assets, and tests. Discover the selected library's consumer skills and apply the project's conventions.
+name: Mon-script-develop
+description: Develop and debug an application's automation with Mon-script, including tasks, configuration, recognition assets, and tests. Discover the selected library's consumer skills and apply the project's conventions.
 ---
 
-# Develop with ok-script
+# Develop with Mon-script
 
 Work in the consuming application's project and use its configured Python
 environment. This skill provides discovery and project integration for any game
-or app using ok-script; the selected library supplies the development workflow
+or app using Mon-script; the selected library supplies the development workflow
 and API contracts. Library maintenance is outside this skill's scope.
 
 ## Locate the library instructions
@@ -20,7 +20,7 @@ library this application actually uses:
    `<resolved-ok>/../.agents/skills`; a packaged directory keeps them at
    `<resolved-ok>/agent_resources/.agents/skills`.
 2. If that source has no consumer skills, use the application's interpreter and
-   `importlib.metadata.distribution('ok-script').locate_file('ok')` to locate its
+   `importlib.metadata.distribution('Mon-script').locate_file('ok')` to locate its
    installed package, then check `agent_resources/.agents/skills` there. Do not
    use another environment's global installation.
 3. Read `develop/SKILL.md` in the selected skill directory. Resolve its links
@@ -53,7 +53,7 @@ the dependency just to obtain instructions.
 ## Apply the workflow to this project
 
 Follow the selected library's development skill for MCP startup, connection
-discovery, task recovery, reloads, and runtime validation. Use ok-script APIs and
+discovery, task recovery, reloads, and runtime validation. Use Mon-script APIs and
 MCP for target capture and interaction. Do not use Computer Use skills, plugins,
 or tools for this workflow.
 

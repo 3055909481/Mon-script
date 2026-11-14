@@ -6,9 +6,9 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtGui import QColor
 
-from ok.ui.qt.MainWindow import MainWindow
-from ok.ui.qt.kit import Theme as KitTheme
-from ok.ui.qt.kit import theme as kit_theme
+from Mon.ui.qt.MainWindow import MainWindow
+from Mon.ui.qt.kit import Theme as KitTheme
+from Mon.ui.qt.kit import theme as kit_theme
 
 
 class TestMainWindowSystemTheme(unittest.TestCase):
@@ -30,7 +30,7 @@ class TestMainWindowSystemTheme(unittest.TestCase):
         harness = type("Harness", (), {"_sync_kit_theme": MainWindow._sync_kit_theme,
                                        "_system_accent": lambda self: QColor("#123456")})()
         for mode, expected in (("dark", KitTheme.DARK), ("light", KitTheme.LIGHT), ("auto", KitTheme.AUTO)):
-            with patch("ok.ui.qt.MainWindow.ui_config", Mock(theme_mode=mode, backdrop="acrylic")):
+            with patch("Mon.ui.qt.MainWindow.ui_config", Mock(theme_mode=mode, backdrop="acrylic")):
                 harness._sync_kit_theme()
             self.assertEqual(expected, kit_theme.mode)
         self.assertEqual(QColor("#123456"), kit_theme._accent)
@@ -40,7 +40,7 @@ class TestUiConfig(unittest.TestCase):
     def test_reads_legacy_keys_and_saves_the_new_layout(self):
         import json
         import tempfile
-        from ok.ui.qt.common.config import Language, UiConfig
+        from Mon.ui.qt.common.config import Language, UiConfig
         with tempfile.TemporaryDirectory() as folder:
             path = os.path.join(folder, "ui_config.json")
             with open(path, "w", encoding="utf-8") as file:

@@ -8,7 +8,7 @@ A coding agent helps develop and validate the program. The saved Python program 
 
 You describe the target application, starting state, steps, and visible success condition. Through MCP, the coding agent reads workflow skills, observes the target, submits Python task files, and checks their results. It uses local file access to inspect installed APIs, save the implementation, and diagnose logs and screenshots.
 
-The agent repeats this process until the script works under the tested conditions. It keeps the behavior in a reusable project task, with configuration and recognition assets. Use ok-script capture and interaction throughout; do not use Computer Use tools.
+The agent repeats this process until the script works under the tested conditions. It keeps the behavior in a reusable project task, with configuration and recognition assets. Use Mon-script capture and interaction throughout; do not use Computer Use tools.
 
 ## During ordinary execution
 
@@ -16,7 +16,7 @@ The saved Python task repeats a simple loop:
 
 1. **Observe:** capture the target window or device screen.
 2. **Recognize:** use geometry, colors, template matching, or OCR to identify the current state.
-3. **Act:** send input through the configured ok-script backend.
+3. **Act:** send input through the configured Mon-script backend.
 4. **Verify:** inspect the resulting state and stop when the success condition is met.
 
 The code controls the loop. A local OCR or image-recognition model does not require a conversational LLM. Scripts only incur LLM inference costs if you explicitly add LLM calls.

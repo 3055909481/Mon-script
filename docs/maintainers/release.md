@@ -1,6 +1,6 @@
 # Deploy to PyPI
 
-Repository-maintainer instructions for publishing ok-script. These are not consumer skills and are not exposed through MCP.
+Repository-maintainer instructions for publishing Mon-script. These are not consumer skills and are not exposed through MCP.
 
 When instructed to deploy, release, or publish to PyPI, follow these steps **in order**. GitHub Actions builds the tagged commit, publishes it with the repository's `PYPI_API_TOKEN` secret, and creates the GitHub Release.
 
@@ -35,7 +35,7 @@ If there are NO uncommitted changes, proceed directly to Step 2.
 
 ## 2. Determine the release version
 
-Choose the exact package version to release (for example, `1.0.98`). The Git tag must be `v<version>`, and the workflow passes `<version>` to the build through `OK_SCRIPT_BUILD_VERSION`.
+Choose the exact package version to release (for example, `1.0.98`). The Git tag must be `v<version>`, and the workflow passes `<version>` to the build through `MON_SCRIPT_BUILD_VERSION`.
 
 ## 3. Tag HEAD with the release version
 

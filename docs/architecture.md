@@ -1,6 +1,6 @@
 # Runtime architecture
 
-`ok-script` has one framework-neutral runtime and optional UI adapters.
+`Mon-script` has one framework-neutral runtime and optional UI adapters.
 
 ```
 ok/core/          events, task discovery, startup, screenshots, downloads, translations
@@ -23,11 +23,11 @@ package format, and task-owned page factories.
 ## Install a mode
 
 ```bash
-pip install ok-script                # headless core including MCP
-pip install "ok-script[default]"     # headless runtime profile
-pip install "ok-script[qt]"          # desktop UI
-pip install "ok-script[adb]"         # ADB devices
-pip install "ok-script[ocr]"         # ONNX OCR
+pip install Mon-script                # headless core including MCP
+pip install "Mon-script[default]"     # headless runtime profile
+pip install "Mon-script[qt]"          # desktop UI
+pip install "Mon-script[adb]"         # ADB devices
+pip install "Mon-script[ocr]"         # ONNX OCR
 ```
 
 OpenCV is not part of any profile. Users must choose the version and exactly one
@@ -58,7 +58,7 @@ and interpreter, allowing `pythonw.exe` GUI entry points to replace a developmen
 `python.exe` process even when they use separate launcher scripts. Process
 creation time protects against stale markers referring to reused PIDs.
 
-New desktop imports should use `ok.ui.qt`. Existing `ok.gui` imports remain
+New desktop imports should use `Mon.ui.qt`. Existing `ok.gui` imports remain
 available as a migration shim.
 
 MCP is included as a required dependency. The localhost development server

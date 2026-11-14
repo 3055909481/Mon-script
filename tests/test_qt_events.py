@@ -3,7 +3,7 @@ import unittest
 from PySide6.QtCore import QObject
 from shiboken6 import delete
 
-from ok.ui.qt.events import QtEventDispatcher
+from Mon.ui.qt.events import QtEventDispatcher
 
 
 class TestQtEventDispatcher(unittest.TestCase):

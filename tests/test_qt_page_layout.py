@@ -6,9 +6,9 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 from PySide6.QtWidgets import QApplication, QLabel
 
-from ok import og
-from ok.ui.qt.tasks.EditTaskTab import EditTaskTab
-from ok.ui.qt.widget.Tab import PAGE_MARGINS as TAB_MARGINS, PAGE_SPACING as TAB_SPACING, Tab
+from Mon import og
+from Mon.ui.qt.tasks.EditTaskTab import EditTaskTab
+from Mon.ui.qt.widget.Tab import PAGE_MARGINS as TAB_MARGINS, PAGE_SPACING as TAB_SPACING, Tab
 
 
 class TestQtPageLayout(unittest.TestCase):
@@ -34,7 +34,7 @@ class TestQtPageLayout(unittest.TestCase):
         tab.deleteLater()
 
     def test_script_tab_uses_kit_page_layout(self):
-        from ok.ui.qt.tasks.EditTaskTab import PAGE_MARGINS, PAGE_SPACING
+        from Mon.ui.qt.tasks.EditTaskTab import PAGE_MARGINS, PAGE_SPACING
         old_task_manager = getattr(og, "task_manager", None)
         og.task_manager = SimpleNamespace(task_folder="", task_map={}, task_errors={})
         try:

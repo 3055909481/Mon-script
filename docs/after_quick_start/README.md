@@ -1,10 +1,10 @@
-# ok-script 进阶使用指南
+# Mon-script 进阶使用指南
 
 [English](../en/advanced.md) · [文档中心](../index.md) · [快速开始](../quick_start/README.md) · [编程代理提示词](../agent-prompts.md)
 
 通过 MCP 让编程代理维护已经生成的可复用脚本：读取相关技能、检查已安装 API，并在原项目中修改。下面介绍素材、测试和分发；如何提出需求见[编程代理提示词](../agent-prompts.md)。日常运行继续使用保存的 Python 实现，无需大模型调用。
 
-本文档是 [ok-script 自动化脚本开发指南](../quick_start/README.md) 的进阶补充，旨在帮助开发者更深入地利用框架的高级功能，并结合
+本文档是 [Mon-script 自动化脚本开发指南](../quick_start/README.md) 的进阶补充，旨在帮助开发者更深入地利用框架的高级功能，并结合
 CI/CD 流程实现项目的自动化管理。
 
 ## 目录
@@ -22,11 +22,11 @@ CI/CD 流程实现项目的自动化管理。
 
 ## 1. 模板匹配 (Template Matching) { #1-模板匹配-template-matching }
 
-`ok-script` 使用 COCO 保存可编辑的源截图和标注。运行时使用独立的 PNG 裁剪图，文件名保留原始特征名、源截图分辨率和位置，无需 COCO JSON。
+`Mon-script` 使用 COCO 保存可编辑的源截图和标注。运行时使用独立的 PNG 裁剪图，文件名保留原始特征名、源截图分辨率和位置，无需 COCO JSON。
 
 ### 核心优势
 
-* **保留相对位置**: COCO 格式可以记录每个标注模板在原始截图中的**相对位置**。`ok-script`
+* **保留相对位置**: COCO 格式可以记录每个标注模板在原始截图中的**相对位置**。`Mon-script`
   利用这一信息，在匹配时可以智能地缩小搜索区域，从而极大地提升匹配速度和准确度。
 * **高分辨率优先**: 建议标注时使用的截图采用您计划支持的**最高分辨率**（例如
   4K）。当最终用户在较低分辨率下运行时，框架会自动将高清的模板素材缩放以进行匹配，保证了向下的兼容性和识别效果。
@@ -46,7 +46,7 @@ CI/CD 流程实现项目的自动化管理。
 
 ## 2. 多语言国际化 (i18n) { #2-多语言国际化-i18n }
 
-为脚本添加多语言支持可以扩大用户群体，`ok-script` 内置了简便的国际化流程。
+为脚本添加多语言支持可以扩大用户群体，`Mon-script` 内置了简便的国际化流程。
 
 ### 实现步骤
 
@@ -55,12 +55,12 @@ CI/CD 流程实现项目的自动化管理。
     * 英文: `i18n/en_US/LC_MESSAGES/ok.po`
     * 简体中文: `i18n/zh_CN/LC_MESSAGES/ok.po`
 2. **编辑 `.po` 文件**: 在这些文件中，按照 `gettext` 格式编辑您的翻译字符串。
-3. **一键编译**: 修改 `.po` 文件后，无需执行任何命令行操作。只需在 `ok-script` 客户端的**开发者工具**中，点击**“编译
+3. **一键编译**: 修改 `.po` 文件后，无需执行任何命令行操作。只需在 `Mon-script` 客户端的**开发者工具**中，点击**“编译
    i18n”**按钮。框架会自动将所有 `.po` 文件编译成二进制的 `.mo` 文件，程序运行时将自动加载对应的语言。
 
 ## 3. 自动化测试 { #3-自动化测试 }
 
-为 Task 编写单元测试是保证脚本健壮性的关键。`ok-script` 提供了 `TaskTestCase` 基类，使得测试变得非常简单。
+为 Task 编写单元测试是保证脚本健壮性的关键。`Mon-script` 提供了 `TaskTestCase` 基类，使得测试变得非常简单。
 
 ### 测试实践
 
@@ -72,7 +72,7 @@ CI/CD 流程实现项目的自动化管理。
 
 ```python
 # file: tests/test_user_issue.py
-from ok.test.TaskTestCase import TaskTestCase
+from Mon.test.TaskTestCase import TaskTestCase
 from src.tasks.MyProblematicTask import MyProblematicTask
 
 
@@ -118,7 +118,7 @@ Python 项目打包成独立 Windows 可执行文件的工具，它通过项目�
 
 1. **触发条件 (`on`)**: 工作流由推送 `v*` 格式的 Git 标签触发，是标准的版本发布方式。
 2. **安装依赖与环境设置 (`Install dependencies`)**: 读取 `requirements.txt` 并安装所有依赖，为后续步骤做准备。
-3. **源码内联 (`inline_ok_requirements`)**: 将 `ok-script`、`pyappify` 以及额外配置的小型依赖库整合到 Git 代码中，使其随仓库一起更新，无需单独通过 pip 升级。
+3. **源码内联 (`inline_ok_requirements`)**: 将 `Mon-script`、`pyappify` 以及额外配置的小型依赖库整合到 Git 代码中，使其随仓库一起更新，无需单独通过 pip 升级。
 4. **运行自动化测试 (`Run tests`)**: 执行 `tests/` 目录下的所有单元测试，作为发布的“质量门禁”。任何测试失败都会中断流程。
 5. **同步仓库与生成更新日志 (`Sync Repositories`)**: 一个自定义 Action，用于将部分代码同步到轻量级的更新库，并自动生成两个版本标签之间的更新日志。
 6. **打包可执行文件 (`Build with PyAppify Action`)**: 调用 PyAppify 工具将 Python 项目打包成独立的 Windows 可执行文件。
@@ -126,7 +126,7 @@ Python 项目打包成独立 Windows 可执行文件的工具，它通过项目�
 
 #### 添加额外的源码内联依赖 { #添加额外的源码内联依赖 }
 
-`inline_ok_requirements` 默认内联 `ok-script` 和 `pyappify`。对于更新频繁且体积较小、希望随 Git
+`inline_ok_requirements` 默认内联 `Mon-script` 和 `pyappify`。对于更新频繁且体积较小、希望随 Git
 仓库分发的 Python pip 库，可以重复使用可选参数 `--add-inlined-requirement PACKAGE=FOLDER`：
 
 ```powershell

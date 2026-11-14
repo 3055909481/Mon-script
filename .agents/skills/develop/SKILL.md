@@ -1,13 +1,13 @@
 ---
 name: develop
-description: Implement and debug third-party application tasks with the ok-script library or MCP server, preferring in-place task edits and reloads with verified target recovery.
+description: Implement and debug third-party application tasks with the Mon-script library or MCP server, preferring in-place task edits and reloads with verified target recovery.
 ---
 
 # Develop
 
-Use this skill inside the consuming application's project. Edit its task modules, configuration, and assets through the installed ok-script APIs and local MCP server. Developing or changing the ok-script library itself is outside this skill's scope.
+Use this skill inside the consuming application's project. Edit its task modules, configuration, and assets through the installed Mon-script APIs and local MCP server. Developing or changing the Mon-script library itself is outside this skill's scope.
 
-Do not use Computer Use skills, plugins, or tools for this workflow, including target interaction, recovery, screenshots, and GUI task-card validation. Use ok-script APIs and MCP for application capture and interaction, and local file/process tools for development and diagnostics. This restriction also applies to the setup, reload, template, and test workflows invoked from this skill.
+Do not use Computer Use skills, plugins, or tools for this workflow, including target interaction, recovery, screenshots, and GUI task-card validation. Use Mon-script APIs and MCP for application capture and interaction, and local file/process tools for development and diagnostics. This restriction also applies to the setup, reload, template, and test workflows invoked from this skill.
 
 Read [docs/mcp.md](../../../docs/mcp.md) for the current server, tools, task contract, and artifacts. The coding agent already has local file and process access: write code and read logs/images directly. Use [setup-env](../setup-env/SKILL.md) or [setup-project](../setup-project/SKILL.md) only when setup is missing.
 
@@ -60,6 +60,6 @@ When the task is also a user feature, register it in `onetime_tasks` and set a u
 
 The MCP runner invokes reset/verification and supplies an artifact directory. The normal GUI scheduler calls `run()` without those MCP hooks. Support both paths: let GUI execution prepare recovery, verification, and a fresh local artifact directory; honor MCP's already verified start and provided directory. Clear per-attempt flags in `finally`, and refresh settings, timers, results, and artifact paths for repeated GUI runs. Keep recovery in the executor execution path, not GUI construction.
 
-When GUI lifecycle is in scope, use the separate MCP-disabled GUI launcher with `pythonw.exe`. Check that starting the user GUI replaces the same project's console runtime and closes its MCP listener. Test the actual task card's Start action only through permitted ok-script APIs or an application-local test harness that exercises that action. If this check cannot be performed without Computer Use, report it as unverified and continue MCP validation. A passing file submission or launching the GUI alone does not verify its Start button or GUI lifecycle behavior.
+When GUI lifecycle is in scope, use the separate MCP-disabled GUI launcher with `pythonw.exe`. Check that starting the user GUI replaces the same project's console runtime and closes its MCP listener. Test the actual task card's Start action only through permitted Mon-script APIs or an application-local test harness that exercises that action. If this check cannot be performed without Computer Use, report it as unverified and continue MCP validation. A passing file submission or launching the GUI alone does not verify its Start button or GUI lifecycle behavior.
 
 Report the task/config paths, tested target states or sizes, observed success evidence, relevant checks, and remaining limits. Extend existing tests for meaningful recognition, recovery, or lifecycle changes; use real target execution to verify input and capture behavior.

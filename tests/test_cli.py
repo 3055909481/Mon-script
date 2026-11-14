@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-import ok.cli as cli
+import Mon.cli as cli
 
 
 class TestCli(unittest.TestCase):

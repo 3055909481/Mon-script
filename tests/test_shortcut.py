@@ -6,14 +6,14 @@ os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import pyappify
 
-from ok.util import shortcut
+from Mon.util import shortcut
 
 
 class TestShortcutNotification(unittest.TestCase):
     def test_notifies_with_the_changed_paths(self):
         paths = [r"C:\Start Menu\Demo.lnk", r"C:\Desktop\Demo.lnk"]
         with patch.object(pyappify, "create_shortcut", return_value=paths) as create, \
-                patch("ok.core.events.communicate.notification") as notification:
+                patch("Mon.core.events.communicate.notification") as notification:
             self.assertEqual(paths, shortcut.create_and_notify(True, False))
         create.assert_called_once_with(start_menu=True, desktop=False)
         notification.emit.assert_called_once_with(
@@ -22,13 +22,13 @@ class TestShortcutNotification(unittest.TestCase):
 
     def test_up_to_date_shortcuts_do_not_notify(self):
         with patch.object(pyappify, "create_shortcut", return_value=[]), \
-                patch("ok.core.events.communicate.notification") as notification:
+                patch("Mon.core.events.communicate.notification") as notification:
             self.assertEqual([], shortcut.create_and_notify(True, True))
         notification.emit.assert_not_called()
 
     def test_failure_does_not_notify(self):
         with patch.object(pyappify, "create_shortcut", side_effect=OSError("boom")), \
-                patch("ok.core.events.communicate.notification") as notification:
+                patch("Mon.core.events.communicate.notification") as notification:
             self.assertEqual([], shortcut.create_and_notify(True, True))
         notification.emit.assert_not_called()
 

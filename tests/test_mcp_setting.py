@@ -8,10 +8,10 @@ os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 import pytest
 from PySide6.QtWidgets import QApplication
 
-from ok import OK, og
-from ok.util.config import Config, ConfigOption
-from ok.util.GlobalConfig import ENABLE_MCP_SERVER, GlobalConfig, register_basic_options
-from ok.ui.qt.settings.config_section import ConfigSection
+from Mon import OK, og
+from Mon.util.config import Config, ConfigOption
+from Mon.util.GlobalConfig import ENABLE_MCP_SERVER, GlobalConfig, register_basic_options
+from Mon.ui.qt.settings.config_section import ConfigSection
 
 
 @pytest.fixture
@@ -27,10 +27,10 @@ def setting(tmp_path, monkeypatch):
     monkeypatch.setattr(og, 'ok', runtime)
     server_class = Mock()
     server_class.return_value._thread = None
-    monkeypatch.setattr('ok.core.mcp_server.LocalMcpServer', server_class)
+    monkeypatch.setattr('Mon.core.mcp_server.LocalMcpServer', server_class)
     dialog = Mock()
     dialog.return_value.exec.return_value = True
-    module = importlib.import_module('ok.ui.qt.tasks.config_editors')
+    module = importlib.import_module('Mon.ui.qt.tasks.config_editors')
     monkeypatch.setattr(module, 'Dialog', dialog)
     card = ConfigSection(config, runtime.global_config.config_options['Basic Options'])
     widget = card.config_widget_by_key[ENABLE_MCP_SERVER]

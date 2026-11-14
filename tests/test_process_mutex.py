@@ -6,8 +6,8 @@ import threading
 import unittest
 from unittest.mock import Mock, patch
 
-from ok.util import process
-from ok.util.process import _process_matches_app
+from Mon.util import process
+from Mon.util.process import _process_matches_app
 
 
 class TestProcessMutexMatching(unittest.TestCase):
@@ -19,8 +19,8 @@ class TestProcessMutexMatching(unittest.TestCase):
         process.cmdline.return_value = cmdline or [exe, 'main.py']
         return process
 
-    @patch('ok.util.process.os.getppid', return_value=2)
-    @patch('ok.util.process.os.getpid', return_value=1)
+    @patch('Mon.util.process.os.getppid', return_value=2)
+    @patch('Mon.util.process.os.getpid', return_value=1)
     def test_matches_complete_application_signature(self, _pid, _ppid):
         process = self.make_process()
         self.assertTrue(_process_matches_app(
@@ -30,8 +30,8 @@ class TestProcessMutexMatching(unittest.TestCase):
             os.path.normcase(os.path.realpath('C:/app/main.py')),
         ))
 
-    @patch('ok.util.process.os.getppid', return_value=2)
-    @patch('ok.util.process.os.getpid', return_value=1)
+    @patch('Mon.util.process.os.getppid', return_value=2)
+    @patch('Mon.util.process.os.getpid', return_value=1)
     def test_rejects_unrelated_script_using_same_python(self, _pid, _ppid):
         process = self.make_process(cmdline=['C:/app/python.exe', 'worker.py'])
         self.assertFalse(_process_matches_app(
@@ -150,7 +150,7 @@ class TestExitWatchdog(unittest.TestCase):
     def tearDown(self):
         process._exit_watchdog_started = False
 
-    @patch('ok.util.process._write_shutdown_thread_dump', return_value='dump.txt')
+    @patch('Mon.util.process._write_shutdown_thread_dump', return_value='dump.txt')
     def test_forces_exit_after_grace_period(self, _dump):
         forced = threading.Event()
         codes = []
@@ -164,7 +164,7 @@ class TestExitWatchdog(unittest.TestCase):
         watchdog.join(1)
         self.assertEqual([7], codes)
 
-    @patch('ok.util.process._write_shutdown_thread_dump', return_value='dump.txt')
+    @patch('Mon.util.process._write_shutdown_thread_dump', return_value='dump.txt')
     def test_only_starts_once(self, _dump):
         release = threading.Event()
         first = process.start_exit_watchdog(

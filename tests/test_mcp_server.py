@@ -11,9 +11,9 @@ from unittest.mock import Mock
 
 import pytest
 
-from ok.core.mcp_server import LocalMcpServer, bind_mcp_socket, create_mcp_app, discover_mcp_servers
-from ok.util.handler import ExitEvent
-from ok.util.logger import SafeFileHandler
+from Mon.core.mcp_server import LocalMcpServer, bind_mcp_socket, create_mcp_app, discover_mcp_servers
+from Mon.util.handler import ExitEvent
+from Mon.util.logger import SafeFileHandler
 from test_mcp_runner import development, write_task, register_task
 
 
@@ -77,12 +77,12 @@ def test_http_connection_and_tools_end_to_end(development, mode, monkeypatch):
                 assert not skill.is_error, skill
                 assert 'reset_to_start()' in skill.structured_content['content']
                 resources = await client.list_resources()
-                assert 'ok-script://skills/develop' in {str(r.uri) for r in resources.resources}
-                resource = await client.read_resource('ok-script://skills/develop')
+                assert 'mon-script://skills/develop' in {str(r.uri) for r in resources.resources}
+                resource = await client.read_resource('mon-script://skills/develop')
                 assert resource.contents[0].text == skill.structured_content['content']
                 reload_skill = await client.call_tool('get_skill', {'skill_id': 'reload-tasks'})
                 assert not reload_skill.is_error, reload_skill
-                reload_resource = await client.read_resource('ok-script://skills/reload-tasks')
+                reload_resource = await client.read_resource('mon-script://skills/reload-tasks')
                 assert reload_resource.contents[0].text == reload_skill.structured_content['content']
                 unknown = await client.call_tool('get_skill', {'skill_id': '../setup.py'})
                 assert unknown.is_error
@@ -153,10 +153,10 @@ def test_start_keeps_existing_file_log_open(development, tmp_path):
                               headless_app=dev.app, exit_event=ExitEvent(),
                               should_init_task_manager_headless=lambda: True)
     server = LocalMcpServer(runtime, {'port': 0, 'artifact_directory': str(dev.root / 'http')})
-    # The application configures ok-script.log before it starts the MCP server.
-    log_file = tmp_path / 'ok-script.log'
+    # The application configures Mon-script.log before it starts the MCP server.
+    log_file = tmp_path / 'Mon-script.log'
     handler = SafeFileHandler(log_file, when='midnight', encoding='utf-8')
-    ok_logger = logging.getLogger('ok')
+    ok_logger = logging.getLogger('Mon')
     ok_logger.addHandler(handler)
     try:
         server.start()
@@ -175,7 +175,7 @@ def test_exit_request_is_idempotent_and_does_not_wait_for_runner(development, mo
                               headless_app=dev.app, should_init_task_manager_headless=lambda: True)
     server = LocalMcpServer(runtime, {'artifact_directory': str(dev.root / 'http')})
     timer = Mock()
-    monkeypatch.setattr('ok.core.mcp_server.threading.Timer', timer)
+    monkeypatch.setattr('Mon.core.mcp_server.threading.Timer', timer)
     monkeypatch.setattr(server.runner, 'close', Mock(side_effect=AssertionError('must not wait')))
     for reason in ('', '  ', None):
         with pytest.raises(ValueError, match='nonempty reason'):
@@ -211,8 +211,8 @@ import os, sys, threading
 from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock
-from ok.core.mcp_server import LocalMcpServer
-from ok.util.handler import ExitEvent
+from Mon.core.mcp_server import LocalMcpServer
+from Mon.util.handler import ExitEvent
 
 os.chdir(sys.argv[1])
 mode = sys.argv[2]

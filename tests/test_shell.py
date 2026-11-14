@@ -14,12 +14,12 @@ from PySide6.QtGui import QColor, QIcon
 from qt_helpers import mouse_click, wait
 from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget
 
-from ok.core.icons import Icon
-from ok.ui.qt.kit import KitWindow, NavigationView, OptionGroup, Popover, theme
-from ok.ui.qt.shell.connection import capture_options, device_details, device_label, interaction_options, \
+from Mon.core.icons import Icon
+from Mon.ui.qt.kit import KitWindow, NavigationView, OptionGroup, Popover, theme
+from Mon.ui.qt.shell.connection import capture_options, device_details, device_label, interaction_options, \
     split_label
-from ok.ui.qt.shell.nav_icons import FALLBACK, nav_icon
-from ok.ui.qt.shell.run_bar import compute_run_state, format_elapsed
+from Mon.ui.qt.shell.nav_icons import FALLBACK, nav_icon
+from Mon.ui.qt.shell.run_bar import compute_run_state, format_elapsed
 
 
 def make_executor(**overrides):
@@ -68,8 +68,8 @@ class TestRunState(unittest.TestCase):
         self.assertTrue(state.starting)
 
     def test_game_name_comes_from_config_with_a_generic_fallback(self):
-        from ok import og
-        from ok.ui.qt.shell.run_bar import game_display_name
+        from Mon import og
+        from Mon.ui.qt.shell.run_bar import game_display_name
         with patch.object(og, "app", None):
             self.assertEqual("Wuthering Waves", game_display_name({"game_name": "Wuthering Waves"}))
             self.assertEqual("Game", game_display_name({}))
@@ -181,7 +181,7 @@ class TestNavIcons(unittest.TestCase):
 
 class TestStartControllerCancel(unittest.TestCase):
     def test_cancel_stops_waiting_for_the_game(self):
-        from ok.core import start_controller as module
+        from Mon.core import start_controller as module
         controller = module.StartController.__new__(module.StartController)
         controller.exit_event = threading.Event()
         controller.start_timeout = 60
@@ -195,7 +195,7 @@ class TestStartControllerCancel(unittest.TestCase):
         self.assertEqual([(True, None, 0)], events)
 
     def test_task_is_pending_until_the_game_is_ready_and_can_be_cancelled(self):
-        from ok.core import start_controller as module
+        from Mon.core import start_controller as module
         controller = module.StartController.__new__(module.StartController)
         controller.handler = SimpleNamespace(post=Mock())
         task, other = object(), object()
@@ -222,7 +222,7 @@ class TestStartControllerCancel(unittest.TestCase):
         self.assertFalse(controller.is_task_pending(other))
 
     def test_direct_do_start_keeps_the_task_pending_until_launch_finishes(self):
-        from ok.core import start_controller as module
+        from Mon.core import start_controller as module
         controller = module.StartController.__new__(module.StartController)
         task = SimpleNamespace(name="demo")
         seen = []
@@ -239,7 +239,7 @@ class TestStartControllerCancel(unittest.TestCase):
         self.assertFalse(controller.is_task_pending(task))
 
     def test_task_index_is_tracked_while_the_game_starts(self):
-        from ok.core import start_controller as module
+        from Mon.core import start_controller as module
         controller = module.StartController.__new__(module.StartController)
         controller.handler = SimpleNamespace(post=Mock())
         task = SimpleNamespace(name="demo")
@@ -256,7 +256,7 @@ class TestStartControllerCancel(unittest.TestCase):
             do_start.assert_called_once_with(task, False)
 
     def test_invalid_task_index_is_reported_by_do_start(self):
-        from ok.core import start_controller as module
+        from Mon.core import start_controller as module
         controller = module.StartController.__new__(module.StartController)
         controller.handler = SimpleNamespace(post=Mock())
         with patch.object(module.og, "executor", SimpleNamespace(onetime_tasks=[]), create=True):
@@ -313,7 +313,7 @@ class TestNavigationView(ShellWidgetTestCase):
 
 class TestNavItemIcon(ShellWidgetTestCase):
     def test_icon_stays_put_when_the_label_hides(self):
-        from ok.ui.qt.kit.navigation import COMPACT_WIDTH, SIDEBAR_PADDING
+        from Mon.ui.qt.kit.navigation import COMPACT_WIDTH, SIDEBAR_PADDING
         nav = NavigationView()
         nav.add_item("tasks", "Tasks", "tasks", "run")
         self.show(nav)
@@ -372,7 +372,7 @@ class TestNavItemIcon(ShellWidgetTestCase):
 
 class TestNavigationCollapse(ShellWidgetTestCase):
     def test_collapse_animates_and_hides_text_first(self):
-        from ok.ui.qt.kit.navigation import COLLAPSE_DURATION, COMPACT_WIDTH, EXPANDED_WIDTH
+        from Mon.ui.qt.kit.navigation import COLLAPSE_DURATION, COMPACT_WIDTH, EXPANDED_WIDTH
         nav = NavigationView()
         nav.add_section("run", "Run")
         nav.add_item("tasks", "Tasks", "tasks", "run")
@@ -398,7 +398,7 @@ class TestNavigationCollapse(ShellWidgetTestCase):
         self.assertEqual("RUN", header.text())
 
     def test_without_animation_resizes_at_once(self):
-        from ok.ui.qt.kit.navigation import COMPACT_WIDTH
+        from Mon.ui.qt.kit.navigation import COMPACT_WIDTH
         nav = NavigationView()
         self.show(nav)
         nav.set_compact(True, animate=False)

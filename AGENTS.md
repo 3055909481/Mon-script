@@ -2,9 +2,9 @@
 
 ## Consumer Skills
 
-The skills under `.agents/skills` are shipped to third-party applications using the ok-script library or MCP server. They describe work on the consuming application's tasks, config, assets, environment, and tests; they are not instructions for developing this repository. Read them when doing the corresponding downstream application work:
+The skills under `.agents/skills` are shipped to third-party applications using the Mon-script library or MCP server. They describe work on the consuming application's tasks, config, assets, environment, and tests; they are not instructions for developing this repository. Read them when doing the corresponding downstream application work:
 
-For requests such as "install ok-script and set up its environment", start with [agent setup](docs/agent-setup.md) and the `setup-env` skill. Setup instructions can be read before installation or MCP startup. The guide includes an instruction that consuming projects can add to their own `AGENTS.md` for discovery.
+For requests such as "install Mon-script and set up its environment", start with [agent setup](docs/agent-setup.md) and the `setup-env` skill. Setup instructions can be read before installation or MCP startup. The guide includes an instruction that consuming projects can add to their own `AGENTS.md` for discovery.
 
 | Work | Skill |
 | --- | --- |
@@ -37,7 +37,7 @@ A separate automation project uses its own `.venv`. Use the framework environmen
 
 ## Downstream Application Development
 
-The following guidance applies when building or testing a consuming application with the library, not when changing ok-script itself.
+The following guidance applies when building or testing a consuming application with the library, not when changing Mon-script itself.
 
 The coding agent can start the local runtime, edit task files, and inspect local logs and screenshots directly. Keep automation in Python files and submit their absolute paths through MCP. See [docs/mcp.md](docs/mcp.md) for the current tools and task contract.
 

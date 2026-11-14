@@ -7,7 +7,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 
-from ok.feature.FeatureSet import compress_copy_coco
+from Mon.feature.FeatureSet import compress_copy_coco
 
 
 class TestTemplateCompression(unittest.TestCase):

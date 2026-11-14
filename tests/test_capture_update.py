@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import Mock, patch
 
-import ok.device.capture_methods.update as capture_update
-from ok.task.exceptions import CaptureBusyException
+import Mon.device.capture_methods.update as capture_update
+from Mon.task.exceptions import CaptureBusyException
 
 
 class FakeClock:

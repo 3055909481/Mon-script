@@ -3,13 +3,13 @@ from unittest.mock import Mock
 
 import pytest
 
-import ok.util.logger as logger_module
-from ok.util.logger import SafeFileHandler, config_logger
+import Mon.util.logger as logger_module
+from Mon.util.logger import SafeFileHandler, config_logger
 
 
 @pytest.mark.parametrize("use_exception_message", [False, True])
 def test_logger_exception_preserves_original_traceback(caplog, use_exception_message):
-    logger = logger_module.Logger.get_logger("ok.ui.qt.MainWindow")
+    logger = logger_module.Logger.get_logger("Mon.ui.qt.MainWindow")
     logger.logger = logging.getLogger("test.logger_exception")
 
     try:

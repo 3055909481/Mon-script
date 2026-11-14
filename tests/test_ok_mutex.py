@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import patch
 
-import ok as ok_module
-from ok import OK
+import Mon as ok_module
+from Mon import OK
 
 
 class TestOKMutex(unittest.TestCase):
@@ -40,7 +40,7 @@ class TestOKMutex(unittest.TestCase):
         check_mutex.assert_called_once_with()
 
     def test_mutex_failure_stops_initialization(self):
-        with patch('ok.core.plugin_staging.apply_pending_plugin_changes') as apply_changes:
+        with patch('Mon.core.plugin_staging.apply_pending_plugin_changes') as apply_changes:
             check_mutex = self.make_ok({}, mutex_result=False)
         check_mutex.assert_called_once_with()
         apply_changes.assert_not_called()
@@ -52,7 +52,7 @@ class TestOKMutex(unittest.TestCase):
             return True
         with patch.object(ok_module, 'check_mutex', side_effect=checked), \
                 patch.object(OK, 'do_init', side_effect=lambda: order.append('initialize')), \
-                patch('ok.core.plugin_staging.apply_pending_plugin_changes',
+                patch('Mon.core.plugin_staging.apply_pending_plugin_changes',
                       side_effect=lambda: order.append('apply') or {}), \
                 patch.object(ok_module, 'config_logger'), \
                 patch.object(ok_module, 'GlobalConfig'), \

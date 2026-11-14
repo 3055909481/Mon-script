@@ -1,11 +1,11 @@
 ---
 name: reload-tasks
-description: Modify a third-party application's registered ok-script tasks in place and reload them through MCP, preserving registration and verifying replacements before testing.
+description: Modify a third-party application's registered Mon-script tasks in place and reload them through MCP, preserving registration and verifying replacements before testing.
 ---
 
 # Modify and Reload Existing Tasks
 
-Prefer this workflow when changing an existing task in an application that uses ok-script. Edit the application's task source and reload its registered instance; keep new task files for new functionality. Library/server implementation changes are outside this skill's scope. Read [develop](../develop/SKILL.md) for target recovery, visual verification, and GUI validation, and [docs/mcp.md](../../../docs/mcp.md) for connection details.
+Prefer this workflow when changing an existing task in an application that uses Mon-script. Edit the application's task source and reload its registered instance; keep new task files for new functionality. Library/server implementation changes are outside this skill's scope. Read [develop](../develop/SKILL.md) for target recovery, visual verification, and GUI validation, and [docs/mcp.md](../../../docs/mcp.md) for connection details.
 
 ## Edit and reload
 

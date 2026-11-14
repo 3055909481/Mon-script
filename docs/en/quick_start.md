@@ -6,20 +6,20 @@ Build the automation with a coding agent, then keep running the saved Python tas
 
 ## 1. Open an application project
 
-Use your existing ok-script application, or create a project from the [ok-script-app template](https://github.com/ok-oldking/ok-script-app). Open its folder in your coding agent. Keep application tasks in this project, separate from the ok-script framework repository.
+Use your existing Mon-script application, or create a project from the [Mon-script-app template](https://github.com/ok-oldking/ok-script-app). Open its folder in your coding agent. Keep application tasks in this project, separate from the Mon-script framework repository.
 
 Ask the agent:
 
-> Prepare this automation project's virtual environment and dependencies. Preserve its existing requirements and ok-script version. Configure my target application and separate MCP development and user GUI launchers. Use the bundled setup-env and setup-project skills when available. Do not use Computer Use tools.
+> Prepare this automation project's virtual environment and dependencies. Preserve its existing requirements and Mon-script version. Configure my target application and separate MCP development and user GUI launchers. Use the bundled setup-env and setup-project skills when available. Do not use Computer Use tools.
 
 For a new environment, the basic commands are:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install "ok-script[default]"
+.\.venv\Scripts\python.exe -m pip install "Mon-script[default]"
 ```
 
-For an existing application, install its requirements first. MCP is a required dependency installed automatically with ok-script starting in 2.0.17. Add `qt`, `adb`, or `ocr` only as needed. OpenCV is a separate dependency: choose exactly one compatible variant, such as `opencv-python` or `opencv-python-headless`. The agent should use your project's existing choice.
+For an existing application, install its requirements first. MCP is a required dependency installed automatically with Mon-script starting in 2.0.17. Add `qt`, `adb`, or `ocr` only as needed. OpenCV is a separate dependency: choose exactly one compatible variant, such as `opencv-python` or `opencv-python-headless`. The agent should use your project's existing choice.
 
 The project also needs a configuration for the real target. Ask the agent to inspect the installed configuration handling and existing examples, then set the application's executable/window or ADB package and verify capture and input. Installing the package alone does not create a configured project.
 
@@ -53,7 +53,7 @@ Have the agent call `list_skills()`, read `get_skill("develop")`, and request `s
 
 ## 4. Ask for a reusable task
 
-> Use this project's MCP connection to build a reusable Python task that opens Settings, enables "Show details", saves, and verifies that the option stays enabled. Read the relevant skills and inspect installed API signatures. Save the implementation in a permanent task module. Restore and verify the baseline before each MCP attempt, record logs/screenshots, assert the visible result, and test repeated runs. Use ok-script capture and input, not Computer Use. Register the result and make it run without an agent or LLM calls.
+> Use this project's MCP connection to build a reusable Python task that opens Settings, enables "Show details", saves, and verifies that the option stays enabled. Read the relevant skills and inspect installed API signatures. Save the implementation in a permanent task module. Restore and verify the baseline before each MCP attempt, record logs/screenshots, assert the visible result, and test repeated runs. Use Mon-script capture and input, not Computer Use. Register the result and make it run without an agent or LLM calls.
 
 The agent writes files locally and submits their absolute paths through MCP. For existing tasks it discovers the original source, edits it, reloads the registered task, and waits for successful reload before testing. See [copyable prompts](agent-prompts.md) for API discovery and maintenance requests.
 

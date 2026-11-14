@@ -9,26 +9,26 @@ import numpy as np
 import pytest
 import win32con
 
-from ok.notification.providers import (
+from Mon.notification.providers import (
     DiscordProvider, QQBotProvider, SmtpProvider, TelegramBotProvider,
     WeComWebhookProvider)
-from ok.notification.manager import NotificationManager
-from ok.notification.pipeline import NotificationPipeline
-from ok.notification.ppocr import NotificationPPOCR
-from ok.notification.system import WindowsSystemNotifier
-from ok.notification.messenger_images import _paste_from_context_menu, _wait_popup_text
-from ok.notification.windows_messenger import MessengerAutomation
-from ok.ui.qt.debug.Screenshot import remove_old_files
-from ok.task.task import BaseTask
-from ok.util.handler import ExitEvent
-from ok.util.GlobalConfig import (
+from Mon.notification.manager import NotificationManager
+from Mon.notification.pipeline import NotificationPipeline
+from Mon.notification.ppocr import NotificationPPOCR
+from Mon.notification.system import WindowsSystemNotifier
+from Mon.notification.messenger_images import _paste_from_context_menu, _wait_popup_text
+from Mon.notification.windows_messenger import MessengerAutomation
+from Mon.ui.qt.debug.Screenshot import remove_old_files
+from Mon.task.task import BaseTask
+from Mon.util.handler import ExitEvent
+from Mon.util.GlobalConfig import (
     DISCORD_NOTIFICATION_ENABLED, QQ_NICKNAME, QQ_NOTIFICATION_ENABLED,
     SMTP_NOTIFICATION_ENABLED, SMTP_PORT, SMTP_USE_TLS,
     SYSTEM_NOTIFICATION_ENABLED, WECHAT_NOTIFICATION_ENABLED,
     GlobalConfig, create_notification_options, register_notification_options,
 )
-from ok.util.config import Config
-from ok.util.file import get_relative_path, write_json_file
+from Mon.util.config import Config
+from Mon.util.file import get_relative_path, write_json_file
 
 
 def test_notification_options_have_safe_provider_defaults():
@@ -85,7 +85,7 @@ def test_discord_provider_uploads_images():
     response = Mock()
     response.raise_for_status = Mock()
     frame = np.zeros((2, 2, 3), dtype=np.uint8)
-    with patch('ok.notification.providers.requests.post', return_value=response) as post:
+    with patch('Mon.notification.providers.requests.post', return_value=response) as post:
         assert DiscordProvider().send(
             'https://example.invalid/webhook', 'Title', 'Message', [frame],
             'Test App', 'https://example.invalid/app.png')
@@ -102,7 +102,7 @@ def test_telegram_bot_provider_sends_text_and_photos():
     response = Mock()
     response.json.return_value = {'ok': True}
     frame = np.zeros((2, 2, 3), dtype=np.uint8)
-    with patch('ok.notification.providers.requests.post', return_value=response) as post:
+    with patch('Mon.notification.providers.requests.post', return_value=response) as post:
         assert TelegramBotProvider().send('token', '123', 'Title', 'Message', [frame])
 
     assert post.call_args_list[0].args[0] == 'https://api.telegram.org/bottoken/sendMessage'
@@ -116,7 +116,7 @@ def test_wecom_provider_sends_markdown_and_image_payload():
     response = Mock()
     response.json.return_value = {'errcode': 0}
     frame = np.zeros((2, 2, 3), dtype=np.uint8)
-    with patch('ok.notification.providers.requests.post', return_value=response) as post:
+    with patch('Mon.notification.providers.requests.post', return_value=response) as post:
         assert WeComWebhookProvider().send('https://wecom.invalid/hook', 'Title', 'Message', [frame])
 
     assert post.call_args_list[0].kwargs['json'] == {
@@ -131,7 +131,7 @@ def test_qq_bot_provider_uses_bot_authorization_header():
     response = Mock()
     response.json.return_value = {}
     frame = np.zeros((2, 2, 3), dtype=np.uint8)
-    with patch('ok.notification.providers.requests.post', return_value=response) as post:
+    with patch('Mon.notification.providers.requests.post', return_value=response) as post:
         assert QQBotProvider().send('app', 'secret', 'channel', 'Title', 'Message', [frame])
 
     kwargs = post.call_args.kwargs
@@ -144,7 +144,7 @@ def test_smtp_provider_send_success():
     server = MagicMock()
     server.__enter__.return_value = server
     frame = np.zeros((2, 2, 3), dtype=np.uint8)
-    with patch('ok.notification.providers.smtplib.SMTP', return_value=server) as smtp:
+    with patch('Mon.notification.providers.smtplib.SMTP', return_value=server) as smtp:
         result = SmtpProvider(
             'smtp.example.com', 587, 'user', 'secret', True,
             'sender@example.com', 'to@example.com').send(
@@ -165,7 +165,7 @@ def test_smtp_provider_send_success():
 def test_smtp_provider_skips_login_when_username_is_empty():
     server = MagicMock()
     server.__enter__.return_value = server
-    with patch('ok.notification.providers.smtplib.SMTP', return_value=server):
+    with patch('Mon.notification.providers.smtplib.SMTP', return_value=server):
         result = SmtpProvider(
             'smtp.example.com', 587, '', '', False,
             'sender@example.com', 'to@example.com').send(
@@ -181,7 +181,7 @@ def test_smtp_provider_send_auth_failure():
     server = MagicMock()
     server.__enter__.return_value = server
     server.login.side_effect = smtplib.SMTPAuthenticationError(535, b'bad credentials')
-    with patch('ok.notification.providers.smtplib.SMTP', return_value=server):
+    with patch('Mon.notification.providers.smtplib.SMTP', return_value=server):
         result = SmtpProvider(
             'smtp.example.com', 587, 'user', 'wrong', True,
             'sender@example.com', 'to@example.com').send(
@@ -193,9 +193,9 @@ def test_smtp_provider_send_auth_failure():
 def test_smtp_provider_uses_implicit_ssl_on_port_465():
     server = MagicMock()
     server.__enter__.return_value = server
-    with patch('ok.notification.providers.smtplib.SMTP_SSL',
+    with patch('Mon.notification.providers.smtplib.SMTP_SSL',
                return_value=server) as smtp_ssl, \
-            patch('ok.notification.providers.smtplib.SMTP') as smtp:
+            patch('Mon.notification.providers.smtplib.SMTP') as smtp:
         result = SmtpProvider(
             'smtp.example.com', 465, 'user', 'secret', True,
             'sender@example.com', 'to@example.com').send(
@@ -245,7 +245,7 @@ def test_windows_system_notifier_sends_tray_balloon():
     notifier._hicon = 456
     notifier._closed = False
 
-    with patch('ok.notification.system._show_balloon', return_value=True) as notify:
+    with patch('Mon.notification.system._show_balloon', return_value=True) as notify:
         assert notifier.show('Task', 'Failed', error=True)
 
     notify.assert_called_once_with(123, 456, 'Task', 'Failed')
@@ -272,7 +272,7 @@ def test_manager_uses_context_menu_images_for_qq():
         stop_event=SimpleNamespace(is_set=lambda: False))
     manager.app_name = 'Test App'
 
-    with patch('ok.notification.manager.MessengerAutomation') as automation:
+    with patch('Mon.notification.manager.MessengerAutomation') as automation:
         manager._send('Title', 'Message', [np.zeros((2, 2, 3), dtype=np.uint8)])
 
     assert automation.call_args.kwargs['image_method'] == 'context_menu'
@@ -283,7 +283,7 @@ def test_manager_uses_context_menu_images_for_qq():
 
 def test_local_discord_icon_is_not_sent_as_avatar_url():
     response = Mock()
-    with patch('ok.notification.providers.requests.post', return_value=response) as post:
+    with patch('Mon.notification.providers.requests.post', return_value=response) as post:
         assert DiscordProvider().send(
             'https://example.invalid/webhook', '', 'Message', [], 'Test App', 'icon.ico')
 
@@ -291,7 +291,7 @@ def test_local_discord_icon_is_not_sent_as_avatar_url():
 
 
 def test_messenger_error_saves_last_bitblt_frame():
-    from ok.ui.qt.Communicate import communicate
+    from Mon.ui.qt.Communicate import communicate
 
     automation = MessengerAutomation(('QQ.exe',), SimpleNamespace())
     automation._last_frame = np.zeros((2, 2, 3), dtype=np.uint8)
@@ -393,9 +393,9 @@ def test_exit_event_stop_bindings_can_be_removed():
 def test_messenger_layout_regions_are_dpi_scaled_and_edge_anchored():
     automation = MessengerAutomation(
         ('QQ.exe',), SimpleNamespace(), left_panel_width_96dpi=377)
-    with patch('ok.notification.windows_messenger.win32gui.GetClientRect',
+    with patch('Mon.notification.windows_messenger.win32gui.GetClientRect',
                return_value=(0, 0, 1600, 1200)), \
-            patch('ok.notification.windows_messenger.ctypes.windll.user32.GetDpiForWindow',
+            patch('Mon.notification.windows_messenger.ctypes.windll.user32.GetDpiForWindow',
                   return_value=144):
         search, contact, send = automation._layout_regions(123)
 
@@ -409,7 +409,7 @@ def test_messenger_search_field_fallback_uses_client_coordinates():
         ('QQ.exe',), SimpleNamespace(), search_point_96dpi=(200, 65))
     frame = np.zeros((800, 1000, 3), dtype=np.uint8)
     with patch.object(automation, '_capture', return_value=frame), \
-            patch('ok.notification.windows_messenger.ctypes.windll.user32.GetDpiForWindow',
+            patch('Mon.notification.windows_messenger.ctypes.windll.user32.GetDpiForWindow',
                   return_value=144):
         point = automation._search_field_point(123)
 
@@ -424,15 +424,15 @@ def test_messenger_contact_search_includes_qt_popup_before_root():
         callback(456, argument)
         callback(789, argument)
 
-    with patch('ok.notification.windows_messenger.win32process.GetWindowThreadProcessId',
+    with patch('Mon.notification.windows_messenger.win32process.GetWindowThreadProcessId',
                side_effect=lambda hwnd: (0, 10 if hwnd in (123, 456) else 20)), \
-            patch('ok.notification.windows_messenger.win32gui.EnumWindows',
+            patch('Mon.notification.windows_messenger.win32gui.EnumWindows',
                   side_effect=enumerate_windows), \
-            patch('ok.notification.windows_messenger.win32gui.IsWindowVisible',
+            patch('Mon.notification.windows_messenger.win32gui.IsWindowVisible',
                   return_value=True), \
-            patch('ok.notification.windows_messenger.win32gui.GetClassName',
+            patch('Mon.notification.windows_messenger.win32gui.GetClassName',
                   return_value='Qt51514QWindowToolSaveBits'), \
-            patch('ok.notification.windows_messenger.win32gui.GetWindowRect',
+            patch('Mon.notification.windows_messenger.win32gui.GetWindowRect',
                   return_value=(0, 0, 500, 600)):
         windows = automation._contact_windows(123)
 
@@ -492,7 +492,7 @@ def test_background_click_does_not_post_activate_when_disabled():
     automation = MessengerAutomation(
         ('Weixin.exe',), SimpleNamespace(), post_activate=False)
 
-    with patch('ok.notification.windows_messenger.win32gui.PostMessage') as post:
+    with patch('Mon.notification.windows_messenger.win32gui.PostMessage') as post:
         automation._click(123, (40, 50))
 
     messages = [call.args[1] for call in post.call_args_list]
@@ -504,7 +504,7 @@ def test_popup_click_can_skip_focus_message():
     automation = MessengerAutomation(
         ('Weixin.exe',), SimpleNamespace(), post_activate=False)
 
-    with patch('ok.notification.windows_messenger.win32gui.PostMessage') as post:
+    with patch('Mon.notification.windows_messenger.win32gui.PostMessage') as post:
         automation._click(123, (40, 50), focus=False)
 
     messages = [call.args[1] for call in post.call_args_list]
@@ -521,7 +521,7 @@ def test_context_menu_paste_can_be_ocr_found_on_root_surface():
         _ocr=Mock(return_value=[('Paste', 20, 30, 80, 20)]),
     )
 
-    with patch('ok.notification.messenger_images._tool_popups', return_value=[]):
+    with patch('Mon.notification.messenger_images._tool_popups', return_value=[]):
         popup, point = _wait_popup_text(automation, 123, {'Paste'}, timeout=.1)
 
     assert popup == 123
@@ -536,7 +536,7 @@ def test_qq_context_menu_paste_accepts_ocr_icon_prefix():
         _ocr=Mock(return_value=[('自粘贴', 20, 30, 80, 20)]),
     )
 
-    with patch('ok.notification.messenger_images._tool_popups', return_value=[]):
+    with patch('Mon.notification.messenger_images._tool_popups', return_value=[]):
         popup, point = _wait_popup_text(
             automation, 123, {'Paste', '粘贴'}, timeout=.1, match_end=True)
 
@@ -552,13 +552,13 @@ def test_context_menu_focuses_composer_before_right_click():
         _click=lambda hwnd, point, focus=False: events.append('paste'),
     )
 
-    with patch('ok.notification.messenger_images._left_click',
+    with patch('Mon.notification.messenger_images._left_click',
                side_effect=lambda hwnd, point: events.append('left')), \
-            patch('ok.notification.messenger_images._right_click',
+            patch('Mon.notification.messenger_images._right_click',
                   side_effect=lambda hwnd, point: events.append('right')), \
-            patch('ok.notification.messenger_images._wait_popup_text',
+            patch('Mon.notification.messenger_images._wait_popup_text',
                   return_value=(456, (10, 20))), \
-            patch('ok.notification.messenger_images.time.sleep') as sleep:
+            patch('Mon.notification.messenger_images.time.sleep') as sleep:
         _paste_from_context_menu(automation, 123, (100, 200), object())
 
     assert events == ['clipboard', 'left', 'right', 'paste']
@@ -573,8 +573,8 @@ def test_paste_menu_ocr_falls_back_to_render_surface_when_popup_enum_fails():
         _ocr=Mock(return_value=[('Paste', 20, 30, 80, 20)]),
     )
 
-    with patch('ok.notification.messenger_images._tool_popups', side_effect=OSError('desktop')), \
-            patch('ok.notification.messenger_images._render_surface', return_value=456):
+    with patch('Mon.notification.messenger_images._tool_popups', side_effect=OSError('desktop')), \
+            patch('Mon.notification.messenger_images._render_surface', return_value=456):
         popup, point = _wait_popup_text(automation, 123, {'Paste'}, timeout=.1)
 
     assert popup == 456
@@ -592,11 +592,11 @@ def test_paste_menu_failure_saves_last_frame():
         _ocr=Mock(return_value=[]),
     )
 
-    with patch('ok.notification.messenger_images._left_click'), \
-            patch('ok.notification.messenger_images._right_click'), \
-            patch('ok.notification.messenger_images._wait_popup_text',
+    with patch('Mon.notification.messenger_images._left_click'), \
+            patch('Mon.notification.messenger_images._right_click'), \
+            patch('Mon.notification.messenger_images._wait_popup_text',
                   return_value=(123, None)), \
-            patch('ok.notification.messenger_images.time.sleep'):
+            patch('Mon.notification.messenger_images.time.sleep'):
         with pytest.raises(RuntimeError, match='Could not find Paste'):
             _paste_from_context_menu(automation, 123, (10, 10), frame)
 
@@ -613,9 +613,9 @@ def test_messenger_sends_text_then_each_image_separately():
     automation._restore_clipboard_text = lambda value: None
     images = [object(), object()]
 
-    with patch('ok.notification.messenger_images.insert_messenger_image',
+    with patch('Mon.notification.messenger_images.insert_messenger_image',
                side_effect=lambda *args: events.append(('image', args[-1]))), \
-            patch('ok.notification.windows_messenger.time.sleep') as sleep:
+            patch('Mon.notification.windows_messenger.time.sleep') as sleep:
         automation._send_content(
             123, (900, 700), (800, 650), 'Title', 'Message', images)
 
@@ -650,7 +650,7 @@ def test_qq_does_not_escape_main_window_after_root_contact_click():
     automation._send_key = lambda *args: events.append(('escape', args[1]))
     automation._send_content = lambda *args: events.append(('send_content',))
 
-    with patch('ok.notification.windows_messenger.win32gui.IsWindowVisible', return_value=True):
+    with patch('Mon.notification.windows_messenger.win32gui.IsWindowVisible', return_value=True):
         assert automation._send('Nick', '', 'Message', [])
 
     assert ('escape', win32con.VK_ESCAPE) not in events
@@ -672,7 +672,7 @@ def test_qq_escapes_only_when_search_popup_remains_visible():
     automation._send_key = lambda *args: events.append(('escape', args[1]))
     automation._send_content = lambda *args: events.append(('send_content',))
 
-    with patch('ok.notification.windows_messenger.win32gui.IsWindowVisible', return_value=True):
+    with patch('Mon.notification.windows_messenger.win32gui.IsWindowVisible', return_value=True):
         assert automation._send('Nick', '', 'Message', [])
 
     assert ('escape', win32con.VK_ESCAPE) in events
@@ -751,7 +751,7 @@ def test_clear_search_text_uses_short_synchronous_sequence():
 def test_clipboard_image_sets_dib_and_png_formats():
     frame = np.zeros((2, 2, 3), dtype=np.uint8)
 
-    with patch('ok.notification.windows_messenger.win32clipboard') as clipboard:
+    with patch('Mon.notification.windows_messenger.win32clipboard') as clipboard:
         clipboard.RegisterClipboardFormat.return_value = 12345
         MessengerAutomation._set_clipboard_image(frame)
 

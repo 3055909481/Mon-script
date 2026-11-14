@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, patch
 
-from ok.device.DeviceManager import DeviceManager, resolve_emulator_window_exe
+from Mon.device.DeviceManager import DeviceManager, resolve_emulator_window_exe
 
 
 class TestEmulatorWindowExe(unittest.TestCase):
@@ -52,7 +52,7 @@ class TestDeviceManagerPcWindows(unittest.TestCase):
         manager = self.make_manager()
         found_window = ('Game', 202, r'C:\Game\game.exe', 0, 0, 1920, 1080, [])
 
-        with patch('ok.device.DeviceManager.find_hwnd', return_value=found_window):
+        with patch('Mon.device.DeviceManager.find_hwnd', return_value=found_window):
             manager.update_pc_device()
 
         self.assertEqual({'phone', 'pc_202'}, set(manager.device_dict))
@@ -62,7 +62,7 @@ class TestDeviceManagerPcWindows(unittest.TestCase):
         manager = self.make_manager()
         missing_window = (None, 0, None, 0, 0, 0, 0, [])
 
-        with patch('ok.device.DeviceManager.find_hwnd', return_value=missing_window):
+        with patch('Mon.device.DeviceManager.find_hwnd', return_value=missing_window):
             manager.update_pc_device()
 
         self.assertEqual({'phone', 'pc'}, set(manager.device_dict))
@@ -74,8 +74,8 @@ class TestDeviceManagerPcWindows(unittest.TestCase):
         manager.windows_capture_config['calculate_pc_exe_path'] = calculate
         device = {'device': 'windows', 'full_path': ''}
 
-        with patch('ok.device.DeviceManager.os.path.exists', return_value=True):
-            with patch('ok.device.DeviceManager.logger.info') as log:
+        with patch('Mon.device.DeviceManager.os.path.exists', return_value=True):
+            with patch('Mon.device.DeviceManager.logger.info') as log:
                 path = manager.get_exe_path(device)
 
         calculate.assert_called_once_with(None)
@@ -89,7 +89,7 @@ class TestDeviceManagerPcWindows(unittest.TestCase):
         manager.windows_capture_config['calculate_pc_exe_path'] = calculate
         device = {'device': 'windows', 'full_path': None}
 
-        with patch('ok.device.DeviceManager.os.path.exists', return_value=False):
+        with patch('Mon.device.DeviceManager.os.path.exists', return_value=False):
             path = manager.get_exe_path(device)
 
         calculate.assert_called_once_with(None)

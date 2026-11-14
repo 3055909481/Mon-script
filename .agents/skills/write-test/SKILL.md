@@ -1,11 +1,11 @@
 ---
 name: write-test
-description: Write and run tests for a third-party application's ok-script tasks using its screenshot fixtures, TaskTestCase, and isolated mocks.
+description: Write and run tests for a third-party application's Mon-script tasks using its screenshot fixtures, TaskTestCase, and isolated mocks.
 ---
 
 # Write Automation Tests
 
-Use this skill in the consuming application's project to test its task behavior, recognition, recovery, and settings. Use the installed ok-script test APIs and the application's own config, fixtures, and runner. No library source checkout or separate reference project is required; developing the library's test suite is outside this skill's scope.
+Use this skill in the consuming application's project to test its task behavior, recognition, recovery, and settings. Use the installed Mon-script test APIs and the application's own config, fixtures, and runner. No library source checkout or separate reference project is required; developing the library's test suite is outside this skill's scope.
 
 ## Choose the test boundary
 

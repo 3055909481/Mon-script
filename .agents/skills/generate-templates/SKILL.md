@@ -1,13 +1,13 @@
 ---
 name: generate-templates
-description: Create or change named image features using ok-script's ok_templates screenshots, COCO annotations, and split exporter; verify them with find_feature or find_one and reuse screenshots in tests.
+description: Create or change named image features using Mon-script's ok_templates screenshots, COCO annotations, and split exporter; verify them with find_feature or find_one and reuse screenshots in tests.
 ---
 
 # Generate and use templates
 
 Work on the consuming application's screenshots, annotations, task code, and
 assets using the installed library. All project-relative paths below refer to
-that application's root, not the ok-script library directory.
+that application's root, not the Mon-script library directory.
 
 Use the existing pipeline: original screenshots in `ok_templates/`, annotations
 in `ok_templates/coco_annotations.json`, and `generate_templates` to generate
@@ -66,7 +66,7 @@ to the image you inspected):
 import json
 from pathlib import Path
 import cv2
-from ok.core.template_store import CocoTemplateStore
+from Mon.core.template_store import CocoTemplateStore
 
 store = CocoTemplateStore("ok_templates")
 if store.coco_path.exists():
@@ -104,7 +104,7 @@ all unrelated entries. Review the annotation diff before export.
 The Template tab defaults to **Split(Recommend)**. Use its split exporter:
 
 ```python
-from ok.feature.FeatureSet import generate_templates
+from Mon.feature.FeatureSet import generate_templates
 
 template_folder = generate_templates(
     coco_json=str(store.coco_path),
@@ -161,7 +161,7 @@ First load generated assets in a fresh `FeatureSet` and match the original
 screenshot. This checks the full annotation/export/load path without a GUI:
 
 ```python
-from ok.feature.FeatureSet import FeatureSet
+from Mon.feature.FeatureSet import FeatureSet
 
 features = FeatureSet(False, None, 0.002, 0.002,
                       default_threshold=0.95, template_folder=template_folder)

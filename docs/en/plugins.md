@@ -100,9 +100,9 @@ Declared tab modules are imported only by the Qt adapter.
 
 ```python
 # plugin_page.py
-from ok.core.icons import Icon
-from ok.ui.qt.kit import Button, Label
-from ok.ui.qt.widget.CustomTab import CustomTab
+from Mon.core.icons import Icon
+from Mon.ui.qt.kit import Button, Label
+from Mon.ui.qt.widget.CustomTab import CustomTab
 
 
 class MyTab(CustomTab):
@@ -123,7 +123,7 @@ class MyTab(CustomTab):
 ```
 
 `CustomTab` is a scrolling page styled by the built-in widget kit
-(`ok.ui.qt.kit`): `add_card(title, widget)` adds a titled card and
+(`Mon.ui.qt.kit`): `add_card(title, widget)` adds a titled card and
 `add_widget(widget)` adds a plain row. Use kit widgets such as `Button`,
 `Label`, `Switch`, `ComboBox` and `Dialog`, or plain Qt widgets, which the kit
 stylesheet also styles. PySide6-Fluent-Widgets is no longer installed, so

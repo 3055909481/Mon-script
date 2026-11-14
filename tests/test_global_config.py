@@ -7,11 +7,11 @@ from unittest.mock import patch
 os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 
 from PySide6.QtWidgets import QApplication
-from ok.core.icons import Icon
+from Mon.core.icons import Icon
 
-from ok import og
-from ok.ui.qt.tasks.config_editors import config_editor
-from ok.util.GlobalConfig import (
+from Mon import og
+from Mon.ui.qt.tasks.config_editors import config_editor
+from Mon.util.GlobalConfig import (
     APP_LAUNCHER_ACTION,
     APP_LAUNCHER_AUTO_START,
     APP_LAUNCHER_OPEN,
@@ -24,7 +24,7 @@ from ok.util.GlobalConfig import (
     register_app_launcher_options,
     register_basic_options,
 )
-from ok.util.config import Config, ConfigOption
+from Mon.util.config import Config, ConfigOption
 
 
 class TestBasicOptions(unittest.TestCase):
@@ -58,7 +58,7 @@ class TestBasicOptions(unittest.TestCase):
     def test_loading_valid_config_does_not_rewrite_it_per_key(self):
         current = {f'key_{index}': index for index in range(20)}
 
-        with patch('ok.util.config.read_json_file', return_value=current), \
+        with patch('Mon.util.config.read_json_file', return_value=current), \
                 patch.object(Config, 'save_file') as save_file:
             config = Config('Existing Config', dict(current))
 
@@ -69,7 +69,7 @@ class TestBasicOptions(unittest.TestCase):
         current = {'kept': 1, 'removed': True}
         defaults = {'kept': 1, 'added': 2}
 
-        with patch('ok.util.config.read_json_file', return_value=current), \
+        with patch('Mon.util.config.read_json_file', return_value=current), \
                 patch.object(Config, 'save_file') as save_file:
             config = Config('Migrated Config', defaults)
 
@@ -77,7 +77,7 @@ class TestBasicOptions(unittest.TestCase):
         save_file.assert_called_once_with()
 
     def test_global_config_tab_renders_options_without_card_container(self):
-        from ok.ui.qt.settings.GlobalConfigTab import GlobalConfigTab
+        from Mon.ui.qt.settings.GlobalConfigTab import GlobalConfigTab
 
         original_app = getattr(og, 'app', None)
         original_folder = Config.config_folder
@@ -240,7 +240,7 @@ class TestBasicOptions(unittest.TestCase):
             original_app = getattr(og, 'app', None)
             original_config = getattr(og, 'config', None)
             try:
-                from ok.ui.qt.settings.config_section import ConfigSection
+                from Mon.ui.qt.settings.config_section import ConfigSection
 
                 og.app = SimpleNamespace(tr=lambda text: text)
                 og.config = {'gui_title': 'Demo App'}

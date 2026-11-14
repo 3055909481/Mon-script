@@ -5,7 +5,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from ok.core import skills
+from Mon.core import skills
 
 CONSUMER_SKILLS = {'develop', 'reload-tasks', 'generate-templates', 'setup-env',
                    'setup-project', 'use_venv', 'write-test'}
@@ -32,7 +32,7 @@ def test_checkout_skills_are_discovered_independently_of_working_directory(tmp_p
 
 
 def test_installed_skills_use_bundled_files(tmp_path, monkeypatch):
-    package = tmp_path / 'ok'
+    package = tmp_path / 'Mon'
     monkeypatch.setattr(skills, '__file__', str(package / 'core/skills.py'))
     skill = package / 'agent_resources/.agents/skills/example/SKILL.md'
     skill.parent.mkdir(parents=True)
@@ -40,7 +40,7 @@ def test_installed_skills_use_bundled_files(tmp_path, monkeypatch):
     skill.write_text(content, encoding='utf-8')
     assert skills.list_skills() == [{
         'id': 'example', 'name': 'example', 'description': 'Bundled example.',
-        'uri': 'ok-script://skills/example', 'path': str(skill),
+        'uri': 'mon-script://skills/example', 'path': str(skill),
     }]
     assert skills.get_skill('example')['content'] == content
 
@@ -49,7 +49,7 @@ def test_incremental_build_bundles_only_current_consumer_skills(tmp_path, monkey
     import setuptools
     from setuptools.command.build_py import build_py
 
-    monkeypatch.setenv('OK_SCRIPT_BUILD_VERSION', '0.0.0+test')
+    monkeypatch.setenv('MON_SCRIPT_BUILD_VERSION', '0.0.0+test')
     monkeypatch.setattr(setuptools, 'setup', Mock())
     monkeypatch.setattr(build_py, 'run', lambda self: None)
     root = Path(__file__).resolve().parents[1]
@@ -66,7 +66,7 @@ def test_incremental_build_bundles_only_current_consumer_skills(tmp_path, monkey
     assert not stale.exists()
     assert not (destination / 'pyproject.toml').exists()
     assert (destination / 'docs/agent-setup.md').read_bytes() == (root / 'docs/agent-setup.md').read_bytes()
-    template = Path('.agents/skills/setup-env/assets/ok-script-develop/SKILL.md')
+    template = Path('.agents/skills/setup-env/assets/Mon-script-develop/SKILL.md')
     assert (destination / template).read_bytes() == (root / template).read_bytes()
     monkeypatch.setattr(skills, '__file__', str(Path(command.build_lib) / 'ok/core/skills.py'))
     catalog = skills.list_skills()

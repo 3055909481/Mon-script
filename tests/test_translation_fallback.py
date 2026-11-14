@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from types import SimpleNamespace
 
-from ok import App, HeadlessApp
+from Mon import App, HeadlessApp
 
 I18N_DIR = Path(__file__).resolve().parents[1] / 'ok' / 'ui' / 'qt' / 'i18n'
 
@@ -16,7 +16,7 @@ def _locales():
 class TestTranslationFallback(unittest.TestCase):
     def test_error_templates_are_available_in_the_contexts_used_at_runtime(self):
         from PySide6.QtCore import QTranslator
-        from ok.ui.qt import resources
+        from Mon.ui.qt import resources
 
         sources = {
             'app': [
@@ -88,8 +88,8 @@ class TestTranslationFallback(unittest.TestCase):
 
     def test_start_failure_translates_before_formatting_exception_details(self):
         from PySide6.QtCore import QCoreApplication, QTranslator
-        from ok.ui.qt import resources
-        from ok.core.start_controller import StartController
+        from Mon.ui.qt import resources
+        from Mon.core.start_controller import StartController
         from unittest.mock import Mock, patch
 
         application = QCoreApplication.instance() or QCoreApplication([])
@@ -108,8 +108,8 @@ class TestTranslationFallback(unittest.TestCase):
             application.installTranslator(translator)
             try:
                 with self.subTest(locale=locale), \
-                        patch('ok.core.start_controller.og', SimpleNamespace(app=facade, executor=executor)), \
-                        patch('ok.core.start_controller.communicate', SimpleNamespace(starting_emulator=event)):
+                        patch('Mon.core.start_controller.og', SimpleNamespace(app=facade, executor=executor)), \
+                        patch('Mon.core.start_controller.communicate', SimpleNamespace(starting_emulator=event)):
                     self.assertFalse(controller._do_start(task=0))
                     event.emit.assert_called_with(
                         True, translator.translate('app', source).format(error='list index out of range'), 0)
@@ -118,8 +118,8 @@ class TestTranslationFallback(unittest.TestCase):
 
     def test_capture_descriptions_and_startup_warnings_use_app_translation_context(self):
         from PySide6.QtCore import QCoreApplication, QTranslator
-        from ok.ui.qt import resources
-        from ok.core.start_controller import StartController
+        from Mon.ui.qt import resources
+        from Mon.core.start_controller import StartController
         from unittest.mock import patch
 
         application = QCoreApplication.instance() or QCoreApplication([])
@@ -147,7 +147,7 @@ class TestTranslationFallback(unittest.TestCase):
                 self.assertTrue(translator.load(f':/i18n/{locale}.qm'))
                 application.installTranslator(translator)
             try:
-                with patch('ok.core.start_controller.og', SimpleNamespace(app=facade)):
+                with patch('Mon.core.start_controller.og', SimpleNamespace(app=facade)):
                     for source in sources:
                         with self.subTest(locale=locale, source=source):
                             translated = controller.tr(source)
@@ -161,8 +161,8 @@ class TestTranslationFallback(unittest.TestCase):
 
     def test_wgc_descriptions_are_translated(self):
         from PySide6.QtCore import QTranslator
-        from ok.ui.qt import resources
-        from ok.core.capture_labels import capture_method_label
+        from Mon.ui.qt import resources
+        from Mon.core.capture_labels import capture_method_label
 
         self.assertEqual('WGC - Fast, support HDR (not AutoHDR)', capture_method_label('WGC'))
         self.assertEqual('WGC_HDR - Only use when using AutoHDR (Not Recommended)',
@@ -181,7 +181,7 @@ class TestTranslationFallback(unittest.TestCase):
 
     def test_auto_hdr_error_is_translated_in_bundled_qt_catalogs(self):
         from PySide6.QtCore import QTranslator
-        from ok.ui.qt import resources  # Register the bundled translation resources.
+        from Mon.ui.qt import resources  # Register the bundled translation resources.
 
         source = 'Auto HDR is enabled, tasks might not work correctly!'
         for locale in _locales():

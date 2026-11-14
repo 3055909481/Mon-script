@@ -1,4 +1,4 @@
-"""Start the ok-script GUI from this checkout with a demo config, for manual UI testing.
+"""Start the Mon-script GUI from this checkout with a demo config, for manual UI testing.
 
     .venv\\Scripts\\python.exe main.py
 
@@ -6,8 +6,8 @@ Targets Notepad, so no game is needed. Settings and logs go to the git-ignored
 ``configs/`` and ``logs/`` folders of the working directory.
 """
 
-from ok import OK
-from ok.task.task import BaseTask, TriggerTask
+from Mon import OK
+from Mon.task.task import BaseTask, TriggerTask
 
 
 class DemoTask(BaseTask):
@@ -20,7 +20,7 @@ class DemoTask(BaseTask):
         self.support_schedule_task = True
         self.default_config.update({
             'Repeat': 3,
-            'Message': 'Hello from ok-script',
+            'Message': 'Hello from Mon-script',
             'Verbose': False,
             'Mode': 'Fast',
         })
@@ -47,7 +47,7 @@ class DemoTrigger(TriggerTask):
 
 
 config = {
-    'gui_title': 'ok-script dev',
+    'gui_title': 'Mon-script dev',
     'version': 'dev',
     'debug': True,  # shows the Templates page and debug tools
     'gui': {'type': 'qt'},

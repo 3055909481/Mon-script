@@ -5,7 +5,7 @@ preserve original screenshots under `ok_templates`, update its COCO annotations,
 call `generate_templates` for individual PNGs, and use `find_feature`/`find_one`.
 The old compression APIs are obsolete. The current
 [export format and configuration](feature-crops.md) are implemented.
-The [generate-templates skill](https://github.com/ok-oldking/ok-script/blob/master/.agents/skills/generate-templates/SKILL.md)
+The [generate-templates skill](https://github.com/3055909481/Mon-script/blob/master/.agents/skills/generate-templates/SKILL.md)
 documents this workflow. The alternative APIs and commands below are not
 implemented and are not required for the selected approach.
 

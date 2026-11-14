@@ -1,6 +1,6 @@
 import pytest
 
-from ok.util.version import compare_versions
+from Mon.util.version import compare_versions
 
 
 @pytest.mark.parametrize('left,right', [
@@ -44,8 +44,8 @@ def test_qt_plugin_startup_import_does_not_need_packaging():
     source = '''
 import sys
 sys.modules['packaging'] = None
-from ok.ui.qt.plugins.imported_tabs import ImportedTabs
-from ok.core.plugins import newer_plugin_version
+from Mon.ui.qt.plugins.imported_tabs import ImportedTabs
+from Mon.core.plugins import newer_plugin_version
 assert newer_plugin_version('v2.0.15b1', '2.0.14')
 assert newer_plugin_version('2.0.15', '2.0.15b1')
 assert not newer_plugin_version('1.2', '1.2.0')

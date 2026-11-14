@@ -4,10 +4,10 @@ import time
 
 import numpy as np
 
-from ok import og
-from ok.feature.Box import Box
-from ok.ui.qt.debug.Screenshot import Screenshot
-from ok.util.blur import (
+from Mon import og
+from Mon.feature.Box import Box
+from Mon.ui.qt.debug.Screenshot import Screenshot
+from Mon.util.blur import (
     BLUR_ALGORITHM,
     DEFAULT_BLUR_ALGORITHM,
     INPAINT_ALGORITHM,

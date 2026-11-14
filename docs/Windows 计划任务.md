@@ -1,6 +1,6 @@
 # Windows 计划任务
 
-ok-script 支持把一次性任务（`onetime_tasks`）注册为 Windows 计划任务，
+Mon-script 支持把一次性任务（`onetime_tasks`）注册为 Windows 计划任务，
 按计划自动运行。
 
 ## 任务定位机制：`-t N`
@@ -25,7 +25,7 @@ ok-script 支持把一次性任务（`onetime_tasks`）注册为 Windows 计划�
 ## 启动时自动校正与稳定标识迁移
 
 为保留 ok 原生 `-t` 机制、不修改任何运行时解析 / 创建 / 修改对话框逻辑，
-ok-script 在**每次启动时**自动校正并把 `-t` 目标统一迁移为**稳定标识**
+Mon-script 在**每次启动时**自动校正并把 `-t` 目标统一迁移为**稳定标识**
 （模块路径.类名，如 `src.tasks.onetime.DailyTask`，对排序免疫）：
 
 - 挂载点：`MainWindow.__init__`（构造 ScheduleTaskTab、加载任务缓存之前，早于 `start_runtime`），原生内联调用

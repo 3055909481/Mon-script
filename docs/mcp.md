@@ -2,13 +2,13 @@
 
 [Quick start](en/quick_start.md) · [Agent prompts](en/agent-prompts.md) · [中文入门](quick_start/README.md) · [中文提示词](agent-prompts.md)
 
-MCP connects your local coding agent to an ok-script application while it builds and tests reusable Python tasks. Spend model tokens on developing the script, then run the saved task through the application without the agent. Ordinary local recognition and input do not require LLM calls; later changes may need another development session.
+MCP connects your local coding agent to an Mon-script application while it builds and tests reusable Python tasks. Spend model tokens on developing the script, then run the saved task through the application without the agent. Ordinary local recognition and input do not require LLM calls; later changes may need another development session.
 
-The agent writes and edits project files, starts the local runtime, and reads logs and images through its filesystem tools. Use ok-script APIs and MCP for capture and interaction. Do not use Computer Use skills, plugins, or tools in this workflow.
+The agent writes and edits project files, starts the local runtime, and reads logs and images through its filesystem tools. Use Mon-script APIs and MCP for capture and interaction. Do not use Computer Use skills, plugins, or tools in this workflow.
 
 ## Ask the agent to discover APIs and build a task
 
-> Connect to this project's MCP server. Call list_skills and read get_skill("develop"). Inspect the installed ok-script source and Python signatures for the APIs this task needs. Write a permanent Python task that opens Settings, enables "Show details", saves, and verifies the option remains enabled. Reset and verify the starting state before every attempt, save diagnostics, and test repeated runs through MCP. Register the finished task and provide its standalone run command without LLM calls.
+> Connect to this project's MCP server. Call list_skills and read get_skill("develop"). Inspect the installed Mon-script source and Python signatures for the APIs this task needs. Write a permanent Python task that opens Settings, enables "Show details", saves, and verifies the option remains enabled. Reset and verify the starting state before every attempt, save diagnostics, and test repeated runs through MCP. Register the finished task and provide its standalone run command without LLM calls.
 
 MCP supplies skills and task execution, not a Python API catalog or `get_api` tool. Use the application's interpreter and inspect its installed package for exact signatures, docstrings, inherited methods, and return behavior. No library checkout is needed. See [agent prompts](en/agent-prompts.md) for API-only discovery and existing-task repair examples.
 
@@ -17,7 +17,7 @@ before creating named image features: keep full screenshots and COCO annotations
 in `ok_templates`, export split features with `generate_templates`, and use
 `find_feature`/`find_one` in tasks. Those full screenshots can also be used directly
 as regression-test fixtures; `get_skill("write-test")` describes the test workflow.
-These instructions and skills come from the server's installed ok-script version.
+These instructions and skills come from the server's installed Mon-script version.
 
 ## Install and start
 
@@ -25,17 +25,17 @@ If the project has no environment or MCP runtime yet, start with the
 [agent setup guide](agent-setup.md). Its setup skills can be read before
 installation, without connecting to a running server.
 
-MCP is a required dependency of ok-script starting in 2.0.17. Install the capture
+MCP is a required dependency of Mon-script starting in 2.0.17. Install the capture
 and OCR profiles your project needs; no separate MCP extra is required.
 Use the project's virtual environment when one exists:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install "ok-script[default]"
+.\.venv\Scripts\python.exe -m pip install "Mon-script[default]"
 .\.venv\Scripts\python.exe -m ok mcp --config src.config:config
 ```
 
 Use the application's existing requirements or lockfile when available and keep
-its chosen ok-script version. OpenCV remains a separate installation chosen by
+its chosen Mon-script version. OpenCV remains a separate installation chosen by
 the application.
 
 The default URL is `http://127.0.0.1:8765/mcp`. Use `--port 8766` to change it,
@@ -100,7 +100,7 @@ reserved during startup, so instances cannot select the same port. Discover
 them from their project connection files instead of assuming port 8765:
 
 ```python
-from ok.core.mcp_server import discover_mcp_servers
+from Mon.core.mcp_server import discover_mcp_servers
 
 servers = discover_mcp_servers([r'E:\projects\app-one', r'E:\projects\app-two'])
 for server in servers:
@@ -133,7 +133,7 @@ links resolve from the returned local path. Repository commit, package release,
 and library translation maintenance are not exposed as skills or resources.
 
 Clients supporting MCP resources can also discover these skills through
-`resources/list` and read `ok-script://skills/<skill_id>` through
+`resources/list` and read `mon-script://skills/<skill_id>` through
 `resources/read`. Both interfaces return the same instructions.
 
 ## Tools
@@ -216,7 +216,7 @@ available. A task can call `self.executor.next_frame()` to update observations.
 Call `exit_process(reason="Capture state cannot be reset")` when runtime state
 cannot be cleared or reliably reset, a task remains stuck after cooperative
 cancellation, or changed configuration/imported helpers require a fresh process.
-It exits the ok-script process serving the current connection, including its GUI
+It exits the Mon-script process serving the current connection, including its GUI
 when present. It does not accept a target PID or restart the target application.
 
 The tool returns `{"state": "exiting", "pid": ..., "reason": ...}` and schedules
@@ -255,7 +255,7 @@ after constructing the task. Cleanup finishes before ownership is released.
 `succeeded` means the code completed without failure; include application-level
 success checks in `run()`.
 
-See the bundled `examples/mcp_observe.py` ([source](https://github.com/ok-oldking/ok-script/blob/master/examples/mcp_observe.py)) for a runnable example. It captures
+See the bundled `examples/mcp_observe.py` ([source](https://github.com/3055909481/Mon-script/blob/master/examples/mcp_observe.py)) for a runnable example. It captures
 the configured target without changing its state, so its reset is a no-op.
 For an interactive task, replace that recovery method and starting-state check.
 
@@ -273,7 +273,7 @@ are temporary and do not appear in the regular task list.
 ## Local evidence and the iteration loop
 
 Each attempt writes `logs/mcp/<run_id>/run.log` and `status.json`. The run log
-captures executor-thread stdout, stderr, ok-script logging and the failure
+captures executor-thread stdout, stderr, Mon-script logging and the failure
 traceback. Background-thread messages remain in the application's normal logs.
 `self.artifact_directory` is a `Path` for additional per-attempt files.
 

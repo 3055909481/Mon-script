@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 from PIL import Image, ImageFont
 
-from ok.core.screenshot import Screenshot, screenshot_file_stem, unique_screenshot_stem
-from ok.feature.Box import Box
+from Mon.core.screenshot import Screenshot, screenshot_file_stem, unique_screenshot_stem
+from Mon.feature.Box import Box
 
 
 def test_screenshot_file_stem_is_sortable_and_named():

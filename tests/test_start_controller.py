@@ -3,9 +3,9 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
-import ok.ui.qt.StartController as start_controller_module
-from ok.ui.qt.StartController import StartController
-from ok.util.gpu_driver_settings import GpuDriverPostProcessing
+import Mon.ui.qt.StartController as start_controller_module
+from Mon.ui.qt.StartController import StartController
+from Mon.util.gpu_driver_settings import GpuDriverPostProcessing
 
 
 class FakeClock:
@@ -223,7 +223,7 @@ class TestStartController(unittest.TestCase):
 
         with patch.object(start_controller_module, 'communicate', fake_communicate), \
                 patch.object(start_controller_module, 'og', fake_og), \
-                patch('ok.util.gpu_driver_settings.get_enabled_gpu_driver_post_processing',
+                patch('Mon.util.gpu_driver_settings.get_enabled_gpu_driver_post_processing',
                       return_value=enabled_features) as get_enabled:
             controller.check_gpu_driver_post_processing()
 
@@ -252,7 +252,7 @@ class TestStartController(unittest.TestCase):
         )
         with patch.object(start_controller_module, 'og',
                           SimpleNamespace(device_manager=device_manager, executor=executor)), \
-                patch('ok.util.gpu_driver_settings.is_auto_hdr_enabled', return_value=True) as detector, \
+                patch('Mon.util.gpu_driver_settings.is_auto_hdr_enabled', return_value=True) as detector, \
                 patch.object(start_controller_module, 'alert_error') as alert:
             self.assertTrue(controller.do_start())
 
@@ -263,8 +263,8 @@ class TestStartController(unittest.TestCase):
         controller.start_device.assert_called_once_with(initial_refresh_done=True)
 
     def test_auto_hdr_alert_depends_on_active_capture_even_after_fallback(self):
-        from ok.device.capture_methods.windows_graphics import WindowsGraphicsCaptureMethod
-        from ok.device.capture_methods.windows_graphics_hdr import WindowsGraphicsCaptureHDRMethod
+        from Mon.device.capture_methods.windows_graphics import WindowsGraphicsCaptureMethod
+        from Mon.device.capture_methods.windows_graphics_hdr import WindowsGraphicsCaptureHDRMethod
 
         for capture_type in (WindowsGraphicsCaptureHDRMethod, WindowsGraphicsCaptureMethod):
             with self.subTest(capture_type=capture_type.__name__):
@@ -275,7 +275,7 @@ class TestStartController(unittest.TestCase):
                     capture_method=object.__new__(capture_type),
                 )
                 with patch.object(start_controller_module, 'og', SimpleNamespace(device_manager=device_manager)), \
-                        patch('ok.util.gpu_driver_settings.is_auto_hdr_enabled', return_value=True) as detector, \
+                        patch('Mon.util.gpu_driver_settings.is_auto_hdr_enabled', return_value=True) as detector, \
                         patch.object(start_controller_module, 'alert_error') as alert:
                     controller.check_auto_hdr()
                 if capture_type is WindowsGraphicsCaptureHDRMethod:
@@ -294,7 +294,7 @@ class TestStartController(unittest.TestCase):
                 controller.config = {'windows': windows_config}
                 device_manager = SimpleNamespace(get_preferred_device=Mock(return_value=device))
                 with patch.object(start_controller_module, 'og', SimpleNamespace(device_manager=device_manager)), \
-                        patch('ok.util.gpu_driver_settings.is_auto_hdr_enabled') as detector, \
+                        patch('Mon.util.gpu_driver_settings.is_auto_hdr_enabled') as detector, \
                         patch.object(start_controller_module, 'alert_error') as alert:
                     controller.check_auto_hdr()
                 detector.assert_not_called()
@@ -310,7 +310,7 @@ class TestStartController(unittest.TestCase):
                 }))
                 detector = Mock(side_effect=state) if isinstance(state, Exception) else Mock(return_value=state)
                 with patch.object(start_controller_module, 'og', SimpleNamespace(device_manager=device_manager)), \
-                        patch('ok.util.gpu_driver_settings.is_auto_hdr_enabled', detector), \
+                        patch('Mon.util.gpu_driver_settings.is_auto_hdr_enabled', detector), \
                         patch.object(start_controller_module, 'alert_error') as alert:
                     controller.check_auto_hdr()
                 detector.assert_called_once_with(r'C:\Game\game.exe')

@@ -1,6 +1,6 @@
-# Set up ok-script with a coding agent
+# Set up Mon-script with a coding agent
 
-Use this entry point when asked to install the `ok-script` Python package, prepare
+Use this entry point when asked to install the `Mon-script` Python package, prepare
 its environment, or set up an automation project that uses it. Work in the
 consuming application's folder. The library source does not need to be cloned.
 
@@ -8,20 +8,20 @@ consuming application's folder. The library source does not need to be cloned.
 
 For a one-time setup, tell your coding agent:
 
-> Install ok-script and set up this project's environment. First read https://raw.githubusercontent.com/ok-oldking/ok-script/master/docs/agent-setup.md and follow the relevant setup skills linked there. Preserve this project's existing dependency constraints.
+> Install Mon-script and set up this project's environment. First read https://raw.githubusercontent.com/ok-oldking/ok-script/master/docs/agent-setup.md and follow the relevant setup skills linked there. Preserve this project's existing dependency constraints.
 
-For future requests such as "install ok-script and set up its environment", add
+For future requests such as "install Mon-script and set up its environment", add
 the following to the consuming project's `AGENTS.md`, or the instruction file
 your coding agent reads:
 
 ```markdown
-## ok-script setup
+## Mon-script setup
 
-When asked to install, configure, or repair ok-script or its Python environment,
+When asked to install, configure, or repair Mon-script or its Python environment,
 read https://raw.githubusercontent.com/ok-oldking/ok-script/master/docs/agent-setup.md
 and follow the relevant setup skills before changing the environment.
 Use this project's virtual environment and preserve its dependency constraints.
-After installation, generate .agents/skills/ok-script-develop/SKILL.md in the
+After installation, generate .agents/skills/Mon-script-develop/SKILL.md in the
 current workspace using the setup-env template, preserving any existing custom skill.
 After installation, offer to create an automation project and ask for missing
 game/app details. Give each project its own subfolder, config, and start scripts.
@@ -38,11 +38,11 @@ to read the setup instructions or generate this local skill.
 
 1. Inspect the consuming project's instructions, Python requirements, lockfile,
    existing environment, and requested outcome. This is application setup, not
-   development of the ok-script library. For a new environment, ok-script
+   development of the Mon-script library. For a new environment, Mon-script
    currently requires Windows and Python 3.11 or later; check the selected
    release's package metadata for its requirements.
 2. Read the
-   [setup-env skill](https://github.com/ok-oldking/ok-script/blob/master/.agents/skills/setup-env/SKILL.md)
+   [setup-env skill](https://github.com/3055909481/Mon-script/blob/master/.agents/skills/setup-env/SKILL.md)
    before installing or repairing dependencies. It covers environment creation,
    optional dependency profiles, the separate OpenCV choice, and verification.
    If reading remotely, resolve that skill's relative links against its location
@@ -54,7 +54,7 @@ to read the setup instructions or generate this local skill.
    GUI commonly uses `default,qt`, with exactly one compatible OpenCV variant
    installed separately. Verify the environment before offering project creation.
 4. After installation, generate
-   `<cwd>/.agents/skills/ok-script-develop/SKILL.md` using the generic template
+   `<cwd>/.agents/skills/Mon-script-develop/SKILL.md` using the generic template
    linked from `setup-env`. This step also applies to installation-only requests;
    preserve and merge an existing customized skill rather than overwriting it.
    Verify it can locate the selected library's consumer development instructions.
@@ -66,13 +66,13 @@ to read the setup instructions or generate this local skill.
    project, ask only for missing details. Skip this offer when repairing an
    existing project or when the user has explicitly declined project creation.
 6. When project creation is requested, read the
-   [setup-project skill](https://github.com/ok-oldking/ok-script/blob/master/.agents/skills/setup-project/SKILL.md).
+   [setup-project skill](https://github.com/3055909481/Mon-script/blob/master/.agents/skills/setup-project/SKILL.md).
    Identify the actual executable/window or device/app from the user's answers
    and local inspection. Ask for any required details that remain ambiguous;
    wait for those answers before writing target-dependent config. Create each
    project in its own named workspace subfolder, containing its own `config.py`,
    `start_gui.py`, and `start_mcp.py`. Keep its tasks, assets, settings, and logs
-   in that folder too. Ensure its root also has the local `ok-script-develop`
+   in that folder too. Ensure its root also has the local `Mon-script-develop`
    skill, even if it shares the workspace environment. Omit `gui_icon` to use the
    default `OK` PNG bundled with
    the Python package; set it only when supplying a custom application icon.
@@ -80,7 +80,7 @@ to read the setup instructions or generate this local skill.
    the prepared environment when compatible. Use the installed version's APIs
    and verify that launchers work when invoked from outside their subfolder.
 7. Run the checks in the relevant skills. Report the environment path, installed
-   ok-script version, dependency profiles, OpenCV choice, and verification
+   Mon-script version, dependency profiles, OpenCV choice, and verification
    results, plus the generated or reused development skill path. For application
    setup, also report the project folder, config,
    launcher paths, and which target capture/input checks succeeded.
@@ -94,7 +94,7 @@ by its resolved absolute path:
 
 ```powershell
 $projectPy = (Resolve-Path .\.venv\Scripts\python.exe).Path
-& $projectPy -c "from ok.core.skills import list_skills; import json; print(json.dumps(list_skills(), indent=2))"
+& $projectPy -c "from Mon.core.skills import list_skills; import json; print(json.dumps(list_skills(), indent=2))"
 ```
 
 Read the returned `setup-env` or `setup-project` path and resolve relative links

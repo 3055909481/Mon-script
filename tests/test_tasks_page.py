@@ -11,15 +11,15 @@ from PySide6.QtCore import QEvent, Qt, QTimer
 from qt_helpers import mouse_click, wait
 from PySide6.QtWidgets import QApplication, QCheckBox
 
-from ok import og
-from ok.ui.qt.kit import Dialog
-from ok.ui.qt.tasks import tasks_page as page_module
-from ok.ui.qt.tasks.config_editors import (DropDownEditor, ListEditor, LineEditEditor, MultiSelectionEditor,
+from Mon import og
+from Mon.ui.qt.kit import Dialog
+from Mon.ui.qt.tasks import tasks_page as page_module
+from Mon.ui.qt.tasks.config_editors import (DropDownEditor, ListEditor, LineEditEditor, MultiSelectionEditor,
                                            NumberEditor, SwitchEditor, TextEditEditor, config_editor)
-from ok.ui.qt.tasks.config_form import ConfigForm
-from ok.ui.qt.tasks.tasks_page import (KIND_ALL, KIND_ONETIME, KIND_TRIGGER, TasksPage, matches_filter, monogram,
+from Mon.ui.qt.tasks.config_form import ConfigForm
+from Mon.ui.qt.tasks.tasks_page import (KIND_ALL, KIND_ONETIME, KIND_TRIGGER, TasksPage, matches_filter, monogram,
                                        task_groups, task_status, visible_tasks)
-from ok.util.config import Config
+from Mon.util.config import Config
 
 
 class FakeConfig(dict):
@@ -140,7 +140,7 @@ class TestHelpers(unittest.TestCase):
         self.assertFalse(matches_filter(plain, "group:Daily", False))
 
     def test_leading_emoji_is_split_off_the_name(self):
-        from ok.ui.qt.tasks.tasks_page import split_leading_symbol
+        from Mon.ui.qt.tasks.tasks_page import split_leading_symbol
         self.assertEqual(("📅", "Daily Task"), split_leading_symbol("📅 Daily Task"))
         self.assertEqual((None, "Daily Task"), split_leading_symbol("Daily Task"))
         self.assertEqual((None, "3124"), split_leading_symbol("3124"))
@@ -536,7 +536,7 @@ if __name__ == "__main__":
 
 class TestImportedTaskTab(QtTestCase):
     def test_lists_only_its_plugins_tasks_under_the_plugin_name(self):
-        from ok.ui.qt.plugins.imported_tabs import ImportedTaskTab
+        from Mon.ui.qt.plugins.imported_tabs import ImportedTaskTab
         built_in = FakeTask("Built In")
         mine, hidden = FakeTask("Farm"), FakeTask("Hidden", visible=False)
         og.executor.onetime_tasks = [built_in]

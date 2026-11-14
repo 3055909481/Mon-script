@@ -11,20 +11,20 @@ os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 import pytest
 from PySide6.QtCore import QCoreApplication, QEvent, QThread
 from PySide6.QtWidgets import QApplication, QStackedWidget, QWidget
-from ok.core.icons import Icon
+from Mon.core.icons import Icon
 from shiboken6 import delete, isValid
 
-from ok import og
-from ok.core.events import communicate
-from ok.core import events
-from ok.core.plugin_staging import apply_pending_plugin_changes, pending_plugin_changes, stage_plugin_update
-from ok.core.plugins import PLUGIN_SOURCE_FILE, prepare_local_plugin, read_plugin_source, write_plugin_source
-from ok.core.task_manager import TaskManager
-from ok.ui.qt.events import QtEventDispatcher
-from ok.ui.qt.MainWindow import MainWindow
-from ok.ui.qt.plugins.PluginTab import PluginTab
-from ok.ui.qt.plugins.imported_tabs import ImportedTabs
-from ok.ui.qt.widget.ImportWarningDialog import ImportWarningDialog
+from Mon import og
+from Mon.core.events import communicate
+from Mon.core import events
+from Mon.core.plugin_staging import apply_pending_plugin_changes, pending_plugin_changes, stage_plugin_update
+from Mon.core.plugins import PLUGIN_SOURCE_FILE, prepare_local_plugin, read_plugin_source, write_plugin_source
+from Mon.core.task_manager import TaskManager
+from Mon.ui.qt.events import QtEventDispatcher
+from Mon.ui.qt.MainWindow import MainWindow
+from Mon.ui.qt.plugins.PluginTab import PluginTab
+from Mon.ui.qt.plugins.imported_tabs import ImportedTabs
+from Mon.ui.qt.widget.ImportWarningDialog import ImportWarningDialog
 
 
 @pytest.fixture(scope='module')
@@ -76,8 +76,8 @@ def environment(qt_app, tmp_path, monkeypatch):
     QCoreApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
 
 
-PAGE_SOURCE = '''from ok.ui.qt.widget.CustomTab import CustomTab
-from ok.core.icons import Icon
+PAGE_SOURCE = '''from Mon.ui.qt.widget.CustomTab import CustomTab
+from Mon.core.icons import Icon
 class Page(CustomTab):
     icon = Icon.APPLICATION
     @property
@@ -124,11 +124,11 @@ def test_tab_only_plugin_stays_live_until_staged_deletion_is_applied(environment
 
 
 def test_explicit_custom_tabs_can_coexist_with_one_time_and_trigger_tasks(environment, monkeypatch):
-    from ok.task.task import TriggerTask
+    from Mon.task.task import TriggerTask
 
     # The fake tasks cannot fill task rows; check the split, not the widgets.
     built = []
-    monkeypatch.setattr('ok.ui.qt.tasks.tasks_page.TasksPage.refresh_tasks',
+    monkeypatch.setattr('Mon.ui.qt.tasks.tasks_page.TasksPage.refresh_tasks',
                         lambda self: built.append(self.collect_tasks()))
     folder = install_files(environment, {'file_name': 'demo', 'tasks': [],
                                         'custom_tabs': [['page', 'Page']]}, {'page.py': PAGE_SOURCE})
@@ -147,9 +147,9 @@ def test_explicit_custom_tabs_can_coexist_with_one_time_and_trigger_tasks(enviro
     environment.manager.imported_scripts['demo']['tasks'] = []
 
 
-FACTORY_TASK_SOURCE = '''from ok import BaseTask
+FACTORY_TASK_SOURCE = '''from Mon import BaseTask
 from PySide6.QtWidgets import QWidget
-from ok.core.icons import Icon
+from Mon.core.icons import Icon
 class FactoryTask(BaseTask):
     def __init__(self, executor=None, app=None):
         self.name = 'Workshop'
@@ -233,7 +233,7 @@ def test_archive_install_worker_returns_to_gui_thread(environment, qt_app):
 
 def test_github_asset_download_flows_into_archive_install(environment, qt_app, monkeypatch):
     import importlib
-    module = importlib.import_module('ok.ui.qt.plugins.PluginTab')
+    module = importlib.import_module('Mon.ui.qt.plugins.PluginTab')
     archive = environment.root / 'release.zip'
     with zipfile.ZipFile(archive, 'w') as output:
         output.writestr('manifest.json', json.dumps({
@@ -259,7 +259,7 @@ def test_github_asset_download_flows_into_archive_install(environment, qt_app, m
 
 def test_failed_staging_leaves_previous_plugin_running(environment, qt_app, monkeypatch):
     import importlib
-    module = importlib.import_module('ok.ui.qt.plugins.PluginTab')
+    module = importlib.import_module('Mon.ui.qt.plugins.PluginTab')
     install_files(environment, {'file_name': 'demo', 'tasks': [], 'custom_tabs': [['page', 'Page']]},
                   {'page.py': PAGE_SOURCE})
     old, = environment.controller.custom_tabs['demo']
@@ -331,7 +331,7 @@ def test_import_warning_requires_countdown_and_checkbox(environment):
 @pytest.mark.parametrize('button', ['local_button', 'github_button'])
 def test_cancelled_plugin_warning_prevents_install_flow(environment, monkeypatch, button):
     import importlib
-    module = importlib.import_module('ok.ui.qt.plugins.PluginTab')
+    module = importlib.import_module('Mon.ui.qt.plugins.PluginTab')
     warning = Mock(return_value=False)
     chooser = Mock()
     repository_dialog = Mock()
@@ -350,7 +350,7 @@ def test_cancelled_plugin_warning_prevents_install_flow(environment, monkeypatch
 
 
 def test_script_importer_uses_shared_warning(environment, monkeypatch):
-    from ok.ui.qt.tasks.EditTaskTab import EditTaskTab
+    from Mon.ui.qt.tasks.EditTaskTab import EditTaskTab
     monkeypatch.setattr(ImportWarningDialog, 'exec', lambda self: True)
     harness = SimpleNamespace(window=lambda: environment.window, _do_import=Mock())
     EditTaskTab._show_import_warning(harness, 'plugin.okscript')
@@ -366,7 +366,7 @@ def github_plugin(environment):
 
 def test_github_plugins_auto_check_once_ten_seconds_after_load(environment, qt_app, monkeypatch):
     import importlib
-    module = importlib.import_module('ok.ui.qt.plugins.PluginTab')
+    module = importlib.import_module('Mon.ui.qt.plugins.PluginTab')
     folder = github_plugin(environment)
     environment.manager.imported_scripts['demo']['loaded_at'] = 100
     monkeypatch.setattr(module, 'time', SimpleNamespace(monotonic=lambda: 100))
@@ -401,7 +401,7 @@ def test_github_plugins_auto_check_once_ten_seconds_after_load(environment, qt_a
 
 def test_automatic_update_check_defers_during_installs_and_handles_errors_quietly(environment, qt_app, monkeypatch):
     import importlib
-    module = importlib.import_module('ok.ui.qt.plugins.PluginTab')
+    module = importlib.import_module('Mon.ui.qt.plugins.PluginTab')
     github_plugin(environment)
     check = Mock(side_effect=RuntimeError('network unavailable'))
     monkeypatch.setattr(module, 'plugin_update_assets', check)
@@ -423,7 +423,7 @@ def test_automatic_update_check_defers_during_installs_and_handles_errors_quietl
 
 def test_manual_update_is_staged_without_replacing_running_plugin(environment, qt_app, monkeypatch):
     import importlib
-    module = importlib.import_module('ok.ui.qt.plugins.PluginTab')
+    module = importlib.import_module('Mon.ui.qt.plugins.PluginTab')
     folder = github_plugin(environment)
     old_page, = environment.controller.custom_tabs['demo']
     archive = environment.root / 'demo-v2.zip'
@@ -496,7 +496,7 @@ def test_local_install_discards_packaged_github_metadata(environment, qt_app):
 
 def test_delete_button_stages_and_cancel_keeps_runtime_running(environment, monkeypatch):
     import importlib
-    module = importlib.import_module('ok.ui.qt.plugins.PluginTab')
+    module = importlib.import_module('Mon.ui.qt.plugins.PluginTab')
     folder = github_plugin(environment)
     page, = environment.controller.custom_tabs['demo']
     monkeypatch.setattr(module, 'confirm', lambda *args, **kwargs: True)

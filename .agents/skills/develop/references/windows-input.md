@@ -10,7 +10,7 @@ action before changing the application's configured interaction backend.
   fresh frame. A cached observation or a successful input API return does not
   prove that the game received the action.
 - For `PostMessage` error 5 / access denied, inspect the privilege level of the
-  **serving ok-script process** and the target process using available read-only
+  **serving Mon-script process** and the target process using available read-only
   diagnostics. `ok.util.process.is_admin()` called through an MCP observation
   task describes the runtime; calling it in the agent's client describes a
   different process. Working capture does not establish matching input rights.
@@ -35,7 +35,7 @@ action before changing the application's configured interaction backend.
    explain why it appears. Preserve the project's config and selected target.
 4. Rediscover the connection and validate the new PID, listener, and project.
    Do not reuse the old URL, credentials, or run IDs. Verify runtime privilege,
-   capture freshness, and the same input action again. Restarting ok-script does
+   capture freshness, and the same input action again. Restarting Mon-script does
    not reset the game UI.
 
 ## Verify input by action and window state
@@ -86,6 +86,6 @@ backend; do not assert that the game intrinsically requires foreground input.
   result, cursor/focus side effects, and any remaining untested cases.
 
 Do not use Computer Use skills, plugins, or tools for input validation or desktop
-task-card testing. Keep capture and interaction in ok-script APIs and MCP. If the
+task-card testing. Keep capture and interaction in Mon-script APIs and MCP. If the
 GUI Start action cannot be tested through permitted APIs or an application-local
 test harness, report that check as unverified.

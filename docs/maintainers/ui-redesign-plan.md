@@ -50,7 +50,7 @@ A visual example is on the design canvas (Tasks, Connection popover, run bar sta
 
 Pure PySide6, no third-party UI dependency, and limited to QtCore, QtGui, QtWidgets and QtSvg. The `qt` extra installs **ok-pyside-minimal**, a repackaged PySide6-Essentials wheel that ships only those modules (no Qt tools, QtTest, QtNetwork, ...). `tests/test_kit.py` checks that neither `ok/` nor `tests/` imports anything else; tests use `tests/qt_helpers.py` instead of QtTest.
 
-Run `python -m ok.ui.qt.kit.gallery [light|dark]` to see every widget.
+Run `python -m Mon.ui.qt.kit.gallery [light|dark]` to see every widget.
 
 | Module | Replaces (qfluentwidgets) | Notes |
 | --- | --- | --- |
@@ -68,7 +68,7 @@ Run `python -m ok.ui.qt.kit.gallery [light|dark]` to see every widget.
 | `table.py` | `TableWidget`, `ListWidget`, `ScrollArea` | QSS + overlay scrollbar. |
 | `labels.py` | `BodyLabel`, `StrongBodyLabel`, `CaptionLabel`, `SubtitleLabel`, `TitleLabel` | `QLabel` with a `role` property selected by QSS. |
 | `config.py` | `QConfig`, `ConfigItem`, validators, serializers | Small JSON config with signals in a new file; the old `ui_config.json` is not read (theme and language fall back to defaults once). |
-| `i18n` | `FluentTranslator` | Kit strings (OK/Cancel/…) go into ok-script's own `.ts` files. |
+| `i18n` | `FluentTranslator` | Kit strings (OK/Cancel/…) go into Mon-script's own `.ts` files. |
 
 ### 3.2 New shell
 
@@ -90,7 +90,7 @@ Run `python -m ok.ui.qt.kit.gallery [light|dark]` to see every widget.
 
 ### 3.4 Consuming apps (breaking change, no compatibility layer)
 
-- `ok.ui.qt.kit` is the public widget API for custom tabs (`CustomTab`, plugin tabs).
+- `Mon.ui.qt.kit` is the public widget API for custom tabs (`CustomTab`, plugin tabs).
 - `icon` on tasks, groups and custom tabs is an SVG/PNG path; `ok.core.icons.Icon` and Fluent icon values are removed.
 - `CustomTab.position` becomes a kit enum; no qfluentwidgets aliases, shims or deprecation warnings.
 - Apps that import `qfluentwidgets` break and must be ported. ok-wuthering-waves (`CharacterCodeTab`, `MultiAccountConfigTab`) is migrated later as separate work, after this redesign lands.
@@ -104,7 +104,7 @@ Each phase leaves the app runnable and is verified by launching `ok-wuthering-wa
 3. **Tasks** – master–detail Tasks page with row play buttons, sections and app icons; kit config editors (`tasks/config_editors.py`) and `ConfigForm` reuse `ConfigContentMixin`'s sub-config rules. Done; still on the old widgets: the Settings page and global-config tabs (phase 4) and imported-plugin task pages (`ImportedTaskTab`, phase 5). A leading emoji in a task name becomes its tile.
 4. **Settings, About, Update.** Done: `SettingsPage` (section list, appearance, one `ConfigSection` with its own Reset per global config), `GlobalConfigTab` on `ConfigSection`, and a kit `AboutTab`/`UpdateCard`. `SettingTab`, `GlobalConfigCard`, `VersionCard`, `LinksBar`, `ProjectCard` and `HttpTextEdit` are removed; theme and language still go through qfluentwidgets' `qconfig` until phase 6.
 5. **Developer pages** – Debug becomes Diagnosis (`debug/diagnosis_page.py`), shown in every build: capture, OCR and thread dumps beside a screenshot viewer with a recent list and a Boxes/Original toggle; the connection popover's Capture opens it. Reload tasks, the i18n buttons and the Ctrl+Alt+D/S hotkeys stay debug-only, and the task-function caller is removed. Plugins, Templates, Script (Edit Task), Schedule and the MarkUp editor (now a `KitWindow` with a Features panel) are rebuilt on the kit. Imported plugin task pages are `TasksPage` subclasses listing the plugin's tasks; task-owned plugin pages sit in a plain container that keeps the plugin's own styling. Run Code is removed. The separate Log window is now the Log page under Run (`shell/log_page.py`): a `QPlainTextEdit` with a level highlighter, block-count trimming, batched appends and debounced plain-text refiltering, replacing full rich-HTML rebuilds; the connection popover's View Log opens it.
-6. **Removal** – done: qfluentwidgets, PySideSix-Frameless-Window and darkdetect are gone from `pyproject`; the old task cards, `LabelAndX` editors, `ConfigCard`, `BaseWindow`, fluent `qss` resources and their tests are deleted. `ui_config.json` is read by a small `UiConfig` (language, theme; it still reads the old qfluentwidgets keys), `CustomTab`/`Tab`/`Card`/`StartLoadingDialog` and `MessageWindow` are kit-based, and `show_info_bar` shows a kit toast. `tests/test_headless_imports.py` imports every `ok.ui.qt` module with qfluentwidgets blocked. The redesign's strings are translated in all bundled languages. ok-wuthering-waves' `CharacterCodeTab` and `MultiAccountConfigTab` (qfluentwidgets, `ConfigCard`) must be ported before it runs on this version.
+6. **Removal** – done: qfluentwidgets, PySideSix-Frameless-Window and darkdetect are gone from `pyproject`; the old task cards, `LabelAndX` editors, `ConfigCard`, `BaseWindow`, fluent `qss` resources and their tests are deleted. `ui_config.json` is read by a small `UiConfig` (language, theme; it still reads the old qfluentwidgets keys), `CustomTab`/`Tab`/`Card`/`StartLoadingDialog` and `MessageWindow` are kit-based, and `show_info_bar` shows a kit toast. `tests/test_headless_imports.py` imports every `Mon.ui.qt` module with qfluentwidgets blocked. The redesign's strings are translated in all bundled languages. ok-wuthering-waves' `CharacterCodeTab` and `MultiAccountConfigTab` (qfluentwidgets, `ConfigCard`) must be ported before it runs on this version.
 
 Out of scope: migrating ok-wuthering-waves, done later as a separate change.
 

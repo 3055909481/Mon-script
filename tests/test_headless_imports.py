@@ -12,13 +12,13 @@ class TestHeadlessImports(unittest.TestCase):
             "sys.modules['qfluentwidgets'] = None; "
             "sys.modules['packaging'] = None; "
             "sys.modules['mcp'] = None; "
-            "import ok; "
-            "from ok import Icon; "
-            "from ok.core.events import communicate; "
-            "from ok.core.plugins import github_release_assets; "
-            "from ok.task.task import BaseTask; "
-            "from ok.task.TaskExecutor import TaskExecutor; "
-            "from ok.util.GlobalConfig import basic_options"
+            "import Mon; "
+            "from Mon import Icon; "
+            "from Mon.core.events import communicate; "
+            "from Mon.core.plugins import github_release_assets; "
+            "from Mon.task.task import BaseTask; "
+            "from Mon.task.TaskExecutor import TaskExecutor; "
+            "from Mon.util.GlobalConfig import basic_options"
         )
         result = subprocess.run(
             [sys.executable, "-c", source],
@@ -34,7 +34,7 @@ class TestHeadlessImports(unittest.TestCase):
             "import sys; "
             "sys.modules['PySide6'] = None; "
             "sys.modules['qfluentwidgets'] = None; "
-            "from ok import ConfigOption, Icon; "
+            "from Mon import ConfigOption, Icon; "
             "option = ConfigOption('Character Config', icon=Icon.PEOPLE); "
             "assert option.icon == 'people'"
         )
@@ -53,8 +53,8 @@ class TestHeadlessImports(unittest.TestCase):
             "import sys, pkgutil, importlib; "
             "sys.modules['qfluentwidgets'] = None; "
             "sys.modules['qframelesswindow'] = None; "
-            "import ok.ui.qt as qt; "
-            "names = [m.name for m in pkgutil.walk_packages(qt.__path__, 'ok.ui.qt.')]; "
+            "import Mon.ui.qt as qt; "
+            "names = [m.name for m in pkgutil.walk_packages(qt.__path__, 'Mon.ui.qt.')]; "
             "[importlib.import_module(name) for name in names]; "
             "print(len(names))"
         )

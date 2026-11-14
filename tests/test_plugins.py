@@ -8,11 +8,11 @@ from unittest.mock import MagicMock, Mock
 
 import pytest
 
-from ok.core import plugins
-from ok.core.script_packager import (
+from Mon.core import plugins
+from Mon.core.script_packager import (
     export_script, import_script, inspect_script_archive, scan_import_folders,
 )
-from ok.core.task_manager import TaskManager
+from Mon.core.task_manager import TaskManager
 
 
 def archive_bytes(manifest, files=None, prefix=''):
@@ -101,7 +101,7 @@ def test_export_includes_declared_root_tab_without_task_selection(tmp_path):
 
 
 def test_failed_replacement_restores_previous_install(tmp_path, monkeypatch):
-    from ok.core import script_packager
+    from Mon.core import script_packager
     existing = tmp_path / 'imports/demo'
     existing.mkdir(parents=True)
     (existing / 'old.txt').write_text('keep')
@@ -229,7 +229,7 @@ def test_download_enforces_size_limit(monkeypatch):
         plugins.download_plugin({'name': 'demo.zip', 'url': asset('demo.zip')['browser_download_url']}, session)
 
 
-TASK_SOURCE = '''from ok import BaseTask
+TASK_SOURCE = '''from Mon import BaseTask
 class DemoTask(BaseTask):
     def __init__(self, executor=None, app=None):
         self.name = 'Demo'
@@ -274,7 +274,7 @@ def test_declared_tasks_reload_and_delete_clean_up_instances_and_modules(tmp_pat
     assert not replacement.destroyed
     assert folder.exists() and replacement in manager.task_map
     manager.unload_imported_script('demo')  # Simulate normal application shutdown.
-    from ok.core.plugin_staging import apply_pending_plugin_changes
+    from Mon.core.plugin_staging import apply_pending_plugin_changes
     apply_pending_plugin_changes()
     assert replacement.destroyed
     assert not manager.task_map and not manager.imported_scripts

@@ -4,8 +4,8 @@ from unittest.mock import Mock
 
 import numpy as np
 
-from ok import og
-from ok.ui.overlay import Win32GdiOverlay
+from Mon import og
+from Mon.ui.overlay import Win32GdiOverlay
 
 
 class TestWin32GdiOverlay(unittest.TestCase):
@@ -128,7 +128,7 @@ class TestWin32GdiOverlay(unittest.TestCase):
         self.assertIn("status", self.view.custom_painters)
 
     def test_exit_event_stops_all_overlay_workers(self):
-        from ok.util.handler import ExitEvent
+        from Mon.util.handler import ExitEvent
 
         self.view.close()
         event = ExitEvent()

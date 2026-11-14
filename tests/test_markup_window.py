@@ -9,7 +9,7 @@ from PySide6.QtCore import QEvent
 from PySide6.QtGui import QColor, QIcon, QImage
 from PySide6.QtWidgets import QApplication
 
-from ok import og
+from Mon import og
 
 
 class TestMarkUpWindow(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestMarkUpWindow(unittest.TestCase):
         self.old_app = getattr(og, "app", None)
         os.chdir(self.folder.name)
         og.app = SimpleNamespace(icon=QIcon())
-        from ok.ui.qt.tasks.TemplateTab import ensure_template_folder, save_coco
+        from Mon.ui.qt.tasks.TemplateTab import ensure_template_folder, save_coco
         folder = ensure_template_folder()
         self.images = []
         for name in ("a.png", "b.png"):
@@ -46,7 +46,7 @@ class TestMarkUpWindow(unittest.TestCase):
         self.folder.cleanup()
 
     def make_window(self):
-        from ok.ui.qt.tasks.MarkUpWindow import MarkUpWindow
+        from Mon.ui.qt.tasks.MarkUpWindow import MarkUpWindow
         window = MarkUpWindow(self.images[0], self.images)
         self.addCleanup(window.deleteLater)
         return window
@@ -77,7 +77,7 @@ class TestMarkUpWindow(unittest.TestCase):
         self.assertEqual({"boss", "boss_copy"}, names)
 
     def test_bbox_dialog_requires_a_unique_name(self):
-        from ok.ui.qt.tasks.MarkUpWindow import BBoxDialog
+        from Mon.ui.qt.tasks.MarkUpWindow import BBoxDialog
         window = self.make_window()
         dialog = BBoxDialog(window.canvas, "", 1, 2, 3, 4, existing_categories={"boss": "other.png"})
         self.addCleanup(dialog.deleteLater)

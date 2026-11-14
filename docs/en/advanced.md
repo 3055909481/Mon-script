@@ -8,14 +8,14 @@ This guide covers the workflows normally needed after the template project is ru
 
 ## 1. Template matching with COCO assets
 
-ok-script keeps editable source screenshots and annotations in COCO format.
+Mon-script keeps editable source screenshots and annotations in COCO format.
 Runtime templates are individual PNG crops whose filenames preserve the original
 feature name, reference resolution, and position.
 
 ### Why COCO annotations help
 
 - **Position hints:** an annotation records the template's relative position in the source screenshot. The matcher can search a smaller region for better speed and accuracy.
-- **Resolution independence:** annotate screenshots at the highest supported resolution, such as 4K. ok-script scales templates down for lower-resolution users.
+- **Resolution independence:** annotate screenshots at the highest supported resolution, such as 4K. Mon-script scales templates down for lower-resolution users.
 - **Centralized asset management:** screenshots, categories, and bounding boxes remain connected instead of becoming an unstructured folder of cropped images.
 
 ### Workflow
@@ -68,7 +68,7 @@ Library contributors can find separate [maintainer translation instructions](../
 `TaskTestCase` supplies a controlled task runtime. The key technique is `self.set_image()`, which replaces live capture with a stable screenshot.
 
 ```python
-from ok.test.TaskTestCase import TaskTestCase
+from Mon.test.TaskTestCase import TaskTestCase
 from src.tasks.MyProblematicTask import MyProblematicTask
 
 
@@ -109,7 +109,7 @@ The typical pipeline is:
 
 ### Inline small source dependencies
 
-`inline_ok_requirements` includes `ok-script` and `pyappify` by default. Additional small, pure-Python packages can be included with repeated arguments:
+`inline_ok_requirements` includes `Mon-script` and `pyappify` by default. Additional small, pure-Python packages can be included with repeated arguments:
 
 ```powershell
 python -m ok.update.inline_ok_requirements --tag "$env:RELEASE_TAG" `
