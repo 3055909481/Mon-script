@@ -467,24 +467,13 @@ class WindowsScheduleManager:
         return tasks
 
     def _get_ok_schedule_root_paths_via_com(self) -> List[str]:
-        """获取当前应用文件夹和其他 ok-* 应用文件夹。"""
-        root_paths = []
-        try:
-            root_folder = self.SCHEDULE_SERVICE.GetFolder("\\")
-            folders = root_folder.GetFolders(0)
-            for i in range(folders.Count):
-                folder = folders.Item(i + 1)
-                folder_path = folder.Path
-                folder_name = folder_path.strip("\\")
-                folder_name_lower = folder_name.lower()
-                if folder_name == self.SCHEDULE_ROOT_PATH.strip("\\") or folder_name_lower.startswith("ok-"):
-                    root_paths.append(folder_path)
-        except Exception as e:
-            logger.debug(f"Failed to list schedule folders via COM: {e}")
+        """只返回当前应用的计划任务文件夹。
 
-        if self.SCHEDULE_ROOT_PATH not in root_paths:
-            root_paths.insert(0, self.SCHEDULE_ROOT_PATH)
-        return root_paths
+        Monster-ww fork：上游 ok-script 会把所有 ok-* 系列应用的任务都列出来，
+        导致旧版本（如 OK-WW）的残留任务显示在本应用里却删除不了（read_only）。
+        这里改为只扫描自己的目录，避免混淆。
+        """
+        return [self.SCHEDULE_ROOT_PATH]
 
     def _parse_task_from_com(self, com_task, schedule_root_path: str = "") -> ScheduleTaskInfo:
         """从 COM 对象解析任务信息"""
@@ -804,9 +793,8 @@ class WindowsScheduleManager:
         return normalized_path == normalized_root or normalized_path.startswith(f"{normalized_root}\\")
 
     def _should_include_task_path(self, task_path: str) -> bool:
-        normalized_path = (task_path or "").lstrip("\\")
-        root_name = normalized_path.split("\\", 1)[0]
-        return self._is_own_task_path(task_path) or root_name.lower().startswith("ok-")
+        # Monster-ww fork：只纳入当前应用的任务，不再放行其他 ok-* 应用。
+        return self._is_own_task_path(task_path)
 
     def _is_read_only_task(self, task_name: str) -> bool:
         cached = self.cache.get(task_name)
