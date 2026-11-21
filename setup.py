@@ -35,7 +35,7 @@ os.environ["PYTHONIOENCODING"] = "utf-8"
 # time to derive the next version, which needs network access and expects a
 # published "ok-script" distribution to exist. Pin the version matching the tag
 # instead; set MON_SCRIPT_BUILD_VERSION to override it.
-VERSION_NUM = os.environ.get('MON_SCRIPT_BUILD_VERSION') or '3.0.5b8'
+VERSION_NUM = os.environ.get('MON_SCRIPT_BUILD_VERSION') or '3.0.7-mon1'
 print(f'building Mon-script version {VERSION_NUM}')
 
 setuptools.setup(version=VERSION_NUM, cmdclass={'build_py': BuildPyWithSkills})
