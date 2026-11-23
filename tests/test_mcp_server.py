@@ -66,7 +66,7 @@ def test_http_connection_and_tools_end_to_end(development, mode, monkeypatch):
             async with Client(transport, mode=mode) as client:
                 listing = await client.list_tools()
                 assert {tool.name for tool in listing.tools} == {
-                    'run_task', 'get_run_status', 'stop_task', 'screenshot',
+                    'run_task', 'run_code', 'get_run_status', 'stop_task', 'screenshot',
                     'list_skills', 'get_skill', 'list_tasks', 'reload_tasks', 'exit_process'}
                 skills = await client.call_tool('list_skills')
                 assert not skills.is_error, skills
@@ -121,6 +121,15 @@ def test_http_connection_and_tools_end_to_end(development, mode, monkeypatch):
                         break
                     await asyncio.sleep(0.01)
                 assert status.structured_content['state'] == 'succeeded', status
+                code = await client.call_tool('run_code', {'source': 'self.frame.shape'})
+                assert not code.is_error, code
+                for _ in range(100):
+                    status = await client.call_tool('get_run_status', {'run_id': code.structured_content['run_id']})
+                    if status.structured_content['state'] in {'succeeded', 'failed', 'cancelled'}:
+                        break
+                    await asyncio.sleep(0.01)
+                assert status.structured_content['state'] == 'succeeded', status
+                assert status.structured_content['operation'] == 'run_code'
                 image = await client.call_tool('screenshot')
                 assert not image.is_error, image
                 assert image.structured_content['cached'] is False
@@ -156,7 +165,7 @@ def test_start_keeps_existing_file_log_open(development, tmp_path):
     # The application configures Mon-script.log before it starts the MCP server.
     log_file = tmp_path / 'Mon-script.log'
     handler = SafeFileHandler(log_file, when='midnight', encoding='utf-8')
-    ok_logger = logging.getLogger('Mon')
+    ok_logger = logging.getLogger('ok')
     ok_logger.addHandler(handler)
     try:
         server.start()
